@@ -1,0 +1,11 @@
+2025-09-04 17:58:19 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 17:59:45 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 17:59:45 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 17:59:45 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 17:59:55 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 17:59:55 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 17:59:58 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 17:59:58 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 17:59:58 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 18:00:03 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 18:00:05 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료

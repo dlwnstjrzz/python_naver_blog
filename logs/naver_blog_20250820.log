@@ -1,0 +1,50 @@
+2025-08-20 19:35:48 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 19:35:48 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 19:40:54 - naver_blog_automation - INFO - 테스트 정보 메시지
+2025-08-20 19:40:54 - naver_blog_automation - WARNING - 테스트 경고 메시지
+2025-08-20 19:40:54 - naver_blog_automation - ERROR - 테스트 에러 메시지
+2025-08-20 19:48:03 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 19:48:03 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 19:51:58 - naver_blog_automation - INFO - 설정이 저장되었습니다.
+2025-08-20 20:32:57 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:32:58 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 20:44:00 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:44:01 - naver_blog_automation - INFO - 설정 불러오기 실패: 'MainWindow' object has no attribute 'blog_count_var'
+2025-08-20 20:46:56 - naver_blog_automation - INFO - 테스트 정보 메시지
+2025-08-20 20:46:56 - naver_blog_automation - WARNING - 테스트 경고 메시지
+2025-08-20 20:46:56 - naver_blog_automation - ERROR - 테스트 에러 메시지
+2025-08-20 20:51:33 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:51:34 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 20:52:10 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:52:10 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 20:52:18 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:52:19 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 20:52:57 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 20:53:06 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 20:53:09 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 20:53:16 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 20:56:58 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 20:59:38 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:59:39 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 20:59:50 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 20:59:50 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 21:00:08 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:00:08 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 21:00:36 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 21:02:06 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 21:02:15 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 21:05:52 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:05:52 - naver_blog_automation - ERROR - 프로그램 실행 중 오류 발생: 'white'
+2025-08-20 21:06:01 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:06:01 - naver_blog_automation - ERROR - 프로그램 실행 중 오류 발생: 'white'
+2025-08-20 21:06:19 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:06:19 - naver_blog_automation - ERROR - 프로그램 실행 중 오류 발생: 'white'
+2025-08-20 21:06:45 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:06:45 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 21:06:57 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:06:57 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 21:07:12 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 21:07:19 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-08-20 21:07:19 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
+2025-08-20 21:07:31 - naver_blog_automation - INFO - 설정을 불러왔습니다.
+2025-08-20 21:07:44 - naver_blog_automation - INFO - 1단계 설정을 불러왔습니다.
