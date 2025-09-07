@@ -12,12 +12,30 @@
     "오늘도 좋은 하루 되세요 {nickname}님!",
     "항상 좋은 글 감사드려요 {nickname}님^^"
   ],
-  "wait_time": 10,
+  "wait_time": 0,
   "scroll_settings": {
     "scroll_count": 3,
     "scroll_delay": 2
   },
   "test_key": "test_value",
-  "loading_method": "keyword",
-  "search_keyword": "지우"
+  "loading_method": "neighbor_connect",
+  "search_keyword": "성남 카페",
+  "neighbor_collection_count": 10,
+  "collected_blogs": [
+    {
+      "blog_name": "hellenpark1",
+      "post_url": "https://blog.naver.com/hellenpark1/223912299950"
+    },
+    {
+      "blog_name": "mjh0712",
+      "post_url": "https://blog.naver.com/mjh0712/223945015478"
+    },
+    {
+      "blog_name": "eumjeongoh",
+      "post_url": "https://blog.naver.com/eumjeongoh/223971880226"
+    }
+  ],
+  "start_page": 1,
+  "base_blog_url": "https://blog.naver.com/jooys09",
+  "neighbor_count": 10
 }

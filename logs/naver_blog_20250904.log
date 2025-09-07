@@ -9,3 +9,1472 @@
 2025-09-04 17:59:58 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
 2025-09-04 18:00:03 - naver_blog_automation - INFO - 키워드 검색: 지우
 2025-09-04 18:00:05 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 18:07:21 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 18:07:38 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 18:14:10 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 18:31:02 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 18:31:02 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 18:31:02 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 18:31:12 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 18:31:12 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 18:31:15 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 18:31:15 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 18:31:15 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 18:31:23 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 18:31:25 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 18:41:26 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 18:41:40 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 18:41:40 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 18:41:40 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 18:41:49 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 18:41:49 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 18:41:51 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 18:41:51 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 18:41:51 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 18:41:56 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 18:41:58 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 18:42:01 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 18:42:01 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 18:42:03 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:03 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:03 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:03 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:06 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 18:42:08 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:08 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:08 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:08 - naver_blog_automation - INFO - 페이지 3로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=3&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:12 - naver_blog_automation - INFO - 페이지 3에서 블로그 수집 중...
+2025-09-04 18:42:14 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:14 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:14 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:14 - naver_blog_automation - INFO - 페이지 4로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=4&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:17 - naver_blog_automation - INFO - 페이지 4에서 블로그 수집 중...
+2025-09-04 18:42:19 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:19 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:19 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:19 - naver_blog_automation - INFO - 페이지 5로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=5&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:22 - naver_blog_automation - INFO - 페이지 5에서 블로그 수집 중...
+2025-09-04 18:42:24 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:24 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:24 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:24 - naver_blog_automation - INFO - 페이지 6로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=6&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:27 - naver_blog_automation - INFO - 페이지 6에서 블로그 수집 중...
+2025-09-04 18:42:29 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:29 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:29 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:29 - naver_blog_automation - INFO - 페이지 7로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=7&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:32 - naver_blog_automation - INFO - 페이지 7에서 블로그 수집 중...
+2025-09-04 18:42:34 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:34 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:34 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:34 - naver_blog_automation - INFO - 페이지 8로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=8&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:37 - naver_blog_automation - INFO - 페이지 8에서 블로그 수집 중...
+2025-09-04 18:42:39 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:39 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:39 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:39 - naver_blog_automation - INFO - 페이지 9로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=9&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:42:42 - naver_blog_automation - INFO - 페이지 9에서 블로그 수집 중...
+2025-09-04 18:42:44 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:42:44 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:42:44 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:42:44 - naver_blog_automation - INFO - 페이지 10로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=10&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:43:45 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 18:44:07 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 18:44:07 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 18:44:07 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 18:44:16 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 18:44:16 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 18:44:18 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 18:44:18 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 18:44:18 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 18:44:23 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 18:44:25 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 18:44:28 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 18:44:28 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 18:44:30 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:44:30 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:44:30 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:44:30 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:44:33 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 18:44:35 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:44:35 - naver_blog_automation - INFO - 현재 페이지에서 0개의 블로그 이름을 추출했습니다.
+2025-09-04 18:44:35 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 0/10
+2025-09-04 18:44:35 - naver_blog_automation - INFO - 페이지 3로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=3&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:49:34 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 18:49:46 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 18:49:46 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 18:49:46 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 18:49:54 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 18:49:54 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 18:49:56 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 18:49:56 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 18:49:56 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 18:50:01 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 18:50:03 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 18:50:06 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 18:50:06 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 18:50:08 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:50:08 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 18:50:08 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 18:50:08 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 18:50:08 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 18:50:11 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 18:50:13 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 18:50:13 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 18:50:13 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 18:50:13 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 18:50:13 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 19:01:05 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:01:15 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:01:15 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:01:15 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:01:26 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:01:26 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:01:28 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:01:28 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:01:28 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:01:33 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 19:01:35 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 19:01:38 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 19:01:38 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:01:40 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:01:40 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:01:40 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:01:40 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 19:01:40 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 19:01:43 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 19:01:45 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:01:45 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:01:46 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:01:46 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 19:01:46 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 19:01:46 - naver_blog_automation - INFO - 총 10개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:01:46 - naver_blog_automation - INFO - [1/10] chummilmil99 블로그 처리 중...
+2025-09-04 19:01:46 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: chummilmil99
+2025-09-04 19:01:49 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: chummilmil99
+2025-09-04 19:01:52 - naver_blog_automation - WARNING - 서로이웃 추가 페이지 접근 실패: chummilmil99, 현재 URL: https://blog.naver.com/prologue/PrologueList.naver?blogId=chummilmil99&topReferer=https%3A%2F%2Fnid.naver.com%2F&trackingCode=naver_etc&directAccess=true
+2025-09-04 19:01:52 - naver_blog_automation - WARNING - ❌ chummilmil99 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:01:56 - naver_blog_automation - INFO - [2/10] moooo21 블로그 처리 중...
+2025-09-04 19:01:56 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: moooo21
+2025-09-04 19:01:58 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: moooo21
+2025-09-04 19:01:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (moooo21): Alert Text: 프롤로그 사용안함으로 설정하셔서 해당 글로 이동하실 수 없습니다.
+Message: unexpected alert open: {Alert text : 프롤로그 사용안함으로 설정하셔서 해당 글로 이동하실 수 없습니다.}
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000100e18c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100e10b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001009590c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001009e2150 cxxbridge1$string$len + 651824
+4   chromedriver                        0x0000000100994934 cxxbridge1$string$len + 334356
+5   chromedriver                        0x0000000100ddb88c cxxbridge1$str$ptr + 2496880
+6   chromedriver                        0x0000000100ddeab8 cxxbridge1$str$ptr + 2509724
+7   chromedriver                        0x0000000100dbc510 cxxbridge1$str$ptr + 2369012
+8   chromedriver                        0x0000000100ddf360 cxxbridge1$str$ptr + 2511940
+9   chromedriver                        0x0000000100dad610 cxxbridge1$str$ptr + 2307828
+10  chromedriver                        0x0000000100dff230 cxxbridge1$str$ptr + 2642708
+11  chromedriver                        0x0000000100dff3bc cxxbridge1$str$ptr + 2643104
+12  chromedriver                        0x0000000100e1076c cxxbridge1$str$ptr + 2713680
+13  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+14  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 19:01:58 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:02:01 - naver_blog_automation - INFO - [3/10] euene1111 블로그 처리 중...
+2025-09-04 19:02:01 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: euene1111
+2025-09-04 19:02:05 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: euene1111
+2025-09-04 19:02:08 - naver_blog_automation - WARNING - 서로이웃 추가 페이지 접근 실패: euene1111, 현재 URL: https://blog.naver.com/prologue/PrologueList.naver?blogId=euene1111&topReferer=https%3A%2F%2Fnid.naver.com%2F&trackingCode=naver_etc&directAccess=true
+2025-09-04 19:02:08 - naver_blog_automation - WARNING - ❌ euene1111 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:02:11 - naver_blog_automation - INFO - [4/10] noonicty 블로그 처리 중...
+2025-09-04 19:02:11 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: noonicty
+2025-09-04 19:02:14 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: noonicty
+2025-09-04 19:02:17 - naver_blog_automation - WARNING - 서로이웃 추가 페이지 접근 실패: noonicty, 현재 URL: https://blog.naver.com/prologue/PrologueList.naver?blogId=noonicty&topReferer=https%3A%2F%2Fnid.naver.com%2F&trackingCode=naver_etc&directAccess=true
+2025-09-04 19:02:17 - naver_blog_automation - WARNING - ❌ noonicty 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:02:20 - naver_blog_automation - INFO - [5/10] mary1797 블로그 처리 중...
+2025-09-04 19:02:20 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: mary1797
+2025-09-04 19:02:25 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: mary1797
+2025-09-04 19:02:28 - naver_blog_automation - WARNING - 서로이웃 추가 페이지 접근 실패: mary1797, 현재 URL: https://blog.naver.com/prologue/PrologueList.naver?blogId=mary1797&topReferer=https%3A%2F%2Fnid.naver.com%2F&trackingCode=naver_etc&directAccess=true
+2025-09-04 19:02:28 - naver_blog_automation - WARNING - ❌ mary1797 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:02:31 - naver_blog_automation - INFO - [6/10] honestpsc17 블로그 처리 중...
+2025-09-04 19:02:31 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: honestpsc17
+2025-09-04 19:02:36 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: honestpsc17
+2025-09-04 19:02:39 - naver_blog_automation - WARNING - 서로이웃 추가 페이지 접근 실패: honestpsc17, 현재 URL: https://blog.naver.com/prologue/PrologueList.naver?blogId=honestpsc17&topReferer=https%3A%2F%2Fnid.naver.com%2F&trackingCode=naver_etc&directAccess=true
+2025-09-04 19:02:39 - naver_blog_automation - WARNING - ❌ honestpsc17 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:02:41 - naver_blog_automation - INFO - [7/10] biozizel 블로그 처리 중...
+2025-09-04 19:02:41 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: biozizel
+2025-09-04 19:02:44 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: biozizel
+2025-09-04 19:02:44 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (biozizel): Alert Text: 프롤로그 사용안함으로 설정하셔서 해당 글로 이동하실 수 없습니다.
+Message: unexpected alert open: {Alert text : 프롤로그 사용안함으로 설정하셔서 해당 글로 이동하실 수 없습니다.}
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000100e18c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100e10b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001009590c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001009e2150 cxxbridge1$string$len + 651824
+4   chromedriver                        0x0000000100994934 cxxbridge1$string$len + 334356
+5   chromedriver                        0x0000000100ddb88c cxxbridge1$str$ptr + 2496880
+6   chromedriver                        0x0000000100ddeab8 cxxbridge1$str$ptr + 2509724
+7   chromedriver                        0x0000000100dbc510 cxxbridge1$str$ptr + 2369012
+8   chromedriver                        0x0000000100ddf360 cxxbridge1$str$ptr + 2511940
+9   chromedriver                        0x0000000100dad610 cxxbridge1$str$ptr + 2307828
+10  chromedriver                        0x0000000100dff230 cxxbridge1$str$ptr + 2642708
+11  chromedriver                        0x0000000100dff3bc cxxbridge1$str$ptr + 2643104
+12  chromedriver                        0x0000000100e1076c cxxbridge1$str$ptr + 2713680
+13  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+14  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 19:02:44 - naver_blog_automation - WARNING - ❌ biozizel 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:02:46 - naver_blog_automation - INFO - [8/10] stonesam3 블로그 처리 중...
+2025-09-04 19:02:46 - naver_blog_automation - INFO - 블로그 프롤로그 페이지로 이동: stonesam3
+2025-09-04 19:02:50 - naver_blog_automation - INFO - 서로이웃 추가 페이지로 이동: stonesam3
+2025-09-04 19:05:02 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:05:12 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:05:12 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:05:12 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:05:23 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:05:23 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:05:24 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:05:24 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:05:25 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:05:31 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 19:05:32 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 19:05:35 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 19:05:35 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:05:37 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:05:37 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:05:37 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:05:37 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 19:05:37 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 19:05:41 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 총 10개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:05:43 - naver_blog_automation - INFO - [1/10] chummilmil99 블로그 처리 중...
+2025-09-04 19:05:43 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: chummilmil99
+2025-09-04 19:05:49 - naver_blog_automation - INFO - 포스트 리스트 페이지로 이동: chummilmil99
+2025-09-04 19:05:55 - naver_blog_automation - INFO - 직접 서로이웃 추가 페이지로 이동: chummilmil99
+2025-09-04 19:05:58 - naver_blog_automation - WARNING - 모든 접근 방법 실패: chummilmil99
+2025-09-04 19:05:58 - naver_blog_automation - WARNING - ❌ chummilmil99 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:06:01 - naver_blog_automation - INFO - [2/10] moooo21 블로그 처리 중...
+2025-09-04 19:06:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 19:06:09 - naver_blog_automation - INFO - 포스트 리스트 페이지로 이동: moooo21
+2025-09-04 19:06:14 - naver_blog_automation - INFO - 직접 서로이웃 추가 페이지로 이동: moooo21
+2025-09-04 19:07:50 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:07:59 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:07:59 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:07:59 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:08:07 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:08:07 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:08:09 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:08:09 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:08:09 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:08:15 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 19:08:17 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 19:08:20 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 19:08:20 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:08:22 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:08:22 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:08:22 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:08:22 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 19:08:22 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 19:08:25 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 총 10개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:08:27 - naver_blog_automation - INFO - [1/10] chummilmil99 블로그 처리 중...
+2025-09-04 19:08:27 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: chummilmil99
+2025-09-04 19:08:41 - naver_blog_automation - WARNING - 이웃추가 버튼을 찾을 수 없음: chummilmil99
+2025-09-04 19:08:41 - naver_blog_automation - WARNING - ❌ chummilmil99 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:08:44 - naver_blog_automation - INFO - [2/10] moooo21 블로그 처리 중...
+2025-09-04 19:08:44 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 19:08:59 - naver_blog_automation - WARNING - 이웃추가 버튼을 찾을 수 없음: moooo21
+2025-09-04 19:08:59 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:09:02 - naver_blog_automation - INFO - [3/10] euene1111 블로그 처리 중...
+2025-09-04 19:09:02 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: euene1111
+2025-09-04 19:09:16 - naver_blog_automation - WARNING - 이웃추가 버튼을 찾을 수 없음: euene1111
+2025-09-04 19:09:16 - naver_blog_automation - WARNING - ❌ euene1111 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:09:19 - naver_blog_automation - INFO - [4/10] noonicty 블로그 처리 중...
+2025-09-04 19:09:19 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: noonicty
+2025-09-04 19:09:20 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (noonicty): ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-09-04 19:09:20 - naver_blog_automation - WARNING - ❌ noonicty 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:15:14 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:15:27 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:15:27 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:15:27 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:15:37 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:15:37 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:15:39 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:15:39 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:15:39 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:15:45 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 19:15:46 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 19:15:49 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 19:15:49 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:15:51 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:15:51 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:15:52 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:15:52 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 19:15:52 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 19:15:55 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 총 10개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:15:57 - naver_blog_automation - INFO - [1/10] chummilmil99 블로그 처리 중...
+2025-09-04 19:15:57 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: chummilmil99
+2025-09-04 19:16:12 - naver_blog_automation - WARNING - btn_area div를 찾을 수 없음: chummilmil99
+2025-09-04 19:16:12 - naver_blog_automation - WARNING - ❌ chummilmil99 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:16:14 - naver_blog_automation - INFO - [2/10] moooo21 블로그 처리 중...
+2025-09-04 19:16:14 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 19:16:29 - naver_blog_automation - WARNING - btn_area div를 찾을 수 없음: moooo21
+2025-09-04 19:16:29 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:16:32 - naver_blog_automation - INFO - [3/10] euene1111 블로그 처리 중...
+2025-09-04 19:16:32 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: euene1111
+2025-09-04 19:16:50 - naver_blog_automation - WARNING - btn_area div를 찾을 수 없음: euene1111
+2025-09-04 19:16:50 - naver_blog_automation - WARNING - ❌ euene1111 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:16:53 - naver_blog_automation - INFO - [4/10] noonicty 블로그 처리 중...
+2025-09-04 19:16:53 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: noonicty
+2025-09-04 19:19:05 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:19:14 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:19:14 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:19:14 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:19:22 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:19:22 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:19:24 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:19:24 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:19:24 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:19:31 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 19:19:32 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 19:19:35 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 19:19:35 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:19:37 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:19:37 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:19:37 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:19:37 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 19:19:37 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%A7%80%EC%9A%B0
+2025-09-04 19:19:41 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 총 10개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:19:43 - naver_blog_automation - INFO - [1/10] chummilmil99 블로그 처리 중...
+2025-09-04 19:19:43 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: chummilmil99
+2025-09-04 19:19:49 - naver_blog_automation - WARNING - btn_area div가 존재하지 않음: chummilmil99
+2025-09-04 19:19:49 - naver_blog_automation - WARNING - ❌ chummilmil99 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:19:51 - naver_blog_automation - INFO - [2/10] moooo21 블로그 처리 중...
+2025-09-04 19:19:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 19:19:59 - naver_blog_automation - WARNING - btn_area div가 존재하지 않음: moooo21
+2025-09-04 19:19:59 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:20:02 - naver_blog_automation - INFO - [3/10] euene1111 블로그 처리 중...
+2025-09-04 19:20:02 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: euene1111
+2025-09-04 19:20:06 - naver_blog_automation - WARNING - btn_area div가 존재하지 않음: euene1111
+2025-09-04 19:20:06 - naver_blog_automation - WARNING - ❌ euene1111 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:20:09 - naver_blog_automation - INFO - [4/10] noonicty 블로그 처리 중...
+2025-09-04 19:20:09 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: noonicty
+2025-09-04 19:20:13 - naver_blog_automation - WARNING - btn_area div가 존재하지 않음: noonicty
+2025-09-04 19:20:13 - naver_blog_automation - WARNING - ❌ noonicty 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:20:16 - naver_blog_automation - INFO - [5/10] mary1797 블로그 처리 중...
+2025-09-04 19:20:16 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: mary1797
+2025-09-04 19:20:19 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (mary1797): ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-09-04 19:20:19 - naver_blog_automation - WARNING - ❌ mary1797 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:25:20 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:25:36 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:25:36 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:25:36 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:25:45 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:25:45 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:25:47 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:25:47 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:25:47 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:25:51 - naver_blog_automation - INFO - 키워드 검색: 철산 맛집
+2025-09-04 19:25:53 - naver_blog_automation - INFO - 키워드 '철산 맛집' 검색 완료
+2025-09-04 19:25:56 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 2
+2025-09-04 19:25:56 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 2/2
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 블로그 수집 완료: 2개
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 총 2개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:25:58 - naver_blog_automation - INFO - [1/2] akstjd1018 블로그 처리 중...
+2025-09-04 19:25:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: akstjd1018
+2025-09-04 19:26:06 - naver_blog_automation - WARNING - more align p 태그가 존재하지 않음: akstjd1018
+2025-09-04 19:26:06 - naver_blog_automation - WARNING - ❌ akstjd1018 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:26:10 - naver_blog_automation - INFO - [2/2] start89 블로그 처리 중...
+2025-09-04 19:26:10 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: start89
+2025-09-04 19:26:16 - naver_blog_automation - WARNING - more align p 태그가 존재하지 않음: start89
+2025-09-04 19:26:16 - naver_blog_automation - WARNING - ❌ start89 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:26:16 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 0/2 성공
+2025-09-04 19:28:08 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:28:20 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:28:20 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:28:20 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:28:30 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:28:30 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:28:32 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:28:32 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:28:32 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:28:37 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 19:28:39 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 19:28:42 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 19:28:42 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:28:44 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 19:28:44 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 19:28:49 - naver_blog_automation - INFO - === 디버깅 시작: choosangart ===
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 페이지 제목: ⭐광명 서울임플나무치과⭐ : 네이버 블로그
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 현재 URL: https://blog.naver.com/choosangart
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 페이지 소스 길이: 2695 문자
+2025-09-04 19:28:49 - naver_blog_automation - INFO - body 태그 존재: 텍스트 길이 0
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 페이지 소스 처음 부분: <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="“ko“" lang="ko"><head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta name="robots" content="noindex,follow">
+<meta name="referrer" content="always">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?3">
+<link rel="alternate" type="application/rss+xml" hre
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 키워드 '이웃' 없음
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 키워드 'buddy' 없음
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 키워드 'profile' 없음
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 키워드 'blog' 발견됨
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 키워드 'naver' 발견됨
+2025-09-04 19:28:49 - naver_blog_automation - INFO - document.readyState: complete
+2025-09-04 19:28:49 - naver_blog_automation - INFO - DOM 요소 개수: 17
+2025-09-04 19:28:49 - naver_blog_automation - INFO - iframe 개수: 1
+2025-09-04 19:28:49 - naver_blog_automation - INFO -   iframe 0: https://blog.naver.com/prologue/PrologueList.naver?blogId=choosangart&noTrackingCode=true&directAccess=true
+2025-09-04 19:28:49 - naver_blog_automation - INFO - === 디버깅 끝 ===
+2025-09-04 19:28:49 - naver_blog_automation - WARNING - more align p 태그가 존재하지 않음: choosangart
+2025-09-04 19:28:49 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:28:49 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 0/1 성공
+2025-09-04 19:30:55 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:31:17 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:31:17 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:31:17 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:31:27 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:31:27 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:31:29 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:31:29 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:31:29 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:31:34 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 19:31:36 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 19:31:39 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 19:31:39 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:31:41 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 19:31:41 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 19:31:46 - naver_blog_automation - INFO - === 디버깅 시작: choosangart ===
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 페이지 제목: ⭐광명 서울임플나무치과⭐ : 네이버 블로그
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 현재 URL: https://blog.naver.com/choosangart
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 페이지 소스 길이: 2695 문자
+2025-09-04 19:31:46 - naver_blog_automation - INFO - body 태그 존재: 텍스트 길이 0
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 페이지 소스 처음 부분: <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="“ko“" lang="ko"><head>
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="-1">
+<meta name="robots" content="noindex,follow">
+<meta name="referrer" content="always">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?3">
+<link rel="alternate" type="application/rss+xml" hre
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 키워드 '이웃' 없음
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 키워드 'buddy' 없음
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 키워드 'profile' 없음
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 키워드 'blog' 발견됨
+2025-09-04 19:31:46 - naver_blog_automation - INFO - 키워드 'naver' 발견됨
+2025-09-04 19:31:46 - naver_blog_automation - INFO - document.readyState: complete
+2025-09-04 19:31:46 - naver_blog_automation - INFO - DOM 요소 개수: 17
+2025-09-04 19:31:46 - naver_blog_automation - INFO - iframe 개수: 1
+2025-09-04 19:31:46 - naver_blog_automation - INFO -   iframe 0: https://blog.naver.com/prologue/PrologueList.naver?blogId=choosangart&noTrackingCode=true&directAccess=true
+2025-09-04 19:31:46 - naver_blog_automation - INFO - === 디버깅 끝 ===
+2025-09-04 19:31:46 - naver_blog_automation - INFO - iframe 내부로 전환합니다...
+2025-09-04 19:31:48 - naver_blog_automation - INFO - iframe 내부 소스 길이: 194108 문자
+2025-09-04 19:31:48 - naver_blog_automation - INFO - iframe body 텍스트 길이: 1190
+2025-09-04 19:31:48 - naver_blog_automation - INFO - iframe 내부에서 이웃 관련 콘텐츠 발견!
+2025-09-04 19:31:48 - naver_blog_automation - INFO - more align p 태그 발견, 20px 아래쪽 클릭 시도: choosangart
+2025-09-04 19:31:48 - naver_blog_automation - INFO - 클릭 좌표: x=250, y=1466
+2025-09-04 19:31:51 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:31:51 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 0/1 성공
+2025-09-04 19:33:36 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:33:51 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:33:51 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:33:51 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:34:01 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:34:01 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:34:03 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:34:03 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:34:03 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:34:08 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 19:34:10 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 19:34:13 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 19:34:13 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:34:15 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 19:34:15 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 19:34:20 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 19:34:22 - naver_blog_automation - INFO - btn_area div 발견, 클릭 시도: choosangart
+2025-09-04 19:34:24 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 페이지 접근 실패
+2025-09-04 19:34:24 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 0/1 성공
+2025-09-04 19:37:06 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:37:19 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:37:19 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:37:19 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:37:29 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:37:29 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:37:31 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:37:31 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:37:31 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:37:36 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 19:37:38 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 19:37:41 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 19:37:41 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:37:43 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 19:37:43 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 19:37:47 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 19:37:49 - naver_blog_automation - INFO - btn_area div 발견, 다양한 방법으로 클릭 시도: choosangart
+2025-09-04 19:37:49 - naver_blog_automation - INFO - 방법 1: 직접 click 이벤트 발생 시도
+2025-09-04 19:37:52 - naver_blog_automation - INFO - 방법 2: CSS 제약 무력화 후 클릭 시도
+2025-09-04 19:37:54 - naver_blog_automation - INFO - 방법 3: ActionChains 마우스 시뮬레이션
+2025-09-04 19:37:57 - naver_blog_automation - INFO - 방법 4: 내부 a 태그 직접 클릭 시도
+2025-09-04 19:37:59 - naver_blog_automation - INFO - 방법 5: href 직접 이동 시도
+2025-09-04 19:37:59 - naver_blog_automation - INFO - href 발견: https://blog.naver.com/prologue/PrologueList.naver?blogId=choosangart&noTrackingCode=true&directAccess=true#
+2025-09-04 19:38:04 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: choosangart
+2025-09-04 19:38:04 - naver_blog_automation - INFO - ✅ choosangart 서로이웃 추가 페이지 접근 성공
+2025-09-04 19:38:04 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 1/1 성공
+2025-09-04 19:39:41 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 19:39:55 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 19:39:55 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 19:39:55 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 19:40:05 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 19:40:05 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 19:40:07 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 19:40:07 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 19:40:07 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 19:40:12 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 19:40:14 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 19:40:17 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 19:40:17 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 19:40:19 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 19:40:19 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 19:40:24 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 19:40:26 - naver_blog_automation - INFO - btn_area div 발견, 다양한 방법으로 클릭 시도: choosangart
+2025-09-04 19:40:26 - naver_blog_automation - INFO - 방법 1: 직접 click 이벤트 발생 시도
+2025-09-04 19:40:28 - naver_blog_automation - INFO - 방법 2: CSS 제약 무력화 후 클릭 시도
+2025-09-04 19:40:30 - naver_blog_automation - INFO - 방법 3: ActionChains 마우스 시뮬레이션
+2025-09-04 19:40:34 - naver_blog_automation - INFO - ✅ 방법 3 성공: ActionChains 마우스 시뮬레이션
+2025-09-04 19:40:34 - naver_blog_automation - INFO - 🎉 클릭 성공! 사용된 방법: 3번 (choosangart)
+2025-09-04 19:40:36 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: choosangart
+2025-09-04 19:40:36 - naver_blog_automation - INFO - ✅ choosangart 서로이웃 추가 페이지 접근 성공
+2025-09-04 19:40:36 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 1/1 성공
+2025-09-04 20:59:40 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 20:59:50 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 20:59:50 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 20:59:50 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:00:00 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:00:00 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:00:02 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:00:02 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:00:02 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:00:08 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:00:10 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:00:13 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10
+2025-09-04 21:00:13 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:00:15 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:00:15 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:00:15 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 21:00:15 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-04 21:00:15 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%B2%A0%EC%82%B0
+2025-09-04 21:00:18 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 블로그 수집 완료: 10개
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 총 10개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 21:00:20 - naver_blog_automation - INFO - [1/10] choosangart 블로그 처리 중...
+2025-09-04 21:00:20 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:00:25 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:00:27 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:00:30 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:00:32 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:00:33 - naver_blog_automation - INFO - radio_addbuddy에서 checked 클래스 제거
+2025-09-04 21:00:33 - naver_blog_automation - INFO - radio_bothbuddy에 checked 클래스 추가
+2025-09-04 21:00:35 - naver_blog_automation - INFO - 서로이웃 라디오 버튼 클릭 실패
+2025-09-04 21:00:36 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:00:38 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:00:40 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: choosangart
+2025-09-04 21:00:40 - naver_blog_automation - INFO - ✅ choosangart 서로이웃 추가 페이지 접근 성공
+2025-09-04 21:00:43 - naver_blog_automation - INFO - [2/10] schoisu 블로그 처리 중...
+2025-09-04 21:00:43 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: schoisu
+2025-09-04 21:00:57 - naver_blog_automation - INFO - iframe 내부로 전환: schoisu
+2025-09-04 21:00:59 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: schoisu
+2025-09-04 21:01:03 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:01:05 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:01:06 - naver_blog_automation - INFO - radio_addbuddy에서 checked 클래스 제거
+2025-09-04 21:01:06 - naver_blog_automation - INFO - radio_bothbuddy에 checked 클래스 추가
+2025-09-04 21:01:07 - naver_blog_automation - INFO - 서로이웃 라디오 버튼 클릭 실패
+2025-09-04 21:01:08 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:01:10 - naver_blog_automation - INFO - 팝업창 처리 완료: schoisu
+2025-09-04 21:01:12 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: schoisu
+2025-09-04 21:01:13 - naver_blog_automation - INFO - ✅ schoisu 서로이웃 추가 페이지 접근 성공
+2025-09-04 21:01:16 - naver_blog_automation - INFO - [3/10] creation_blog 블로그 처리 중...
+2025-09-04 21:01:16 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: creation_blog
+2025-09-04 21:01:23 - naver_blog_automation - INFO - iframe 내부로 전환: creation_blog
+2025-09-04 21:01:25 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: creation_blog
+2025-09-04 21:01:29 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:01:31 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:01:32 - naver_blog_automation - INFO - radio_addbuddy에서 checked 클래스 제거
+2025-09-04 21:01:32 - naver_blog_automation - INFO - radio_bothbuddy에 checked 클래스 추가
+2025-09-04 21:01:33 - naver_blog_automation - INFO - 서로이웃 라디오 버튼 클릭 실패
+2025-09-04 21:03:56 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 21:04:10 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 21:04:10 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 21:04:10 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:04:20 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:04:20 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:04:22 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:04:22 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:04:22 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:04:27 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:04:29 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:04:32 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 21:04:32 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 21:04:34 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 21:04:34 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:04:39 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:04:41 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:04:45 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:04:47 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:04:49 - naver_blog_automation - INFO - 서로이웃 input 클릭 실패
+2025-09-04 21:04:49 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:04:51 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:04:53 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: choosangart
+2025-09-04 21:04:53 - naver_blog_automation - INFO - ✅ choosangart 서로이웃 추가 페이지 접근 성공
+2025-09-04 21:04:53 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 1/1 성공
+2025-09-04 21:08:14 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 21:08:30 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 21:08:30 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 21:08:30 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:08:40 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:08:40 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:08:43 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:08:43 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:08:43 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:08:48 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:08:50 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:08:53 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 21:08:53 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 21:08:55 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 21:08:55 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:09:00 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:09:02 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:09:06 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:09:08 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:09:09 - naver_blog_automation - INFO - 서로이웃 label 클릭 성공
+2025-09-04 21:09:10 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:09:12 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:09:14 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: choosangart
+2025-09-04 21:09:14 - naver_blog_automation - INFO - ✅ choosangart 서로이웃 추가 페이지 접근 성공
+2025-09-04 21:09:14 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 1/1 성공
+2025-09-04 21:13:01 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 21:13:19 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 21:13:19 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 21:13:19 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:13:30 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:13:30 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:13:33 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:13:33 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:13:33 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:13:37 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:13:38 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:13:41 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 21:13:41 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:13:43 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:13:43 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:13:44 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 21:13:44 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 21:13:44 - naver_blog_automation - INFO - 블로그 수집 완료: 1개
+2025-09-04 21:13:44 - naver_blog_automation - INFO - 총 1개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 21:13:44 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 21:13:44 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:13:48 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:13:50 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:13:54 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:13:56 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:13:57 - naver_blog_automation - INFO - 서로이웃 label 클릭 성공
+2025-09-04 21:13:58 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:14:00 - naver_blog_automation - INFO - 서로이웃 메시지 설정: 안녕하세요! {nickname}님 서로이웃 해요!
+2025-09-04 21:14:00 - naver_blog_automation - INFO - 닉네임 추출: 광명서울임플나무치과
+2025-09-04 21:14:00 - naver_blog_automation - INFO - 최종 메시지: 안녕하세요! 광명서울임플나무치과님 서로이웃 해요!
+2025-09-04 21:14:00 - naver_blog_automation - INFO - 서로이웃 메시지 입력 완료
+2025-09-04 21:14:01 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:14:03 - naver_blog_automation - INFO - 서로이웃 추가 페이지 접근 성공: choosangart
+2025-09-04 21:14:03 - naver_blog_automation - INFO - ✅ choosangart 서로이웃 추가 페이지 접근 성공
+2025-09-04 21:14:03 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 1/1 성공
+2025-09-04 21:20:19 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 21:20:42 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 21:20:42 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 21:20:42 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:20:52 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:20:52 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:20:53 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:20:53 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:20:53 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:20:59 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:21:01 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:21:04 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 2
+2025-09-04 21:21:04 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 이름을 추출했습니다.
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 2/2
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 블로그 수집 완료: 2개
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 총 2개 블로그에 서로이웃 추가를 시작합니다.
+2025-09-04 21:21:06 - naver_blog_automation - INFO - [1/2] choosangart 블로그 처리 중...
+2025-09-04 21:21:06 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:21:11 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:21:13 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:21:16 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:21:18 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:21:20 - naver_blog_automation - INFO - 서로이웃 label 클릭 성공
+2025-09-04 21:21:21 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:21:23 - naver_blog_automation - INFO - 서로이웃 메시지 설정: 안녕하세요! {nickname}님 서로이웃 해요!ㅎㅎ
+2025-09-04 21:21:23 - naver_blog_automation - INFO - 닉네임 추출: 광명서울임플나무치과
+2025-09-04 21:21:23 - naver_blog_automation - INFO - 최종 메시지: 안녕하세요! 광명서울임플나무치과님 서로이웃 해요!ㅎㅎ
+2025-09-04 21:21:23 - naver_blog_automation - INFO - 서로이웃 메시지 입력 완료
+2025-09-04 21:21:24 - naver_blog_automation - INFO - 최종 '다음' 버튼 클릭 - 서로이웃 신청 완료
+2025-09-04 21:21:26 - naver_blog_automation - INFO - 팝업창 닫기 완료
+2025-09-04 21:21:26 - naver_blog_automation - INFO - 메인 창으로 전환 완료
+2025-09-04 21:21:27 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:21:27 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 페이지 접근 실패
+2025-09-04 21:21:30 - naver_blog_automation - INFO - [2/2] schoisu 블로그 처리 중...
+2025-09-04 21:21:30 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: schoisu
+2025-09-04 21:21:42 - naver_blog_automation - INFO - iframe 내부로 전환: schoisu
+2025-09-04 21:21:44 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: schoisu
+2025-09-04 21:21:48 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:21:50 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:21:51 - naver_blog_automation - INFO - 서로이웃 label 클릭 성공
+2025-09-04 21:21:52 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:21:54 - naver_blog_automation - INFO - 서로이웃 메시지 설정: 안녕하세요! {nickname}님 서로이웃 해요!ㅎㅎ
+2025-09-04 21:21:54 - naver_blog_automation - INFO - 닉네임 추출: 광명 서울김앤장치과
+2025-09-04 21:21:54 - naver_blog_automation - INFO - 최종 메시지: 안녕하세요! 광명 서울김앤장치과님 서로이웃 해요!ㅎㅎ
+2025-09-04 21:21:54 - naver_blog_automation - INFO - 서로이웃 메시지 입력 완료
+2025-09-04 21:21:56 - naver_blog_automation - INFO - 최종 '다음' 버튼 클릭 - 서로이웃 신청 완료
+2025-09-04 21:21:58 - naver_blog_automation - INFO - 팝업창 닫기 완료
+2025-09-04 21:21:58 - naver_blog_automation - INFO - 메인 창으로 전환 완료
+2025-09-04 21:21:59 - naver_blog_automation - INFO - 팝업창 처리 완료: schoisu
+2025-09-04 21:21:59 - naver_blog_automation - WARNING - ❌ schoisu 서로이웃 추가 페이지 접근 실패
+2025-09-04 21:21:59 - naver_blog_automation - INFO - 서로이웃 추가 처리 완료: 0/2 성공
+2025-09-04 21:47:19 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 21:47:44 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 21:47:44 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 21:47:44 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:47:53 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:47:53 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:47:55 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:47:55 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:47:55 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:48:00 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:48:02 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:48:05 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 21:48:05 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 21:48:07 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 21:48:07 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/choosangart/223974086051
+2025-09-04 21:48:16 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:48:19 - naver_blog_automation - ERROR - 공감 버튼 클릭 중 오류 (choosangart): Message: element click intercepted: Element is not clickable at point (30, 736)
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000102b90c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102b88b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001026d10c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x000000010271e1a8 cxxbridge1$string$len + 406152
+4   chromedriver                        0x000000010271c714 cxxbridge1$string$len + 399348
+5   chromedriver                        0x000000010271a528 cxxbridge1$string$len + 390664
+6   chromedriver                        0x0000000102719924 cxxbridge1$string$len + 387588
+7   chromedriver                        0x000000010270e458 cxxbridge1$string$len + 341304
+8   chromedriver                        0x000000010270dee4 cxxbridge1$string$len + 339908
+9   chromedriver                        0x000000010275999c cxxbridge1$string$len + 649852
+10  chromedriver                        0x000000010270c934 cxxbridge1$string$len + 334356
+11  chromedriver                        0x0000000102b5388c cxxbridge1$str$ptr + 2496880
+12  chromedriver                        0x0000000102b56ab8 cxxbridge1$str$ptr + 2509724
+13  chromedriver                        0x0000000102b34510 cxxbridge1$str$ptr + 2369012
+14  chromedriver                        0x0000000102b57360 cxxbridge1$str$ptr + 2511940
+15  chromedriver                        0x0000000102b25610 cxxbridge1$str$ptr + 2307828
+16  chromedriver                        0x0000000102b77230 cxxbridge1$str$ptr + 2642708
+17  chromedriver                        0x0000000102b773bc cxxbridge1$str$ptr + 2643104
+18  chromedriver                        0x0000000102b8876c cxxbridge1$str$ptr + 2713680
+19  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 21:48:19 - naver_blog_automation - WARNING - 댓글 입력창을 찾을 수 없음: choosangart
+2025-09-04 21:48:19 - naver_blog_automation - WARNING - 게시글 상호작용 실패: choosangart
+2025-09-04 21:48:19 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:48:23 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:48:25 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:48:29 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:48:31 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:48:32 - naver_blog_automation - INFO - 서로이웃 label 클릭 성공
+2025-09-04 21:48:33 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:48:35 - naver_blog_automation - INFO - 서로이웃 메시지 설정: 안녕하세요! {nickname}님 서로이웃 해요!
+2025-09-04 21:48:35 - naver_blog_automation - WARNING - 닉네임 추출 실패, 원본 메시지 사용
+2025-09-04 21:48:35 - naver_blog_automation - INFO - 최종 메시지: 안녕하세요! 님 서로이웃 해요!
+2025-09-04 21:48:35 - naver_blog_automation - ERROR - 메시지 입력 중 오류: 'NoneType' object has no attribute 'clear'
+2025-09-04 21:48:35 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:48:35 - naver_blog_automation - ERROR - iframe 내부 처리 중 오류: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000102b90c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102b88b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001026d10c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001026aaea0 chromedriver + 143008
+4   chromedriver                        0x00000001027406f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001027594fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x000000010270c934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000102b5388c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000102b56ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000102b34510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000102b57360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000102b25610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000102b77230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000102b773bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000102b8876c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 21:48:35 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (choosangart): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000102b90c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102b88b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001026d10c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001026aaea0 chromedriver + 143008
+4   chromedriver                        0x00000001027406f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001027594fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x000000010270c934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000102b5388c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000102b56ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000102b34510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000102b57360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000102b25610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000102b77230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000102b773bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000102b8876c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 21:48:35 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 실패
+2025-09-04 21:48:35 - naver_blog_automation - INFO - 블로그 처리 완료: 0/1 성공
+2025-09-04 21:52:47 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 21:53:05 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 21:53:05 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 21:53:05 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 21:53:13 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 21:53:13 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 21:53:16 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 21:53:16 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 21:53:16 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 21:53:21 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 21:53:23 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 21:53:26 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 21:53:26 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 21:53:28 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 21:53:28 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/choosangart/223974086051
+2025-09-04 21:54:09 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:54:11 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - choosangart
+2025-09-04 21:54:11 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초 - choosangart
+2025-09-04 21:54:23 - naver_blog_automation - INFO - 스크롤링 완료 - 최하단 도달: choosangart
+2025-09-04 21:54:24 - naver_blog_automation - ERROR - 공감 버튼 클릭 중 오류 (choosangart): Message: element click intercepted: Element is not clickable at point (30, 736)
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x000000010259cc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102594b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001020dd0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x000000010212a1a8 cxxbridge1$string$len + 406152
+4   chromedriver                        0x0000000102128714 cxxbridge1$string$len + 399348
+5   chromedriver                        0x0000000102126528 cxxbridge1$string$len + 390664
+6   chromedriver                        0x0000000102125924 cxxbridge1$string$len + 387588
+7   chromedriver                        0x000000010211a458 cxxbridge1$string$len + 341304
+8   chromedriver                        0x0000000102119ee4 cxxbridge1$string$len + 339908
+9   chromedriver                        0x000000010216599c cxxbridge1$string$len + 649852
+10  chromedriver                        0x0000000102118934 cxxbridge1$string$len + 334356
+11  chromedriver                        0x000000010255f88c cxxbridge1$str$ptr + 2496880
+12  chromedriver                        0x0000000102562ab8 cxxbridge1$str$ptr + 2509724
+13  chromedriver                        0x0000000102540510 cxxbridge1$str$ptr + 2369012
+14  chromedriver                        0x0000000102563360 cxxbridge1$str$ptr + 2511940
+15  chromedriver                        0x0000000102531610 cxxbridge1$str$ptr + 2307828
+16  chromedriver                        0x0000000102583230 cxxbridge1$str$ptr + 2642708
+17  chromedriver                        0x00000001025833bc cxxbridge1$str$ptr + 2643104
+18  chromedriver                        0x000000010259476c cxxbridge1$str$ptr + 2713680
+19  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 21:54:24 - naver_blog_automation - WARNING - 댓글 입력창을 찾을 수 없음: choosangart
+2025-09-04 21:54:24 - naver_blog_automation - WARNING - 게시글 상호작용 실패: choosangart
+2025-09-04 21:54:24 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 21:54:28 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 21:54:30 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 21:54:36 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 21:54:38 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 21:54:39 - naver_blog_automation - INFO - 서로이웃 label 클릭 성공
+2025-09-04 21:54:40 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-04 21:54:42 - naver_blog_automation - INFO - 서로이웃 메시지 설정: 안녕하세요! {nickname}님 서로이웃 해요!
+2025-09-04 21:54:42 - naver_blog_automation - WARNING - 닉네임 추출 실패, 원본 메시지 사용
+2025-09-04 21:54:42 - naver_blog_automation - INFO - 최종 메시지: 안녕하세요! 님 서로이웃 해요!
+2025-09-04 21:54:42 - naver_blog_automation - ERROR - 메시지 입력 중 오류: 'NoneType' object has no attribute 'clear'
+2025-09-04 21:54:42 - naver_blog_automation - INFO - 팝업창 처리 완료: choosangart
+2025-09-04 21:54:42 - naver_blog_automation - ERROR - iframe 내부 처리 중 오류: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x000000010259cc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102594b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001020dd0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001020b6ea0 chromedriver + 143008
+4   chromedriver                        0x000000010214c6f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001021654fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102118934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010255f88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000102562ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000102540510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000102563360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000102531610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000102583230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001025833bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010259476c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 21:54:42 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (choosangart): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x000000010259cc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102594b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001020dd0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001020b6ea0 chromedriver + 143008
+4   chromedriver                        0x000000010214c6f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001021654fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102118934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010255f88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000102562ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000102540510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000102563360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000102531610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000102583230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001025833bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010259476c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 21:54:42 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 실패
+2025-09-04 21:54:42 - naver_blog_automation - INFO - 블로그 처리 완료: 0/1 성공
+2025-09-04 22:00:20 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:00:33 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:00:33 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:00:33 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:00:43 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:00:43 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:00:47 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:00:47 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:00:47 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:00:57 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 22:00:59 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 22:01:02 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:01:02 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:01:04 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 22:01:04 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/choosangart/223974086051
+2025-09-04 22:01:12 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 22:01:14 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - choosangart
+2025-09-04 22:01:14 - naver_blog_automation - INFO - 공감 버튼 위치: 1430px, 목표 스크롤 위치: 1230px - choosangart
+2025-09-04 22:01:14 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 522px - choosangart
+2025-09-04 22:01:27 - naver_blog_automation - INFO - 스크롤링 완료 - 공감 버튼 영역 도달: choosangart
+2025-09-04 22:01:29 - naver_blog_automation - INFO - 공감 버튼 클릭 완료 (ActionChains): choosangart
+2025-09-04 22:01:30 - naver_blog_automation - WARNING - 댓글 입력창을 찾을 수 없음: choosangart
+2025-09-04 22:01:30 - naver_blog_automation - INFO - 게시글 상호작용 완료: choosangart
+2025-09-04 22:01:30 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 22:01:34 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 22:01:36 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 22:01:38 - naver_blog_automation - ERROR - iframe 내부 처리 중 오류: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-09-04 22:11:17 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:11:29 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:11:29 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:11:29 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:11:37 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:11:37 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:11:40 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:11:40 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:11:40 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:11:47 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 22:11:49 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 22:11:52 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:11:52 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:11:54 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 22:11:54 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/choosangart/223974086051
+2025-09-04 22:12:00 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 22:12:02 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - choosangart
+2025-09-04 22:12:02 - naver_blog_automation - INFO - post_footer_contents 위치: 24663px, 목표 스크롤 위치: 24563px - choosangart
+2025-09-04 22:12:02 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 23855px - choosangart
+2025-09-04 22:12:13 - naver_blog_automation - INFO - 스크롤링 완료 - post_footer_contents 영역 도달: choosangart
+2025-09-04 22:12:13 - naver_blog_automation - INFO - 이미 공감한 게시글: choosangart
+2025-09-04 22:12:13 - naver_blog_automation - WARNING - 댓글 입력창을 찾을 수 없음: choosangart
+2025-09-04 22:12:13 - naver_blog_automation - WARNING - 게시글 상호작용 실패: choosangart
+2025-09-04 22:12:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 22:12:17 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 22:12:19 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 22:12:24 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 22:12:33 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:12:52 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:12:52 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:12:52 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:13:03 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:13:03 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:13:05 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:13:05 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:13:05 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:13:10 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 22:13:12 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 22:13:15 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:13:15 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:13:17 - naver_blog_automation - INFO - [1/1] moooo21 블로그 처리 중...
+2025-09-04 22:13:17 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/moooo21/223919676355
+2025-09-04 22:13:24 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:13:26 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - moooo21
+2025-09-04 22:13:26 - naver_blog_automation - INFO - post_footer_contents 위치: 15715px, 목표 스크롤 위치: 15615px - moooo21
+2025-09-04 22:13:26 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 14659px - moooo21
+2025-09-04 22:13:37 - naver_blog_automation - INFO - 스크롤링 완료 - post_footer_contents 영역 도달: moooo21
+2025-09-04 22:13:38 - naver_blog_automation - ERROR - 공감 버튼 클릭 중 오류 (moooo21): Message: move target out of bounds
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x00000001027a4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x000000010279cb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001022e4f3c cxxbridge1$string$len + 90140
+3   chromedriver                        0x000000010237503c cxxbridge1$string$len + 680220
+4   chromedriver                        0x000000010236d99c cxxbridge1$string$len + 649852
+5   chromedriver                        0x0000000102320934 cxxbridge1$string$len + 334356
+6   chromedriver                        0x000000010276788c cxxbridge1$str$ptr + 2496880
+7   chromedriver                        0x000000010276aab8 cxxbridge1$str$ptr + 2509724
+8   chromedriver                        0x0000000102748510 cxxbridge1$str$ptr + 2369012
+9   chromedriver                        0x000000010276b360 cxxbridge1$str$ptr + 2511940
+10  chromedriver                        0x0000000102739610 cxxbridge1$str$ptr + 2307828
+11  chromedriver                        0x000000010278b230 cxxbridge1$str$ptr + 2642708
+12  chromedriver                        0x000000010278b3bc cxxbridge1$str$ptr + 2643104
+13  chromedriver                        0x000000010279c76c cxxbridge1$str$ptr + 2713680
+14  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+15  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:13:40 - naver_blog_automation - INFO - 댓글 버튼 클릭 완료 (ActionChains): moooo21
+2025-09-04 22:13:43 - naver_blog_automation - ERROR - 댓글 추가 중 오류 (moooo21): Message: element click intercepted: Element <div title="댓글" id="naverComment_201_223919676355__write_textarea" class="u_cbox_text u_cbox_text_mention" contenteditable="true" data-area-code="RPC.input"></div> is not clickable at point (641, 684). Other element would receive the click: <div class="u_cbox_guide" data-action="write#placeholder" data-param="@event">...</div>
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x00000001027a4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x000000010279cb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001022e50c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x00000001023321a8 cxxbridge1$string$len + 406152
+4   chromedriver                        0x0000000102330714 cxxbridge1$string$len + 399348
+5   chromedriver                        0x000000010232e528 cxxbridge1$string$len + 390664
+6   chromedriver                        0x000000010232d924 cxxbridge1$string$len + 387588
+7   chromedriver                        0x0000000102322458 cxxbridge1$string$len + 341304
+8   chromedriver                        0x0000000102321ee4 cxxbridge1$string$len + 339908
+9   chromedriver                        0x000000010236d99c cxxbridge1$string$len + 649852
+10  chromedriver                        0x0000000102320934 cxxbridge1$string$len + 334356
+11  chromedriver                        0x000000010276788c cxxbridge1$str$ptr + 2496880
+12  chromedriver                        0x000000010276aab8 cxxbridge1$str$ptr + 2509724
+13  chromedriver                        0x0000000102748510 cxxbridge1$str$ptr + 2369012
+14  chromedriver                        0x000000010276b360 cxxbridge1$str$ptr + 2511940
+15  chromedriver                        0x0000000102739610 cxxbridge1$str$ptr + 2307828
+16  chromedriver                        0x000000010278b230 cxxbridge1$str$ptr + 2642708
+17  chromedriver                        0x000000010278b3bc cxxbridge1$str$ptr + 2643104
+18  chromedriver                        0x000000010279c76c cxxbridge1$str$ptr + 2713680
+19  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:13:43 - naver_blog_automation - WARNING - 게시글 상호작용 실패: moooo21
+2025-09-04 22:13:43 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 22:13:48 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:13:50 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: moooo21
+2025-09-04 22:13:54 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 22:13:56 - naver_blog_automation - WARNING - radio_bothbuddy 요소를 찾을 수 없음: moooo21
+2025-09-04 22:13:56 - naver_blog_automation - INFO - 팝업창 없음 또는 처리 실패: moooo21
+2025-09-04 22:13:56 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 실패
+2025-09-04 22:13:56 - naver_blog_automation - INFO - 블로그 처리 완료: 0/1 성공
+2025-09-04 22:22:30 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:22:48 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:22:48 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:22:48 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:22:58 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:22:58 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:23:01 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:23:01 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:23:01 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:23:04 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 22:23:06 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 22:23:09 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:23:09 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:23:11 - naver_blog_automation - INFO - [1/1] moooo21 블로그 처리 중...
+2025-09-04 22:23:11 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/moooo21/223919676355
+2025-09-04 22:23:16 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:23:18 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - moooo21
+2025-09-04 22:23:18 - naver_blog_automation - INFO - post_footer_contents 위치: 15715px, 목표 스크롤 위치: 15615px - moooo21
+2025-09-04 22:23:18 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 14659px - moooo21
+2025-09-04 22:23:30 - naver_blog_automation - INFO - 스크롤링 완료 - post_footer_contents 영역 도달: moooo21
+2025-09-04 22:23:31 - naver_blog_automation - ERROR - 공감 모듈 클릭 중 오류 (moooo21): Message: move target out of bounds
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000102c60c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102c58b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001027a0f3c cxxbridge1$string$len + 90140
+3   chromedriver                        0x000000010283103c cxxbridge1$string$len + 680220
+4   chromedriver                        0x000000010282999c cxxbridge1$string$len + 649852
+5   chromedriver                        0x00000001027dc934 cxxbridge1$string$len + 334356
+6   chromedriver                        0x0000000102c2388c cxxbridge1$str$ptr + 2496880
+7   chromedriver                        0x0000000102c26ab8 cxxbridge1$str$ptr + 2509724
+8   chromedriver                        0x0000000102c04510 cxxbridge1$str$ptr + 2369012
+9   chromedriver                        0x0000000102c27360 cxxbridge1$str$ptr + 2511940
+10  chromedriver                        0x0000000102bf5610 cxxbridge1$str$ptr + 2307828
+11  chromedriver                        0x0000000102c47230 cxxbridge1$str$ptr + 2642708
+12  chromedriver                        0x0000000102c473bc cxxbridge1$str$ptr + 2643104
+13  chromedriver                        0x0000000102c5876c cxxbridge1$str$ptr + 2713680
+14  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+15  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:23:33 - naver_blog_automation - INFO - 댓글 버튼 클릭 완료 (ActionChains): moooo21
+2025-09-04 22:23:35 - naver_blog_automation - INFO - 댓글 입력 완료 (moooo21): 강남지우의원님의 블로그 구경 잘 하고 갑니다!
+2025-09-04 22:23:38 - naver_blog_automation - INFO - 댓글 등록 완료 (ActionChains): moooo21
+2025-09-04 22:23:40 - naver_blog_automation - INFO - 게시글 상호작용 완료: moooo21
+2025-09-04 22:23:40 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 22:23:45 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:23:47 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: moooo21
+2025-09-04 22:39:45 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:40:03 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:40:03 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:40:03 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:40:13 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:40:13 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:40:14 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:40:14 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:40:14 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:40:19 - naver_blog_automation - INFO - 키워드 검색: 철산
+2025-09-04 22:40:21 - naver_blog_automation - INFO - 키워드 '철산' 검색 완료
+2025-09-04 22:40:24 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:40:24 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:40:26 - naver_blog_automation - INFO - [1/1] choosangart 블로그 처리 중...
+2025-09-04 22:40:26 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/choosangart/223974086051
+2025-09-04 22:40:34 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 22:40:36 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - choosangart
+2025-09-04 22:40:36 - naver_blog_automation - INFO - se-main-container 위치: 1047px, 크기: 23556px
+2025-09-04 22:40:36 - naver_blog_automation - INFO - 컨테이너 끝: 24603px, 목표 스크롤 위치: 24553px - choosangart
+2025-09-04 22:40:36 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 23845px - choosangart
+2025-09-04 22:40:46 - naver_blog_automation - INFO - 스크롤링 완료 - se-main-container 끝 도달: choosangart
+2025-09-04 22:40:47 - naver_blog_automation - ERROR - 공감 모듈 클릭 중 오류 (choosangart): Message: move target out of bounds
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000100e04c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100dfcb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100944f3c cxxbridge1$string$len + 90140
+3   chromedriver                        0x00000001009d503c cxxbridge1$string$len + 680220
+4   chromedriver                        0x00000001009cd99c cxxbridge1$string$len + 649852
+5   chromedriver                        0x0000000100980934 cxxbridge1$string$len + 334356
+6   chromedriver                        0x0000000100dc788c cxxbridge1$str$ptr + 2496880
+7   chromedriver                        0x0000000100dcaab8 cxxbridge1$str$ptr + 2509724
+8   chromedriver                        0x0000000100da8510 cxxbridge1$str$ptr + 2369012
+9   chromedriver                        0x0000000100dcb360 cxxbridge1$str$ptr + 2511940
+10  chromedriver                        0x0000000100d99610 cxxbridge1$str$ptr + 2307828
+11  chromedriver                        0x0000000100deb230 cxxbridge1$str$ptr + 2642708
+12  chromedriver                        0x0000000100deb3bc cxxbridge1$str$ptr + 2643104
+13  chromedriver                        0x0000000100dfc76c cxxbridge1$str$ptr + 2713680
+14  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+15  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:40:47 - naver_blog_automation - WARNING - 댓글 입력창을 찾을 수 없음: choosangart
+2025-09-04 22:40:47 - naver_blog_automation - WARNING - 게시글 상호작용 실패: choosangart
+2025-09-04 22:40:47 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: choosangart
+2025-09-04 22:40:51 - naver_blog_automation - INFO - iframe 내부로 전환: choosangart
+2025-09-04 22:40:53 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: choosangart
+2025-09-04 22:40:53 - naver_blog_automation - ERROR - iframe 내부 처리 중 오류: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000100e04c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100dfcb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001009450c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x000000010091eea0 chromedriver + 143008
+4   chromedriver                        0x00000001009b46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009cd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000100980934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100dc788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100dcaab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100da8510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100dcb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100d99610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100deb230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100deb3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100dfc76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:40:53 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (choosangart): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000100e04c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100dfcb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001009450c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x000000010091eea0 chromedriver + 143008
+4   chromedriver                        0x00000001009b46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009cd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000100980934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100dc788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100dcaab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100da8510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100dcb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100d99610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100deb230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100deb3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100dfc76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:40:53 - naver_blog_automation - WARNING - ❌ choosangart 서로이웃 추가 실패
+2025-09-04 22:40:53 - naver_blog_automation - INFO - 블로그 처리 완료: 0/1 성공
+2025-09-04 22:47:28 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:47:39 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:47:39 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:47:39 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:47:49 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:47:49 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:47:52 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:47:52 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:47:52 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:48:00 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 22:48:02 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 22:48:05 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:48:05 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:48:07 - naver_blog_automation - INFO - [1/1] moooo21 블로그 처리 중...
+2025-09-04 22:48:07 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/moooo21/223919676355
+2025-09-04 22:48:12 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:48:14 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - moooo21
+2025-09-04 22:48:14 - naver_blog_automation - INFO - se-main-container 위치: 1332px, 크기: 14322px
+2025-09-04 22:48:14 - naver_blog_automation - INFO - 컨테이너 끝: 15654px, 목표 스크롤 위치: 15604px - moooo21
+2025-09-04 22:48:14 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 14648px - moooo21
+2025-09-04 22:48:24 - naver_blog_automation - INFO - 스크롤링 완료 - se-main-container 끝 도달: moooo21
+2025-09-04 22:48:26 - naver_blog_automation - INFO - 공감 버튼 클릭 완료 (ActionChains): moooo21
+2025-09-04 22:48:29 - naver_blog_automation - INFO - 댓글 버튼 클릭 완료 (ActionChains): moooo21
+2025-09-04 22:48:32 - naver_blog_automation - ERROR - 댓글 추가 중 오류 (moooo21): Message: element click intercepted: Element <div title="댓글" id="naverComment_201_223919676355__write_textarea" class="u_cbox_text u_cbox_text_mention" contenteditable="true" data-area-code="RPC.input"></div> is not clickable at point (641, 684). Other element would receive the click: <div class="u_cbox_guide" data-action="write#placeholder" data-param="@event">...</div>
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x0000000102590c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102588b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001020d10c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x000000010211e1a8 cxxbridge1$string$len + 406152
+4   chromedriver                        0x000000010211c714 cxxbridge1$string$len + 399348
+5   chromedriver                        0x000000010211a528 cxxbridge1$string$len + 390664
+6   chromedriver                        0x0000000102119924 cxxbridge1$string$len + 387588
+7   chromedriver                        0x000000010210e458 cxxbridge1$string$len + 341304
+8   chromedriver                        0x000000010210dee4 cxxbridge1$string$len + 339908
+9   chromedriver                        0x000000010215999c cxxbridge1$string$len + 649852
+10  chromedriver                        0x000000010210c934 cxxbridge1$string$len + 334356
+11  chromedriver                        0x000000010255388c cxxbridge1$str$ptr + 2496880
+12  chromedriver                        0x0000000102556ab8 cxxbridge1$str$ptr + 2509724
+13  chromedriver                        0x0000000102534510 cxxbridge1$str$ptr + 2369012
+14  chromedriver                        0x0000000102557360 cxxbridge1$str$ptr + 2511940
+15  chromedriver                        0x0000000102525610 cxxbridge1$str$ptr + 2307828
+16  chromedriver                        0x0000000102577230 cxxbridge1$str$ptr + 2642708
+17  chromedriver                        0x00000001025773bc cxxbridge1$str$ptr + 2643104
+18  chromedriver                        0x000000010258876c cxxbridge1$str$ptr + 2713680
+19  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+20  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:48:32 - naver_blog_automation - INFO - 게시글 상호작용 완료: moooo21
+2025-09-04 22:48:32 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 22:48:37 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:48:39 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: moooo21
+2025-09-04 22:48:48 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 22:48:50 - naver_blog_automation - WARNING - radio_bothbuddy 요소를 찾을 수 없음: moooo21
+2025-09-04 22:48:50 - naver_blog_automation - INFO - 팝업창 없음 또는 처리 실패: moooo21
+2025-09-04 22:48:50 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 실패
+2025-09-04 22:48:50 - naver_blog_automation - INFO - 블로그 처리 완료: 0/1 성공
+2025-09-04 22:51:55 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작
+2025-09-04 22:52:10 - naver_blog_automation - INFO - Chrome 드라이버가 성공적으로 설정되었습니다.
+2025-09-04 22:52:10 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-04 22:52:10 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-04 22:52:20 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-04 22:52:20 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-04 22:52:22 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-04 22:52:22 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-04 22:52:22 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-04 22:52:30 - naver_blog_automation - INFO - 키워드 검색: 지우
+2025-09-04 22:52:32 - naver_blog_automation - INFO - 키워드 '지우' 검색 완료
+2025-09-04 22:52:35 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 1
+2025-09-04 22:52:35 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 1/1
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 1개
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 총 1개 블로그 처리를 시작합니다.
+2025-09-04 22:52:37 - naver_blog_automation - INFO - [1/1] moooo21 블로그 처리 중...
+2025-09-04 22:52:37 - naver_blog_automation - INFO - 게시글 접속: https://blog.naver.com/moooo21/223919676355
+2025-09-04 22:52:47 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:52:49 - naver_blog_automation - INFO - 체류 시간 설정: 10초 - moooo21
+2025-09-04 22:52:49 - naver_blog_automation - INFO - se-main-container 위치: 1332px, 크기: 14322px
+2025-09-04 22:52:49 - naver_blog_automation - INFO - 컨테이너 끝: 15654px, 목표 스크롤 위치: 15604px - moooo21
+2025-09-04 22:52:49 - naver_blog_automation - INFO - 스크롤 계획: 5단계, 단계당 2.0초, 총 거리: 14648px - moooo21
+2025-09-04 22:53:00 - naver_blog_automation - INFO - 스크롤링 완료 - se-main-container 끝 도달: moooo21
+2025-09-04 22:53:02 - naver_blog_automation - INFO - 공감 버튼 클릭 완료 (ActionChains): moooo21
+2025-09-04 22:53:05 - naver_blog_automation - INFO - 댓글 버튼 클릭 완료 (ActionChains): moooo21
+2025-09-04 22:53:08 - naver_blog_automation - INFO - 댓글 입력 완료 (moooo21): 강남지우의원님 덕분에 많이 배워갑니다!
+2025-09-04 22:53:11 - naver_blog_automation - INFO - 댓글 등록 완료 (ActionChains): moooo21
+2025-09-04 22:53:13 - naver_blog_automation - INFO - 게시글 상호작용 완료: moooo21
+2025-09-04 22:53:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: moooo21
+2025-09-04 22:53:18 - naver_blog_automation - INFO - iframe 내부로 전환: moooo21
+2025-09-04 22:53:20 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: moooo21
+2025-09-04 22:53:24 - naver_blog_automation - INFO - 팝업창 확인 및 처리 중...
+2025-09-04 22:53:26 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-04 22:53:27 - naver_blog_automation - ERROR - 팝업창 처리 중 오류: 'NoneType' object has no attribute 'get_attribute'
+2025-09-04 22:53:27 - naver_blog_automation - INFO - 팝업창 없음 또는 처리 실패: moooo21
+2025-09-04 22:53:27 - naver_blog_automation - ERROR - iframe 내부 처리 중 오류: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x00000001006ecc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001006e4b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x000000010022d0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100206ea0 chromedriver + 143008
+4   chromedriver                        0x000000010029c6f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001002b54fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000100268934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001006af88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001006b2ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100690510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001006b3360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100681610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001006d3230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001006d33bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001006e476c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:53:27 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (moooo21): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.155)
+Stacktrace:
+0   chromedriver                        0x00000001006ecc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001006e4b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x000000010022d0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100206ea0 chromedriver + 143008
+4   chromedriver                        0x000000010029c6f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001002b54fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000100268934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001006af88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001006b2ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100690510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001006b3360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100681610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001006d3230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001006d33bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001006e476c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x00000001807f32e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x00000001807ee0fc thread_start + 8
+
+2025-09-04 22:53:27 - naver_blog_automation - WARNING - ❌ moooo21 서로이웃 추가 실패
+2025-09-04 22:53:27 - naver_blog_automation - INFO - 블로그 처리 완료: 0/1 성공
+2025-09-04 22:53:47 - naver_blog_automation - INFO - 네이버 블로그 자동화 프로그램 시작

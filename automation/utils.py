@@ -87,9 +87,10 @@ class AutomationUtils:
         try:
             if clear_first:
                 element.clear()
-                self.random_delay(0.2, 0.5)
+                # 입력 대기는 짧은 시간이므로 time.sleep 유지
+                time.sleep(random.uniform(0.2, 0.5))
             
-            # 사람처럼 한 글자씩 입력
+            # 사람처럼 한 글자씩 입력 (짧은 시간 time.sleep 유지)
             for char in text:
                 element.send_keys(char)
                 time.sleep(random.uniform(0.05, 0.15))
@@ -130,7 +131,7 @@ class AutomationUtils:
         try:
             wait = WebDriverWait(self.driver, timeout)
             wait.until(lambda driver: driver.execute_script("return document.readyState") == "complete")
-            self.random_delay(1, 2)  # 추가 안정화 시간
+            time.sleep(random.uniform(1, 2))  # 추가 안정화 시간 time.sleep 유지
             return True
         except TimeoutException:
             self.logger.warning("페이지 로딩 시간 초과")
