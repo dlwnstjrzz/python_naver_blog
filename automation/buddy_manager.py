@@ -118,7 +118,9 @@ class BuddyManager:
                             self.buddy_available = False  # 서로이웃 추가 불가능으로 설정
                             
                             # 브라우저 상태 안전한 초기화
-                            self._safe_browser_reset()
+                            self.logger.info("🔄 브라우저 상태 초기화 시작...")
+                            reset_success = self._safe_browser_reset()
+                            self.logger.info(f"🔄 브라우저 상태 초기화 완료: {reset_success}")
                             return False
 
                         # 서로이웃 메시지 입력 처리
@@ -171,17 +173,20 @@ class BuddyManager:
                 self.driver.get("https://blog.naver.com")
                 time.sleep(1)
                 self.logger.info("🔄 alert 처리 후 브라우저 상태 초기화 완료")
+                return True
             except Exception as nav_error:
                 self.logger.warning(f"페이지 이동 실패, 대체 방법 시도: {nav_error}")
                 # 대체 방법: 현재 페이지 새로고침
                 try:
                     self.driver.refresh()
                     time.sleep(1)
+                    return True
                 except:
-                    pass
+                    return False
                     
         except Exception as reset_error:
             self.logger.warning(f"브라우저 초기화 중 예외: {reset_error}")
+            return False
 
     def _handle_buddy_message(self):
         """서로이웃 메시지 입력 처리"""

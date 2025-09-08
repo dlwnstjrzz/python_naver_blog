@@ -119,7 +119,7 @@ class AutomationWorker(QThread):
 
                 self.progress_updated.emit(f"✅ {message}")
                 
-                # 이웃 URL들을 블로그 데이터 형태로 변환
+                # 이웃 URL들을 블로그 데이터 형태로 변환 (키워드 검색과 동일한 형태)
                 collected_blogs = []
                 blog_names = []  # 블로그 이름 리스트
                 for url in neighbor_urls:
@@ -128,7 +128,7 @@ class AutomationWorker(QThread):
                         blog_id = url.split("blog.naver.com/")[1].rstrip('/')
                         collected_blogs.append({
                             'blog_name': blog_id,
-                            'post_url': url  # 메인 블로그 URL을 post_url로 사용
+                            'post_url': url  # 메인 블로그 URL (서로이웃 추가는 메인 블로그에서 처리됨)
                         })
                         blog_names.append(blog_id)
 

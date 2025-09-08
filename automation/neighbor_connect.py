@@ -118,6 +118,77 @@ class NeighborConnectCollector:
             self.logger.error(f"이웃커넥트 블로그 URL 수집 중 오류 ({blog_id}): {e}")
             return []
     
+    def get_latest_post_url(self, blog_url):
+        """블로그 메인 페이지에서 최신 게시글 URL 가져오기"""
+        try:
+            self.logger.info(f"최신 게시글 URL 가져오기: {blog_url}")
+            
+            # 블로그 메인 페이지로 이동
+            self.driver.get(blog_url)
+            
+            # 페이지 로딩 대기
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
+            )
+            time.sleep(1)
+            
+            # iframe 확인 및 전환
+            iframes = self.driver.find_elements(By.TAG_NAME, "iframe")
+            if len(iframes) > 0:
+                self.logger.debug(f"iframe 내부로 전환")
+                self.driver.switch_to.frame(iframes[0])
+                time.sleep(0.5)
+            
+            # 최신 게시글 링크 찾기 - 여러 시도
+            post_url = None
+            
+            # 시도 1: se-module-oglink 클래스 (스마트 에디터)
+            try:
+                post_elements = self.driver.find_elements(
+                    By.CSS_SELECTOR, "a.se-module-oglink")
+                if post_elements:
+                    post_url = post_elements[0].get_attribute("href")
+                    self.logger.debug(f"se-module-oglink에서 URL 찾음: {post_url}")
+            except:
+                pass
+            
+            # 시도 2: 일반 게시글 링크
+            if not post_url:
+                try:
+                    post_elements = self.driver.find_elements(
+                        By.CSS_SELECTOR, "a[href*='/PostView.naver']")
+                    if post_elements:
+                        post_url = post_elements[0].get_attribute("href")
+                        self.logger.debug(f"PostView 링크에서 URL 찾음: {post_url}")
+                except:
+                    pass
+            
+            # 시도 3: 제목 링크
+            if not post_url:
+                try:
+                    post_elements = self.driver.find_elements(
+                        By.CSS_SELECTOR, "a.se-title-text")
+                    if post_elements:
+                        post_url = post_elements[0].get_attribute("href")
+                        self.logger.debug(f"se-title-text에서 URL 찾음: {post_url}")
+                except:
+                    pass
+            
+            # iframe에서 나가기
+            if len(iframes) > 0:
+                self.driver.switch_to.default_content()
+            
+            if post_url and "blog.naver.com" in post_url:
+                self.logger.info(f"최신 게시글 URL 수집 성공: {post_url}")
+                return post_url
+            else:
+                self.logger.warning(f"최신 게시글 URL을 찾을 수 없음: {blog_url}")
+                return blog_url  # 실패 시 메인 블로그 URL 반환
+                
+        except Exception as e:
+            self.logger.error(f"최신 게시글 URL 가져오기 실패 ({blog_url}): {e}")
+            return blog_url  # 오류 시 메인 블로그 URL 반환
+
     def process_neighbor_connect(self, blog_url):
         """이웃커넥트 전체 처리 프로세스"""
         try:
@@ -142,4 +213,48 @@ class NeighborConnectCollector:
             
         except Exception as e:
             self.logger.error(f"이웃커넥트 처리 중 오류: {e}")
+            return False, f"처리 중 오류가 발생했습니다: {e}", []
+
+    def process_neighbor_connect_with_posts(self, blog_url):
+        """이웃커넥트 수집 + 각 블로그의 최신 게시글 URL까지 가져오기"""
+        try:
+            # 1. 기본 이웃커넥트 처리
+            success, message, neighbor_urls = self.process_neighbor_connect(blog_url)
+            if not success:
+                return False, message, []
+            
+            # 2. 각 이웃 블로그에서 최신 게시글 URL 가져오기
+            blog_data = []
+            
+            for i, neighbor_url in enumerate(neighbor_urls, 1):
+                try:
+                    # 블로그 아이디 추출
+                    if "blog.naver.com/" in neighbor_url:
+                        blog_id = neighbor_url.split("blog.naver.com/")[1].rstrip('/')
+                        
+                        self.logger.info(f"[{i}/{len(neighbor_urls)}] {blog_id} - 최신 게시글 URL 가져오는 중...")
+                        
+                        # 최신 게시글 URL 가져오기
+                        post_url = self.get_latest_post_url(neighbor_url)
+                        
+                        blog_data.append({
+                            'blog_name': blog_id,
+                            'post_url': post_url
+                        })
+                        
+                        # 각 블로그 사이에 잠시 대기 (너무 빠른 연속 접속 방지)
+                        if i < len(neighbor_urls):
+                            time.sleep(0.5)
+                            
+                except Exception as e:
+                    self.logger.warning(f"블로그 {neighbor_url} 처리 중 오류: {e}")
+                    continue
+            
+            if blog_data:
+                return True, f"총 {len(blog_data)}개의 블로그 데이터를 수집했습니다.", blog_data
+            else:
+                return False, "유효한 블로그 데이터를 수집할 수 없습니다.", []
+                
+        except Exception as e:
+            self.logger.error(f"이웃커넥트 + 게시글 URL 처리 중 오류: {e}")
             return False, f"처리 중 오류가 발생했습니다: {e}", []
