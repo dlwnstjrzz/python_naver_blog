@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 class BuddyManager:
     """서로이웃 추가 관련 기능을 처리하는 클래스"""
-    
+
     def __init__(self, driver, logger):
         self.driver = driver
         self.logger = logger
@@ -93,7 +93,7 @@ class BuddyManager:
                     if alert_handled:
                         self.logger.info("❌ 이미 서로이웃 신청이 진행중입니다 - 건너뛰기")
                         self.buddy_available = False  # 서로이웃 추가 불가능으로 설정
-                        
+
                         # 브라우저 상태 안전한 초기화
                         self._safe_browser_reset()
                         return False
@@ -116,11 +116,9 @@ class BuddyManager:
                         if alert_handled:
                             self.logger.info("❌ 이미 서로이웃 신청이 진행중입니다 - 건너뛰기")
                             self.buddy_available = False  # 서로이웃 추가 불가능으로 설정
-                            
-                            # 브라우저 상태 안전한 초기화
-                            self.logger.info("🔄 브라우저 상태 초기화 시작...")
-                            reset_success = self._safe_browser_reset()
-                            self.logger.info(f"🔄 브라우저 상태 초기화 완료: {reset_success}")
+
+                           # 브라우저 상태 안전한 초기화
+                            self._safe_browser_reset()
                             return False
 
                         # 서로이웃 메시지 입력 처리
@@ -147,7 +145,7 @@ class BuddyManager:
             # 현재 열려있는 창들 확인
             current_handles = self.driver.window_handles
             self.logger.info(f"현재 열린 창 개수: {len(current_handles)}")
-            
+
             if len(current_handles) > 1:
                 # 팝업창이 있으면 닫기
                 try:
@@ -167,26 +165,23 @@ class BuddyManager:
                             self.driver.switch_to.window(main_handles[0])
                     except:
                         pass
-            
+
             # 안전한 페이지로 이동하여 상태 초기화
             try:
                 self.driver.get("https://blog.naver.com")
                 time.sleep(1)
-                self.logger.info("🔄 alert 처리 후 브라우저 상태 초기화 완료")
-                return True
+                self.logger.info("🔄 alert 처리 후 브라우저 상태 초기화 완룜")
             except Exception as nav_error:
                 self.logger.warning(f"페이지 이동 실패, 대체 방법 시도: {nav_error}")
                 # 대체 방법: 현재 페이지 새로고침
                 try:
                     self.driver.refresh()
                     time.sleep(1)
-                    return True
                 except:
-                    return False
-                    
+                    pass
+
         except Exception as reset_error:
             self.logger.warning(f"브라우저 초기화 중 예외: {reset_error}")
-            return False
 
     def _handle_buddy_message(self):
         """서로이웃 메시지 입력 처리"""
@@ -321,6 +316,15 @@ class BuddyManager:
                 btn_area = self.driver.find_element(By.CLASS_NAME, "btn_area")
                 self.logger.info(
                     f"btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: {blog_id}")
+                # btn_area 내부의 첫번째 a태그 찾기
+                a_tags = btn_area.find_elements(By.TAG_NAME, "a")
+                if not a_tags:
+                    raise NoSuchElementException(
+                        f"btn_area 내부에 a태그가 없음: {blog_id}")
+
+                first_a_tag = a_tags[0]
+                self.logger.info(
+                    f"btn_area 내부 첫번째 a태그 발견 (총 {len(a_tags)}개): {blog_id}")
 
                 # 이웃추가 버튼 클릭 재시도 로직 (최대 3번)
                 max_click_attempts = 3
@@ -330,20 +334,25 @@ class BuddyManager:
                     self.logger.info(
                         f"이웃추가 버튼 클릭 시도 {attempt + 1}/{max_click_attempts}: {blog_id}")
 
-                    # 요소가 화면에 보이도록 스크롤
                     self.driver.execute_script(
-                        "arguments[0].scrollIntoView({block: 'center'});", btn_area)
+                        "arguments[0].scrollIntoView({block: 'center'});", first_a_tag)
                     time.sleep(0.5)
 
-                    # 마우스 움직임과 클릭
-                    actions = ActionChains(self.driver)
-                    actions.move_to_element(btn_area).pause(
-                        0.5).click().perform()
+                    # 첫번째 a태그 직접 클릭
+                    first_a_tag.click()
                     time.sleep(1)  # 팝업 열리기 대기 시간
 
                     # 알림창 또는 팝업 처리
-                    if self._handle_alerts():
-                        time.sleep(0.5)
+                    alert_handled = self._handle_alerts()
+                    if alert_handled:
+                        self.logger.info(
+                            f"❌ [{blog_id}] 이미 서로이웃 신청이 진행중입니다 - 다음 블로그로 이동")
+                        self.buddy_available = False  # 서로이웃 추가 불가능으로 설정
+                        # iframe에서 나가기
+                        self.driver.switch_to.default_content()
+                        return False
+
+                    time.sleep(0.5)
 
                     # 팝업창이 열렸는지 확인 (새 창 또는 URL 변경)
                     if len(self.driver.window_handles) > 1 or "BuddyAdd.naver" in self.driver.current_url:

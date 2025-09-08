@@ -20,7 +20,7 @@
   "test_key": "test_value",
   "loading_method": "keyword",
   "search_keyword": "잠실 맛집",
-  "neighbor_collection_count": 10,
+  "neighbor_collection_count": 5,
   "collected_blogs": [
     {
       "blog_name": "hellenpark1",
@@ -36,6 +36,6 @@
     }
   ],
   "start_page": 1,
-  "base_blog_url": "https://blog.naver.com/jooys09",
+  "base_blog_url": "잠실 맛집",
   "neighbor_count": 10
 }
