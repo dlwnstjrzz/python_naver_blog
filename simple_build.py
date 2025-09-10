@@ -7,10 +7,16 @@ import subprocess
 import sys
 import os
 
+# Windows 콘솔 인코딩 설정
+if sys.platform == "win32":
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.detach())
+
 def build_exe():
     """간단한 방식으로 exe 빌드"""
     
-    print("🚀 간단한 방식으로 exe 파일 빌드 시작...")
+    print("Building exe file...")
     
     cmd = [
         'pyinstaller',
@@ -34,13 +40,13 @@ def build_exe():
     ]
     
     try:
-        print(f"실행 명령어: {' '.join(cmd)}")
+        print(f"Command: {' '.join(cmd)}")
         result = subprocess.run(cmd, check=True)
-        print("✅ 빌드 성공!")
-        print("📁 dist/NaverBlogAutomation 폴더에서 실행 파일을 확인하세요.")
+        print("Build successful!")
+        print("Check dist/NaverBlogAutomation folder for executable.")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"❌ 빌드 실패: {e}")
+        print(f"Build failed: {e}")
         return False
 
 if __name__ == "__main__":
