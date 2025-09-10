@@ -11,7 +11,7 @@ try:
                                  QHBoxLayout, QLabel, QLineEdit, QPushButton,
                                  QTextEdit, QRadioButton, QGroupBox, QGridLayout,
                                  QTabWidget, QMessageBox, QProgressBar, QSpinBox,
-                                 QButtonGroup)
+                                 QButtonGroup, QCheckBox, QInputDialog, QProgressDialog)
     from PyQt5.QtCore import Qt, QThread, pyqtSignal, QTimer
     from PyQt5.QtGui import QFont, QIcon
 except ImportError:
@@ -24,6 +24,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
 if project_root not in sys.path:
     sys.path.append(project_root)
+
+# 추출된 ID 관리 창 import
+from gui.extracted_ids_window import ExtractedIdsWindow
 
 
 class AutomationWorker(QThread):
@@ -73,8 +76,12 @@ class AutomationWorker(QThread):
                     return
 
                 # 설정값 가져오기
-                target_count = self.config_manager.get('neighbor_collection_count', 10)
+                target_count = self.config_manager.get('neighbor_collection_count')
                 start_page = self.config_manager.get('start_page', 1)
+                
+                if target_count is None:
+                    self.error_occurred.emit("수집 개수가 설정되지 않았습니다. 키워드 검색 탭에서 수집 개수를 설정해주세요.")
+                    return
                 
                 self.progress_updated.emit(f"블로그 검색 중... (키워드: {keyword})")
                 collected_blogs = self.blog_automation.search_and_collect_blogs(
@@ -87,14 +94,14 @@ class AutomationWorker(QThread):
                 self.progress_updated.emit(
                     f"✅ 블로그 검색 및 수집 완료: {len(collected_blogs)}개")
 
-                # 4. 서로이웃 추가
-                self.progress_updated.emit("서로이웃 추가 시작...")
+                # 4. 서로이웃 추가 (키워드 검색은 모바일 방식)
+                self.progress_updated.emit("모바일 서로이웃 추가 시작...")
 
                 def progress_callback(current, total, blog_name):
                     self.progress_updated.emit(
                         f"[{current}/{total}] {blog_name} 처리 중...")
 
-                success_count, total_count = self.blog_automation.process_blog_automation(
+                success_count, total_count = self.blog_automation.process_keyword_blog_automation(
                     collected_blogs, progress_callback)
                 
                 # 자동화 완료 후 브라우저 정리
@@ -141,8 +148,8 @@ class AutomationWorker(QThread):
                 if len(blog_names) > 10:
                     self.progress_updated.emit(f"📋 총 {len(blog_names)}개 블로그 수집 완료")
 
-                # 4. 서로이웃 추가
-                self.progress_updated.emit("서로이웃 추가 시작...")
+                # 4. 서로이웃 추가 (모바일 방식)
+                self.progress_updated.emit("모바일 서로이웃 추가 시작...")
 
                 def progress_callback(current, total, blog_name):
                     self.progress_updated.emit(
@@ -224,7 +231,22 @@ class MainWindow(QMainWindow):
         self.save_button.setFont(save_font)
         self.save_button.clicked.connect(self.save_settings)
 
+        # 추출한 유저 보기 버튼 추가
+        self.view_extracted_users_btn = QPushButton("추출한 유저 보기")
+        self.view_extracted_users_btn.setMinimumHeight(60)
+        self.view_extracted_users_btn.setFont(save_font)
+        self.view_extracted_users_btn.clicked.connect(self.show_extracted_users)
+        
+        # 서이추 신청 자동 취소 버튼 추가
+        self.auto_cancel_btn = QPushButton("서이추 신청 자동 취소")
+        self.auto_cancel_btn.setMinimumHeight(60)
+        self.auto_cancel_btn.setFont(save_font)
+        self.auto_cancel_btn.clicked.connect(self.start_auto_cancel)
+        self.auto_cancel_btn.setStyleSheet("QPushButton { background-color: #ff6b6b; color: white; }")
+
         button_layout.addStretch()
+        button_layout.addWidget(self.view_extracted_users_btn)
+        button_layout.addWidget(self.auto_cancel_btn)
         button_layout.addWidget(self.save_button)
 
         main_layout.addLayout(button_layout)
@@ -343,7 +365,7 @@ class MainWindow(QMainWindow):
         self.neighbor_count_spin.setFont(font_30px)
         self.neighbor_count_spin.setMinimumHeight(50)  # 스핀박스 높이 증가
         self.neighbor_count_spin.setRange(1, 1000)
-        self.neighbor_count_spin.setValue(20)
+        self.neighbor_count_spin.setValue(10)
         connect_layout.addWidget(self.neighbor_count_spin, 1, 1)
 
         layout.addWidget(self.connect_group)
@@ -390,37 +412,68 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(message_group)
 
-        # 댓글 옵션 그룹
-        comment_group = QGroupBox("댓글 옵션")
+        # 공감/댓글 옵션 그룹
+        interaction_group = QGroupBox("공감/댓글 옵션")
         font_30px = QFont()
         font_30px.setPointSize(22)  # 22pt ≈ 30px
-        comment_group.setFont(font_30px)
-        comment_layout = QVBoxLayout(comment_group)
-        comment_layout.setContentsMargins(20, 20, 20, 20)  # 그룹 내부 여백
-        comment_layout.setSpacing(10)  # 그룹 내 요소간 간격
+        interaction_group.setFont(font_30px)
+        interaction_layout = QVBoxLayout(interaction_group)
+        interaction_layout.setContentsMargins(20, 20, 20, 20)  # 그룹 내부 여백
+        interaction_layout.setSpacing(15)  # 그룹 내 요소간 간격
 
-        self.comment_group = QButtonGroup()
+        # 공감 체크박스
+        self.like_checkbox = QCheckBox("공감하기")
+        self.like_checkbox.setFont(font_30px)
+        self.like_checkbox.setChecked(True)  # 기본값 True
+        interaction_layout.addWidget(self.like_checkbox)
 
+        # 댓글 체크박스
+        self.comment_checkbox = QCheckBox("댓글 작성")
+        self.comment_checkbox.setFont(font_30px)
+        self.comment_checkbox.setChecked(True)  # 기본값 True
+        self.comment_checkbox.toggled.connect(self.on_comment_checkbox_toggled)
+        interaction_layout.addWidget(self.comment_checkbox)
+
+        # 댓글 세부 옵션 그룹 (댓글 체크박스가 체크된 경우에만 표시)
+        self.comment_detail_group = QGroupBox("댓글 세부 옵션")
+        self.comment_detail_group.setFont(font_30px)
+        comment_detail_layout = QVBoxLayout(self.comment_detail_group)
+        comment_detail_layout.setContentsMargins(15, 15, 15, 15)
+        comment_detail_layout.setSpacing(10)
+
+        # 댓글 타입 라디오 버튼
+        self.comment_type_group = QButtonGroup()
+        
         self.ai_radio = QRadioButton("AI 댓글")
         self.ai_radio.setFont(font_30px)
         self.ai_radio.setChecked(True)
-        self.comment_group.addButton(self.ai_radio, 0)
-        comment_layout.addWidget(self.ai_radio)
+        self.ai_radio.toggled.connect(self.on_ai_comment_toggled)
+        self.comment_type_group.addButton(self.ai_radio, 0)
+        comment_detail_layout.addWidget(self.ai_radio)
+
+        # AI 댓글용 Gemini API 키 입력칸
+        self.gemini_api_layout = QHBoxLayout()
+        self.gemini_api_label = QLabel("Gemini API 키:")
+        self.gemini_api_label.setFont(font_30px)
+        self.gemini_api_layout.addWidget(self.gemini_api_label)
+        
+        self.gemini_api_edit = QLineEdit()
+        self.gemini_api_edit.setFont(font_30px)
+        self.gemini_api_edit.setPlaceholderText("Gemini API 키를 입력하세요...")
+        self.gemini_api_edit.setEchoMode(QLineEdit.Password)  # 비밀번호처럼 숨김 처리
+        self.gemini_api_layout.addWidget(self.gemini_api_edit)
+        
+        comment_detail_layout.addLayout(self.gemini_api_layout)
 
         self.random_radio = QRadioButton("랜덤 멘트")
         self.random_radio.setFont(font_30px)
-        self.comment_group.addButton(self.random_radio, 1)
-        comment_layout.addWidget(self.random_radio)
-
-        self.none_radio = QRadioButton("작성 안함")
-        self.none_radio.setFont(font_30px)
-        self.comment_group.addButton(self.none_radio, 2)
-        comment_layout.addWidget(self.none_radio)
+        self.comment_type_group.addButton(self.random_radio, 1)
+        comment_detail_layout.addWidget(self.random_radio)
 
         # 랜덤 댓글 입력창
         random_label = QLabel("랜덤 댓글 목록 ({nickname} 사용 가능):")
         random_label.setFont(font_30px)
-        comment_layout.addWidget(random_label)
+        comment_detail_layout.addWidget(random_label)
         self.random_comments_edit = QTextEdit()
         self.random_comments_edit.setFont(font_30px)
         self.random_comments_edit.setMaximumHeight(120)
@@ -432,9 +485,15 @@ class MainWindow(QMainWindow):
             "항상 좋은 글 감사드려요 {nickname}님^^"
         ]
         self.random_comments_edit.setText('\n'.join(default_comments))
-        comment_layout.addWidget(self.random_comments_edit)
+        comment_detail_layout.addWidget(self.random_comments_edit)
 
-        layout.addWidget(comment_group)
+        # 비밀댓글 체크박스 추가
+        self.secret_comment_checkbox = QCheckBox("비밀댓글 달기")
+        self.secret_comment_checkbox.setFont(font_30px)
+        comment_detail_layout.addWidget(self.secret_comment_checkbox)
+
+        interaction_layout.addWidget(self.comment_detail_group)
+        layout.addWidget(interaction_group)
 
         # 체류 시간 그룹
         wait_group = QGroupBox("체류 시간")
@@ -545,14 +604,14 @@ class MainWindow(QMainWindow):
             self.keyword_edit.setText(
                 self.config_manager.get('search_keyword', ''))
             self.collection_count_spin.setValue(
-                self.config_manager.get('neighbor_collection_count', 10))
+                self.config_manager.get('neighbor_collection_count') or 10)
             self.start_page_spin.setValue(
                 self.config_manager.get('start_page', 1))
 
             self.base_blog_edit.setText(
                 self.config_manager.get('base_blog_url', ''))
             self.neighbor_count_spin.setValue(
-                self.config_manager.get('neighbor_count', 20))
+                self.config_manager.get('neighbor_count') or 10)
             
             # 방식에 따라 해당 그룹 표시
             self.on_method_changed()
@@ -561,20 +620,36 @@ class MainWindow(QMainWindow):
             self.neighbor_message_edit.setText(self.config_manager.get(
                 'neighbor_message', '안녕하세요! {nickname}님 서로이웃 해요!'))
 
-            comment_option = self.config_manager.get('comment_option', 'ai')
-            if comment_option == 'ai':
+            # 공감/댓글 체크박스 설정
+            self.like_checkbox.setChecked(
+                self.config_manager.get('enable_like', True))
+            self.comment_checkbox.setChecked(
+                self.config_manager.get('enable_comment', True))
+            
+            # 댓글 타입 설정
+            comment_type = self.config_manager.get('comment_type', 'ai')
+            if comment_type == 'ai':
                 self.ai_radio.setChecked(True)
-            elif comment_option == 'random':
+            else:  # 'random'
                 self.random_radio.setChecked(True)
-            else:
-                self.none_radio.setChecked(True)
 
             random_comments = self.config_manager.get('random_comments', [])
             if random_comments:
                 self.random_comments_edit.setText('\n'.join(random_comments))
 
+            # 비밀댓글 옵션
+            self.secret_comment_checkbox.setChecked(
+                self.config_manager.get('secret_comment', False))
+
+            # Gemini API 키 로드
+            self.gemini_api_edit.setText(
+                self.config_manager.get('gemini_api_key', ''))
+
             self.wait_time_spin.setValue(
                 self.config_manager.get('wait_time', 0))
+
+            # 체크박스 토글 상태 업데이트
+            self.on_comment_checkbox_toggled()
 
             self.update_status()
 
@@ -623,6 +698,12 @@ class MainWindow(QMainWindow):
                 line.strip() for line in random_comments_text.split('\n') if line.strip()]
             self.config_manager.set('random_comments', random_comments)
 
+            # 비밀댓글 옵션
+            self.config_manager.set('secret_comment', self.secret_comment_checkbox.isChecked())
+
+            # Gemini API 키
+            self.config_manager.set('gemini_api_key', self.gemini_api_edit.text().strip())
+
             self.config_manager.set('wait_time', self.wait_time_spin.value())
 
             # 설정 저장
@@ -656,18 +737,24 @@ class MainWindow(QMainWindow):
         # 상세 설정
         self.config_manager.set('neighbor_message', self.neighbor_message_edit.toPlainText().strip())
 
-        if self.ai_radio.isChecked():
-            comment_option = 'ai'
-        elif self.random_radio.isChecked():
-            comment_option = 'random'
-        else:
-            comment_option = 'none'
-        self.config_manager.set('comment_option', comment_option)
+        # 공감/댓글 체크박스 설정
+        self.config_manager.set('enable_like', self.like_checkbox.isChecked())
+        self.config_manager.set('enable_comment', self.comment_checkbox.isChecked())
+        
+        # 댓글 타입 설정
+        comment_type = 'ai' if self.ai_radio.isChecked() else 'random'
+        self.config_manager.set('comment_type', comment_type)
 
         # 랜덤 댓글
         random_comments_text = self.random_comments_edit.toPlainText().strip()
         random_comments = [line.strip() for line in random_comments_text.split('\n') if line.strip()]
         self.config_manager.set('random_comments', random_comments)
+
+        # 비밀댓글 옵션
+        self.config_manager.set('secret_comment', self.secret_comment_checkbox.isChecked())
+
+        # Gemini API 키
+        self.config_manager.set('gemini_api_key', self.gemini_api_edit.text().strip())
 
         self.config_manager.set('wait_time', self.wait_time_spin.value())
 
@@ -689,13 +776,125 @@ class MainWindow(QMainWindow):
 
         if method == 'keyword':
             status_text += f"검색 키워드: {keyword if keyword else '미설정'}\n"
-            status_text += f"수집 개수: {self.config_manager.get('neighbor_collection_count', 10)}개"
+            collection_count = self.config_manager.get('neighbor_collection_count')
+            status_text += f"수집 개수: {collection_count if collection_count else '미설정'}개"
         else:
             base_url = self.config_manager.get('base_blog_url', '')
             status_text += f"기준 블로그: {base_url if base_url else '미설정'}\n"
-            status_text += f"이웃 개수: {self.config_manager.get('neighbor_count', 20)}개"
+            neighbor_count = self.config_manager.get('neighbor_count')
+            status_text += f"이웃 개수: {neighbor_count if neighbor_count else '미설정'}개"
 
         self.status_label.setText(status_text)
+
+    def show_extracted_users(self):
+        """추출된 유저 관리 창 표시"""
+        try:
+            extracted_ids_window = ExtractedIdsWindow(self)
+            extracted_ids_window.exec_()
+        except Exception as e:
+            QMessageBox.critical(self, "오류", f"추출된 유저 창을 여는 중 오류가 발생했습니다:\n{str(e)}")
+    
+    def start_auto_cancel(self):
+        """서이추 신청 자동 취소 시작"""
+        try:
+            # 네이버 아이디 확인
+            naver_id = self.config_manager.get('naver_id', '').strip()
+            if not naver_id:
+                QMessageBox.warning(self, "경고", "네이버 아이디가 설정되지 않았습니다.\n계정 설정을 먼저 해주세요.")
+                return
+            
+            # 페이지 선택 다이얼로그 표시
+            pages, ok = QInputDialog.getInt(self, "페이지 선택", 
+                                          "뒤에서부터 몇 페이지를 취소할까요?", 
+                                          value=1, min=1, max=50)
+            
+            if not ok:
+                return
+            
+            # 확인 다이얼로그
+            reply = QMessageBox.question(self, "확인", 
+                                       f"뒤에서부터 {pages}페이지의 서이추 신청을 모두 취소하시겠습니까?\n이 작업은 취소할 수 없습니다.", 
+                                       QMessageBox.Yes | QMessageBox.No)
+            
+            if reply == QMessageBox.Yes:
+                self.execute_auto_cancel(naver_id, pages)
+                
+        except Exception as e:
+            QMessageBox.critical(self, "오류", f"자동 취소 시작 중 오류가 발생했습니다:\n{str(e)}")
+    
+    def execute_auto_cancel(self, naver_id, pages):
+        """서이추 신청 자동 취소 실행"""
+        try:
+            # 프로그레스 다이얼로그 생성
+            progress = QProgressDialog(f"{pages}페이지 서이추 신청 취소 중...", "취소", 0, pages, self)
+            progress.setWindowTitle("서이추 신청 취소")
+            progress.setWindowModality(Qt.WindowModal)
+            progress.show()
+            
+            # 블로그 자동화 인스턴스 생성
+            from automation.blog_automation import BlogAutomation
+            automation = BlogAutomation(headless=False)
+            
+            if not automation.setup_driver():
+                QMessageBox.critical(self, "오류", "브라우저 설정에 실패했습니다.")
+                return
+            
+            # 네이버 로그인
+            naver_password = self.config_manager.get('naver_password', '')
+            if not automation.login(naver_id, naver_password):
+                QMessageBox.critical(self, "오류", "네이버 로그인에 실패했습니다.")
+                automation.close()
+                return
+            
+            # 서이추 신청 취소 실행
+            from automation.buddy_cancel_manager import BuddyCancelManager
+            cancel_manager = BuddyCancelManager(automation.get_driver(), automation.logger)
+            
+            success_count = 0
+            for page_num in range(pages):
+                if progress.wasCanceled():
+                    break
+                    
+                progress.setValue(page_num)
+                progress.setLabelText(f"페이지 {page_num + 1}/{pages} 취소 중...")
+                
+                if cancel_manager.cancel_buddy_requests_page(naver_id):
+                    success_count += 1
+                
+            progress.setValue(pages)
+            automation.close()
+            
+            # 결과 메시지
+            QMessageBox.information(self, "완료", 
+                                  f"서이추 신청 취소 완료!\n{success_count}/{pages}페이지 성공")
+            
+        except Exception as e:
+            QMessageBox.critical(self, "오류", f"자동 취소 실행 중 오류가 발생했습니다:\n{str(e)}")
+            try:
+                automation.close()
+            except:
+                pass
+
+    def on_comment_checkbox_toggled(self):
+        """댓글 체크박스 상태 변경 시 호출"""
+        is_comment_enabled = self.comment_checkbox.isChecked()
+        
+        # 댓글 체크박스가 체크된 경우에만 세부 옵션 표시
+        self.comment_detail_group.setVisible(is_comment_enabled)
+        
+        # AI 댓글이 선택되었고 댓글이 활성화된 경우에만 API 키 입력칸 표시
+        if is_comment_enabled:
+            self.on_ai_comment_toggled()
+
+    def on_ai_comment_toggled(self):
+        """AI 댓글 라디오 버튼 상태 변경 시 호출"""
+        is_ai_selected = self.ai_radio.isChecked()
+        is_comment_enabled = self.comment_checkbox.isChecked()
+        
+        # AI 댓글이 선택되고 댓글이 활성화된 경우에만 Gemini API 키 입력칸 표시
+        show_api_key = is_ai_selected and is_comment_enabled
+        self.gemini_api_label.setVisible(show_api_key)
+        self.gemini_api_edit.setVisible(show_api_key)
 
     def toggle_automation(self):
         """자동화 시작/중지"""

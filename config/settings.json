@@ -4,7 +4,7 @@
   "search_keywords": [],
   "blog_count": 10,
   "neighbor_message": "안녕하세요! {nickname}님 서로이웃 해요!",
-  "comment_option": "random",
+  "comment_option": "ai",
   "random_comments": [
     "좋은 글 잘 읽었어요! {nickname}님",
     "유익한 정보 감사해요~ {nickname}님!",
@@ -12,15 +12,15 @@
     "오늘도 좋은 하루 되세요 {nickname}님!",
     "항상 좋은 글 감사드려요 {nickname}님^^"
   ],
-  "wait_time": 0,
+  "wait_time": 6,
   "scroll_settings": {
     "scroll_count": 3,
     "scroll_delay": 2
   },
   "test_key": "test_value",
   "loading_method": "keyword",
-  "search_keyword": "잠실 맛집",
-  "neighbor_collection_count": 5,
+  "search_keyword": "송리단길 맛집",
+  "neighbor_collection_count": 10,
   "collected_blogs": [
     {
       "blog_name": "hellenpark1",
@@ -36,6 +36,11 @@
     }
   ],
   "start_page": 1,
-  "base_blog_url": "잠실 맛집",
-  "neighbor_count": 10
+  "base_blog_url": "https://blog.naver.com/3c_diary",
+  "neighbor_count": 50,
+  "secret_comment": true,
+  "gemini_api_key": "AIzaSyCcW8fAIvjygRzpXp7_WE5oAA5mFMbkC_Q",
+  "enable_like": true,
+  "enable_comment": false,
+  "comment_type": "ai"
 }

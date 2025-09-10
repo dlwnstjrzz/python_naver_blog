@@ -1455,3 +1455,1449 @@ Stacktrace:
 2025-09-07 22:29:06 - naver_blog_automation - INFO - 블로그 처리 완료: 0/20 성공
 2025-09-07 22:29:06 - naver_blog_automation - INFO - 🔄 자동화 완료, 브라우저 정리 중...
 2025-09-07 22:29:06 - naver_blog_automation - INFO - ✅ 브라우저 드라이버 정리 완료
+2025-09-07 22:35:45 - naver_blog_automation - INFO - Chrome 드라이버 및 모든 모듈이 성공적으로 초기화되었습니다.
+2025-09-07 22:35:45 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-07 22:35:45 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-07 22:35:48 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-07 22:35:48 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-07 22:35:49 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-07 22:35:49 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-07 22:35:49 - naver_blog_automation - INFO - 블로그 아이디 추출 완료: jooys09
+2025-09-07 22:35:49 - naver_blog_automation - INFO - 이웃커넥트 페이지 접속: https://section.blog.naver.com/connect/ViewMoreFollowers.naver?blogId=jooys09&widgetSeq=1
+2025-09-07 22:35:51 - naver_blog_automation - INFO - 이웃커넥트 목록 발견: jooys09
+2025-09-07 22:35:51 - naver_blog_automation - INFO - 발견된 이웃 수: 20
+2025-09-07 22:35:51 - naver_blog_automation - INFO - 총 20개의 블로그 URL을 수집했습니다.
+2025-09-07 22:35:51 - naver_blog_automation - INFO - 총 20개 블로그 처리를 시작합니다.
+2025-09-07 22:35:51 - naver_blog_automation - INFO - [1/20] lepnceocjd3003 블로그 처리 중...
+2025-09-07 22:35:51 - naver_blog_automation - INFO - 🔄 [lepnceocjd3003] 서로이웃 추가 시작...
+2025-09-07 22:35:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: lepnceocjd3003
+2025-09-07 22:35:52 - naver_blog_automation - INFO - iframe 내부로 전환: lepnceocjd3003
+2025-09-07 22:35:53 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: lepnceocjd3003
+2025-09-07 22:35:53 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: lepnceocjd3003
+2025-09-07 22:35:55 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): lepnceocjd3003
+2025-09-07 22:35:55 - naver_blog_automation - INFO - 🔄 [lepnceocjd3003] 팝업창 확인 및 처리 중...
+2025-09-07 22:35:56 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:35:57 - naver_blog_automation - INFO - 🔄 [lepnceocjd3003] 서로이웃 선택 완료
+2025-09-07 22:35:57 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 알림창 감지: 서로이웃 신청 진행중입니다.
+2025-09-07 22:35:58 - naver_blog_automation - INFO - ❌ 이미 서로이웃 신청이 진행중입니다 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 현재 열린 창 개수: 1
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - 페이지 이동 실패, 대체 방법 시도: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - INFO - ❌ [lepnceocjd3003] 팝업창 없음 또는 처리 실패
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ lepnceocjd3003 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [2/20] jijibae98 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [jijibae98] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: jijibae98
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (jijibae98): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ jijibae98 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [3/20] qny123 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [qny123] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: qny123
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (qny123): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ qny123 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [4/20] laundrytalk 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [laundrytalk] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: laundrytalk
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (laundrytalk): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ laundrytalk 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [5/20] zc7989 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [zc7989] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: zc7989
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (zc7989): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ zc7989 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [6/20] gangnyeongi 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [gangnyeongi] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: gangnyeongi
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (gangnyeongi): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ gangnyeongi 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [7/20] yar1556 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [yar1556] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: yar1556
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (yar1556): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ yar1556 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [8/20] r3722004r 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [r3722004r] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: r3722004r
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (r3722004r): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ r3722004r 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [9/20] birthday2_1 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [birthday2_1] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: birthday2_1
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (birthday2_1): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ birthday2_1 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [10/20] xinchaomuine 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [xinchaomuine] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: xinchaomuine
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (xinchaomuine): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ xinchaomuine 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [11/20] jangjw0801 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [jangjw0801] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: jangjw0801
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (jangjw0801): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ jangjw0801 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [12/20] rebornspace_ 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [rebornspace_] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: rebornspace_
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (rebornspace_): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ rebornspace_ 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [13/20] slowyoon 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [slowyoon] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: slowyoon
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (slowyoon): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ slowyoon 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [14/20] ltb6266 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [ltb6266] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: ltb6266
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (ltb6266): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ ltb6266 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [15/20] tlatjgml00 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [tlatjgml00] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: tlatjgml00
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (tlatjgml00): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ tlatjgml00 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [16/20] soonicafe 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [soonicafe] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: soonicafe
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (soonicafe): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ soonicafe 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [17/20] tjdwls6642 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [tjdwls6642] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: tjdwls6642
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (tjdwls6642): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ tjdwls6642 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [18/20] bigmade0425 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [bigmade0425] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: bigmade0425
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (bigmade0425): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ bigmade0425 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [19/20] soahh- 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [soahh-] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: soahh-
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (soahh-): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ soahh- 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - [20/20] sambuja5892 블로그 처리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 [sambuja5892] 서로이웃 추가 시작...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: sambuja5892
+2025-09-07 22:35:58 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (sambuja5892): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000102668c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000102660b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001021a90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102182ea0 chromedriver + 143008
+4   chromedriver                        0x00000001022186f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001022314fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001021e4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010262b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010262eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010260c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010262f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x00000001025fd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010264f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010264f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010266076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:35:58 - naver_blog_automation - WARNING - ❌ sambuja5892 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 블로그 처리 완료: 0/20 성공
+2025-09-07 22:35:58 - naver_blog_automation - INFO - 🔄 자동화 완료, 브라우저 정리 중...
+2025-09-07 22:35:58 - naver_blog_automation - INFO - ✅ 브라우저 드라이버 정리 완료
+2025-09-07 22:40:37 - naver_blog_automation - INFO - Chrome 드라이버 및 모든 모듈이 성공적으로 초기화되었습니다.
+2025-09-07 22:40:37 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-07 22:40:37 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-07 22:40:40 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-07 22:40:40 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-07 22:40:41 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-07 22:40:41 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-07 22:40:41 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-07 22:40:41 - naver_blog_automation - INFO - 키워드 검색: 철산 맛집
+2025-09-07 22:40:43 - naver_blog_automation - INFO - 키워드 '철산 맛집' 검색 완료
+2025-09-07 22:40:44 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10, 시작 페이지: 4
+2025-09-07 22:40:44 - naver_blog_automation - INFO - 페이지 4로 직접 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=4&rangeType=ALL&orderBy=sim&keyword=%EC%B2%A0%EC%82%B0%20%EB%A7%9B%EC%A7%91
+2025-09-07 22:40:45 - naver_blog_automation - INFO - 페이지 4에서 블로그 수집 중...
+2025-09-07 22:40:46 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-07 22:40:46 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-07 22:40:46 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-07 22:40:46 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-07 22:40:46 - naver_blog_automation - INFO - 페이지 5로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=5&rangeType=ALL&orderBy=sim&keyword=%EC%B2%A0%EC%82%B0%20%EB%A7%9B%EC%A7%91
+2025-09-07 22:40:47 - naver_blog_automation - INFO - 페이지 5에서 블로그 수집 중...
+2025-09-07 22:40:47 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-07 22:40:47 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-07 22:40:48 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-07 22:40:48 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-07 22:40:48 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 10개
+2025-09-07 22:40:48 - naver_blog_automation - INFO - 총 10개 블로그 처리를 시작합니다.
+2025-09-07 22:40:48 - naver_blog_automation - INFO - [1/10] mjh0712 블로그 처리 중...
+2025-09-07 22:40:48 - naver_blog_automation - INFO - 🔄 [mjh0712] 서로이웃 추가 시작...
+2025-09-07 22:40:48 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: mjh0712
+2025-09-07 22:40:51 - naver_blog_automation - INFO - iframe 내부로 전환: mjh0712
+2025-09-07 22:40:51 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: mjh0712
+2025-09-07 22:40:51 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: mjh0712
+2025-09-07 22:40:53 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): mjh0712
+2025-09-07 22:40:53 - naver_blog_automation - INFO - 🔄 [mjh0712] 팝업창 확인 및 처리 중...
+2025-09-07 22:40:54 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:40:55 - naver_blog_automation - INFO - ❌ [mjh0712] 서로이웃 비활성화됨 (disabled 속성), 다음 아이디로 이동
+2025-09-07 22:40:55 - naver_blog_automation - INFO - ❌ [mjh0712] 팝업창 없음 또는 처리 실패
+2025-09-07 22:40:55 - naver_blog_automation - WARNING - ❌ mjh0712 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:40:55 - naver_blog_automation - INFO - [2/10] eumjeongoh 블로그 처리 중...
+2025-09-07 22:40:55 - naver_blog_automation - INFO - 🔄 [eumjeongoh] 서로이웃 추가 시작...
+2025-09-07 22:40:55 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: eumjeongoh
+2025-09-07 22:40:58 - naver_blog_automation - INFO - iframe 내부로 전환: eumjeongoh
+2025-09-07 22:40:58 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: eumjeongoh
+2025-09-07 22:40:58 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: eumjeongoh
+2025-09-07 22:41:01 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 1): eumjeongoh
+2025-09-07 22:41:01 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 2/3: eumjeongoh
+2025-09-07 22:41:04 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 2): eumjeongoh
+2025-09-07 22:41:04 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 3/3: eumjeongoh
+2025-09-07 22:41:06 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 3): eumjeongoh
+2025-09-07 22:41:06 - naver_blog_automation - ERROR - 이웃추가 버튼 클릭 3번 시도했으나 팝업창이 열리지 않음: eumjeongoh
+2025-09-07 22:41:06 - naver_blog_automation - WARNING - ❌ eumjeongoh 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:06 - naver_blog_automation - INFO - [3/10] 2ndist 블로그 처리 중...
+2025-09-07 22:41:06 - naver_blog_automation - INFO - 🔄 [2ndist] 서로이웃 추가 시작...
+2025-09-07 22:41:06 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: 2ndist
+2025-09-07 22:41:08 - naver_blog_automation - INFO - iframe 내부로 전환: 2ndist
+2025-09-07 22:41:08 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: 2ndist
+2025-09-07 22:41:08 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: 2ndist
+2025-09-07 22:41:11 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): 2ndist
+2025-09-07 22:41:11 - naver_blog_automation - INFO - 🔄 [2ndist] 팝업창 확인 및 처리 중...
+2025-09-07 22:41:12 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:41:12 - naver_blog_automation - INFO - 🔄 [2ndist] 서로이웃 선택 완료
+2025-09-07 22:41:13 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 알림창 감지: 서로이웃 신청 진행중입니다.
+2025-09-07 22:41:13 - naver_blog_automation - INFO - ❌ 이미 서로이웃 신청이 진행중입니다 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 현재 열린 창 개수: 1
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - 페이지 이동 실패, 대체 방법 시도: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - INFO - ❌ [2ndist] 팝업창 없음 또는 처리 실패
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ 2ndist 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [4/10] buong00 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [buong00] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: buong00
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (buong00): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ buong00 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [5/10] lydia1123 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [lydia1123] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: lydia1123
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (lydia1123): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ lydia1123 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [6/10] happypudding 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [happypudding] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: happypudding
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (happypudding): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ happypudding 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [7/10] sugi033177 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [sugi033177] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: sugi033177
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (sugi033177): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ sugi033177 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [8/10] completed_gom 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [completed_gom] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: completed_gom
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (completed_gom): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ completed_gom 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [9/10] rkgml506 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [rkgml506] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: rkgml506
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (rkgml506): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ rkgml506 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - [10/10] partyaroha 블로그 처리 중...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 [partyaroha] 서로이웃 추가 시작...
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: partyaroha
+2025-09-07 22:41:13 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (partyaroha): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x00000001033f4c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x00000001033ecb20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000102f350c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000102f0eea0 chromedriver + 143008
+4   chromedriver                        0x0000000102fa46f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000102fbd4fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000102f70934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x00000001033b788c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x00000001033baab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000103398510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x00000001033bb360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000103389610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x00000001033db230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001033db3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x00000001033ec76c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:41:13 - naver_blog_automation - WARNING - ❌ partyaroha 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 블로그 처리 완료: 0/10 성공
+2025-09-07 22:41:13 - naver_blog_automation - INFO - 🔄 자동화 완료, 브라우저 정리 중...
+2025-09-07 22:41:14 - naver_blog_automation - INFO - ✅ 브라우저 드라이버 정리 완료
+2025-09-07 22:46:06 - naver_blog_automation - INFO - Chrome 드라이버 및 모든 모듈이 성공적으로 초기화되었습니다.
+2025-09-07 22:46:06 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-07 22:46:06 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-07 22:46:09 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-07 22:46:09 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-07 22:46:10 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-07 22:46:10 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-07 22:46:10 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-07 22:46:11 - naver_blog_automation - INFO - 키워드 검색: 철산 맛집
+2025-09-07 22:46:12 - naver_blog_automation - INFO - 키워드 '철산 맛집' 검색 완료
+2025-09-07 22:46:14 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10, 시작 페이지: 4
+2025-09-07 22:46:14 - naver_blog_automation - INFO - 페이지 4로 직접 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=4&rangeType=ALL&orderBy=sim&keyword=%EC%B2%A0%EC%82%B0%20%EB%A7%9B%EC%A7%91
+2025-09-07 22:46:15 - naver_blog_automation - INFO - 페이지 4에서 블로그 수집 중...
+2025-09-07 22:46:15 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-07 22:46:15 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-07 22:46:16 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-07 22:46:16 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-07 22:46:16 - naver_blog_automation - INFO - 페이지 5로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=5&rangeType=ALL&orderBy=sim&keyword=%EC%B2%A0%EC%82%B0%20%EB%A7%9B%EC%A7%91
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 페이지 5에서 블로그 수집 중...
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 10개
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 총 10개 블로그 처리를 시작합니다.
+2025-09-07 22:46:17 - naver_blog_automation - INFO - [1/10] mjh0712 블로그 처리 중...
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 🔄 [mjh0712] 서로이웃 추가 시작...
+2025-09-07 22:46:17 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: mjh0712
+2025-09-07 22:46:20 - naver_blog_automation - INFO - iframe 내부로 전환: mjh0712
+2025-09-07 22:46:21 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: mjh0712
+2025-09-07 22:46:21 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: mjh0712
+2025-09-07 22:46:23 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): mjh0712
+2025-09-07 22:46:23 - naver_blog_automation - INFO - 🔄 [mjh0712] 팝업창 확인 및 처리 중...
+2025-09-07 22:46:24 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:46:25 - naver_blog_automation - INFO - ❌ [mjh0712] 서로이웃 비활성화됨 (disabled 속성), 다음 아이디로 이동
+2025-09-07 22:46:25 - naver_blog_automation - INFO - ❌ [mjh0712] 팝업창 없음 또는 처리 실패
+2025-09-07 22:46:25 - naver_blog_automation - WARNING - ❌ mjh0712 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:25 - naver_blog_automation - INFO - [2/10] eumjeongoh 블로그 처리 중...
+2025-09-07 22:46:25 - naver_blog_automation - INFO - 🔄 [eumjeongoh] 서로이웃 추가 시작...
+2025-09-07 22:46:25 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: eumjeongoh
+2025-09-07 22:46:26 - naver_blog_automation - INFO - iframe 내부로 전환: eumjeongoh
+2025-09-07 22:46:27 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: eumjeongoh
+2025-09-07 22:46:27 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: eumjeongoh
+2025-09-07 22:46:29 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 1): eumjeongoh
+2025-09-07 22:46:30 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 2/3: eumjeongoh
+2025-09-07 22:46:32 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 2): eumjeongoh
+2025-09-07 22:46:33 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 3/3: eumjeongoh
+2025-09-07 22:46:35 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 3): eumjeongoh
+2025-09-07 22:46:35 - naver_blog_automation - ERROR - 이웃추가 버튼 클릭 3번 시도했으나 팝업창이 열리지 않음: eumjeongoh
+2025-09-07 22:46:35 - naver_blog_automation - WARNING - ❌ eumjeongoh 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:35 - naver_blog_automation - INFO - [3/10] 2ndist 블로그 처리 중...
+2025-09-07 22:46:35 - naver_blog_automation - INFO - 🔄 [2ndist] 서로이웃 추가 시작...
+2025-09-07 22:46:35 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: 2ndist
+2025-09-07 22:46:36 - naver_blog_automation - INFO - iframe 내부로 전환: 2ndist
+2025-09-07 22:46:37 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: 2ndist
+2025-09-07 22:46:37 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: 2ndist
+2025-09-07 22:46:39 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): 2ndist
+2025-09-07 22:46:39 - naver_blog_automation - INFO - 🔄 [2ndist] 팝업창 확인 및 처리 중...
+2025-09-07 22:46:40 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:46:41 - naver_blog_automation - INFO - 🔄 [2ndist] 서로이웃 선택 완료
+2025-09-07 22:46:41 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-07 22:46:42 - naver_blog_automation - INFO - 알림창 감지: 서로이웃 신청 진행중입니다.
+2025-09-07 22:46:42 - naver_blog_automation - INFO - ❌ 이미 서로이웃 신청이 진행중입니다 - 건너뛰기
+2025-09-07 22:46:42 - naver_blog_automation - INFO - 현재 열린 창 개수: 2
+2025-09-07 22:46:42 - naver_blog_automation - WARNING - 팝업창 닫기 실패: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000100900128 cxxbridge1$string$len + 578056
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:43 - naver_blog_automation - INFO - 🔄 alert 처리 후 브라우저 상태 초기화 완료
+2025-09-07 22:46:43 - naver_blog_automation - INFO - ❌ [2ndist] 팝업창 없음 또는 처리 실패
+2025-09-07 22:46:43 - naver_blog_automation - WARNING - ❌ 2ndist 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:43 - naver_blog_automation - INFO - [4/10] buong00 블로그 처리 중...
+2025-09-07 22:46:43 - naver_blog_automation - INFO - 🔄 [buong00] 서로이웃 추가 시작...
+2025-09-07 22:46:43 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: buong00
+2025-09-07 22:46:45 - naver_blog_automation - INFO - iframe 내부로 전환: buong00
+2025-09-07 22:46:45 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: buong00
+2025-09-07 22:46:45 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: buong00
+2025-09-07 22:46:48 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 1): buong00
+2025-09-07 22:46:48 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 2/3: buong00
+2025-09-07 22:46:50 - naver_blog_automation - ERROR - iframe 내부 처리 중 오류: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:50 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (buong00): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ buong00 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - [5/10] lydia1123 블로그 처리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 [lydia1123] 서로이웃 추가 시작...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: lydia1123
+2025-09-07 22:46:51 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (lydia1123): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ lydia1123 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - [6/10] happypudding 블로그 처리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 [happypudding] 서로이웃 추가 시작...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: happypudding
+2025-09-07 22:46:51 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (happypudding): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ happypudding 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - [7/10] sugi033177 블로그 처리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 [sugi033177] 서로이웃 추가 시작...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: sugi033177
+2025-09-07 22:46:51 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (sugi033177): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ sugi033177 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - [8/10] completed_gom 블로그 처리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 [completed_gom] 서로이웃 추가 시작...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: completed_gom
+2025-09-07 22:46:51 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (completed_gom): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ completed_gom 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - [9/10] rkgml506 블로그 처리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 [rkgml506] 서로이웃 추가 시작...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: rkgml506
+2025-09-07 22:46:51 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (rkgml506): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ rkgml506 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - [10/10] partyaroha 블로그 처리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 [partyaroha] 서로이웃 추가 시작...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: partyaroha
+2025-09-07 22:46:51 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (partyaroha): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000100d48c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000100d40b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x00000001008890c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100862ea0 chromedriver + 143008
+4   chromedriver                        0x00000001008f86f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001009114fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x00000001008c4934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x0000000100d0b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000100d0eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000100cec510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000100d0f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000100cdd610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000100d2f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x0000000100d2f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x0000000100d4076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:51 - naver_blog_automation - WARNING - ❌ partyaroha 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 블로그 처리 완료: 0/10 성공
+2025-09-07 22:46:51 - naver_blog_automation - INFO - 🔄 자동화 완료, 브라우저 정리 중...
+2025-09-07 22:46:51 - naver_blog_automation - INFO - ✅ 브라우저 드라이버 정리 완료
+2025-09-07 22:46:55 - naver_blog_automation - INFO - Chrome 드라이버 및 모든 모듈이 성공적으로 초기화되었습니다.
+2025-09-07 22:46:55 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-07 22:46:55 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-07 22:46:57 - naver_blog_automation - ERROR - 직접 타이핑 로그인 실패: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x000000010128cc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101284b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100dcd0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100da6ea0 chromedriver + 143008
+4   chromedriver                        0x0000000100e3c6f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000100e554fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000100e08934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010124f88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000101252ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000101230510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000101253360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000101221610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000101273230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001012733bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010128476c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:57 - naver_blog_automation - INFO - 로그인 시도 2/2
+2025-09-07 22:46:57 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-07 22:46:57 - naver_blog_automation - ERROR - 직접 타이핑 로그인 실패: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x000000010128cc20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101284b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100dcd0c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100da6ea0 chromedriver + 143008
+4   chromedriver                        0x0000000100e3c6f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x0000000100e554fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000100e08934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010124f88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x0000000101252ab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x0000000101230510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x0000000101253360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x0000000101221610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x0000000101273230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x00000001012733bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010128476c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:46:57 - naver_blog_automation - ERROR - 모든 로그인 시도 실패
+2025-09-07 22:47:28 - naver_blog_automation - INFO - Chrome 드라이버 및 모든 모듈이 성공적으로 초기화되었습니다.
+2025-09-07 22:47:28 - naver_blog_automation - INFO - 로그인 시도 1/2
+2025-09-07 22:47:28 - naver_blog_automation - INFO - 직접 타이핑을 통한 로그인 시도...
+2025-09-07 22:47:31 - naver_blog_automation - INFO - 로그인 버튼을 클릭했습니다.
+2025-09-07 22:47:31 - naver_blog_automation - INFO - 로그인 결과를 확인하는 중...
+2025-09-07 22:47:32 - naver_blog_automation - INFO - 로그인 성공!
+2025-09-07 22:47:32 - naver_blog_automation - INFO - 네이버 로그인 완료
+2025-09-07 22:47:32 - naver_blog_automation - INFO - 네이버 블로그 페이지로 이동: https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0
+2025-09-07 22:47:33 - naver_blog_automation - INFO - 키워드 검색: 잠실 맛집
+2025-09-07 22:47:34 - naver_blog_automation - INFO - 키워드 '잠실 맛집' 검색 완료
+2025-09-07 22:47:35 - naver_blog_automation - INFO - 목표 블로그 수집 개수: 10, 시작 페이지: 1
+2025-09-07 22:47:35 - naver_blog_automation - INFO - 페이지 1에서 블로그 수집 중...
+2025-09-07 22:47:36 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-07 22:47:36 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-07 22:47:36 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-07 22:47:36 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 7/10
+2025-09-07 22:47:36 - naver_blog_automation - INFO - 페이지 2로 이동: https://section.blog.naver.com/Search/Post.naver?pageNo=2&rangeType=ALL&orderBy=sim&keyword=%EC%9E%A0%EC%8B%A4%20%EB%A7%9B%EC%A7%91
+2025-09-07 22:47:37 - naver_blog_automation - INFO - 페이지 2에서 블로그 수집 중...
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 페이지 하단까지 스크롤 완료
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 검색된 포스트 개수: 7
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 현재 페이지에서 7개의 블로그 데이터를 추출했습니다.
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 현재까지 수집된 블로그 수: 10/10
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 블로그 데이터 수집 완료: 10개
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 총 10개 블로그 처리를 시작합니다.
+2025-09-07 22:47:38 - naver_blog_automation - INFO - [1/10] beybey1260 블로그 처리 중...
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 🔄 [beybey1260] 서로이웃 추가 시작...
+2025-09-07 22:47:38 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: beybey1260
+2025-09-07 22:47:39 - naver_blog_automation - INFO - iframe 내부로 전환: beybey1260
+2025-09-07 22:47:39 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: beybey1260
+2025-09-07 22:47:39 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: beybey1260
+2025-09-07 22:47:42 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 1): beybey1260
+2025-09-07 22:47:42 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 2/3: beybey1260
+2025-09-07 22:47:44 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 2): beybey1260
+2025-09-07 22:47:45 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 3/3: beybey1260
+2025-09-07 22:47:47 - naver_blog_automation - WARNING - 팝업창 열림 확인 안됨 (시도 3): beybey1260
+2025-09-07 22:47:47 - naver_blog_automation - ERROR - 이웃추가 버튼 클릭 3번 시도했으나 팝업창이 열리지 않음: beybey1260
+2025-09-07 22:47:47 - naver_blog_automation - WARNING - ❌ beybey1260 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:47:47 - naver_blog_automation - INFO - [2/10] nahe0904 블로그 처리 중...
+2025-09-07 22:47:47 - naver_blog_automation - INFO - 🔄 [nahe0904] 서로이웃 추가 시작...
+2025-09-07 22:47:47 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: nahe0904
+2025-09-07 22:47:49 - naver_blog_automation - INFO - iframe 내부로 전환: nahe0904
+2025-09-07 22:47:50 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: nahe0904
+2025-09-07 22:47:50 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: nahe0904
+2025-09-07 22:47:53 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): nahe0904
+2025-09-07 22:47:53 - naver_blog_automation - INFO - 🔄 [nahe0904] 팝업창 확인 및 처리 중...
+2025-09-07 22:47:54 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:47:54 - naver_blog_automation - INFO - ❌ [nahe0904] 서로이웃 비활성화됨 (disabled 속성), 다음 아이디로 이동
+2025-09-07 22:47:54 - naver_blog_automation - INFO - ❌ [nahe0904] 팝업창 없음 또는 처리 실패
+2025-09-07 22:47:54 - naver_blog_automation - WARNING - ❌ nahe0904 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:47:54 - naver_blog_automation - INFO - [3/10] ji_rang 블로그 처리 중...
+2025-09-07 22:47:54 - naver_blog_automation - INFO - 🔄 [ji_rang] 서로이웃 추가 시작...
+2025-09-07 22:47:54 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: ji_rang
+2025-09-07 22:47:55 - naver_blog_automation - INFO - iframe 내부로 전환: ji_rang
+2025-09-07 22:47:56 - naver_blog_automation - INFO - btn_area div 발견, ActionChains 마우스 시뮬레이션으로 클릭: ji_rang
+2025-09-07 22:47:56 - naver_blog_automation - INFO - 이웃추가 버튼 클릭 시도 1/3: ji_rang
+2025-09-07 22:47:58 - naver_blog_automation - INFO - 팝업창 열림 확인됨 (시도 1): ji_rang
+2025-09-07 22:47:58 - naver_blog_automation - INFO - 🔄 [ji_rang] 팝업창 확인 및 처리 중...
+2025-09-07 22:47:59 - naver_blog_automation - INFO - 새 팝업창으로 전환
+2025-09-07 22:47:59 - naver_blog_automation - INFO - 🔄 [ji_rang] 서로이웃 선택 완료
+2025-09-07 22:48:00 - naver_blog_automation - INFO - '다음' 버튼 클릭 성공 (대체 방법)
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 알림창 감지: 서로이웃 신청 진행중입니다.
+2025-09-07 22:48:01 - naver_blog_automation - INFO - ❌ 이미 서로이웃 신청이 진행중입니다 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 브라우저 상태 초기화 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 현재 열린 창 개수: 1
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - 페이지 이동 실패, 대체 방법 시도: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 브라우저 상태 초기화 완료: False
+2025-09-07 22:48:01 - naver_blog_automation - INFO - ❌ [ji_rang] 팝업창 없음 또는 처리 실패
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ ji_rang 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [4/10] todays_lora 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [todays_lora] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: todays_lora
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (todays_lora): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ todays_lora 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [5/10] starryhee11 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [starryhee11] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: starryhee11
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (starryhee11): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ starryhee11 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [6/10] jyjh1203 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [jyjh1203] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: jyjh1203
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (jyjh1203): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ jyjh1203 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [7/10] pucchimoni 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [pucchimoni] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: pucchimoni
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (pucchimoni): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ pucchimoni 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [8/10] nasn_hada 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [nasn_hada] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: nasn_hada
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (nasn_hada): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ nasn_hada 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [9/10] yoojoony14 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [yoojoony14] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: yoojoony14
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (yoojoony14): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ yoojoony14 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - [10/10] cleostar 블로그 처리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 [cleostar] 서로이웃 추가 시작...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 메인 블로그 페이지로 이동: cleostar
+2025-09-07 22:48:01 - naver_blog_automation - ERROR - 서로이웃 추가 중 오류 (cleostar): Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=139.0.7258.157)
+Stacktrace:
+0   chromedriver                        0x0000000101498c20 cxxbridge1$str$ptr + 2747652
+1   chromedriver                        0x0000000101490b20 cxxbridge1$str$ptr + 2714628
+2   chromedriver                        0x0000000100fd90c8 cxxbridge1$string$len + 90536
+3   chromedriver                        0x0000000100fb2ea0 chromedriver + 143008
+4   chromedriver                        0x00000001010486f4 cxxbridge1$string$len + 546772
+5   chromedriver                        0x00000001010614fc cxxbridge1$string$len + 648668
+6   chromedriver                        0x0000000101014934 cxxbridge1$string$len + 334356
+7   chromedriver                        0x000000010145b88c cxxbridge1$str$ptr + 2496880
+8   chromedriver                        0x000000010145eab8 cxxbridge1$str$ptr + 2509724
+9   chromedriver                        0x000000010143c510 cxxbridge1$str$ptr + 2369012
+10  chromedriver                        0x000000010145f360 cxxbridge1$str$ptr + 2511940
+11  chromedriver                        0x000000010142d610 cxxbridge1$str$ptr + 2307828
+12  chromedriver                        0x000000010147f230 cxxbridge1$str$ptr + 2642708
+13  chromedriver                        0x000000010147f3bc cxxbridge1$str$ptr + 2643104
+14  chromedriver                        0x000000010149076c cxxbridge1$str$ptr + 2713680
+15  libsystem_pthread.dylib             0x0000000186f132e4 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000186f0e0fc thread_start + 8
+
+2025-09-07 22:48:01 - naver_blog_automation - WARNING - ❌ cleostar 서로이웃 추가 불가능 - 건너뛰기
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 블로그 처리 완료: 0/10 성공
+2025-09-07 22:48:01 - naver_blog_automation - INFO - 🔄 자동화 완료, 브라우저 정리 중...
+2025-09-07 22:48:01 - naver_blog_automation - INFO - ✅ 브라우저 드라이버 정리 완료
