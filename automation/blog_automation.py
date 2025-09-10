@@ -31,6 +31,9 @@ class BlogAutomation:
     def setup_driver(self):
         """Chrome 드라이버 설정 및 모든 모듈 초기화"""
         try:
+            from webdriver_manager.chrome import ChromeDriverManager
+            import platform
+            
             chrome_options = Options()
 
             if self.headless:
@@ -42,9 +45,27 @@ class BlogAutomation:
             chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             chrome_options.add_experimental_option('useAutomationExtension', False)
             chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
-            chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            
+            # OS별 Chrome 바이너리 위치 설정
+            system = platform.system()
+            if system == "Darwin":  # macOS
+                chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+            elif system == "Windows":
+                # Windows는 기본 설치 경로 사용 (자동 탐지)
+                pass
+            elif system == "Linux":
+                chrome_options.add_argument('--disable-gpu')
+                chrome_options.add_argument('--remote-debugging-port=9222')
 
-            self.driver = webdriver.Chrome(options=chrome_options)
+            # webdriver-manager를 사용하여 자동으로 ChromeDriver 다운로드/관리
+            try:
+                service = Service(ChromeDriverManager().install())
+                self.driver = webdriver.Chrome(service=service, options=chrome_options)
+                self.logger.info("webdriver-manager로 Chrome 드라이버 설정 완료")
+            except Exception as e:
+                self.logger.warning(f"webdriver-manager 실패, 시스템 드라이버 시도: {e}")
+                # 폴백: 시스템에 설치된 드라이버 사용
+                self.driver = webdriver.Chrome(options=chrome_options)
             self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
             self.driver.set_window_size(1280, 800)
 
