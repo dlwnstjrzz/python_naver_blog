@@ -27,7 +27,16 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
         
-    - name: Create necessary directories
+    - name: Create necessary directories (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        if (-not (Test-Path config)) { New-Item -ItemType Directory -Path config }
+        if (-not (Test-Path data)) { New-Item -ItemType Directory -Path data }
+        if (-not (Test-Path logs)) { New-Item -ItemType Directory -Path logs }
+      shell: powershell
+        
+    - name: Create necessary directories (macOS)
+      if: matrix.os == 'macos-latest'
       run: |
         mkdir -p config data logs
         
