@@ -17,7 +17,7 @@ try:
     from PyQt5.QtWidgets import QApplication
     from PyQt5.QtGui import QFont
 except ImportError:
-    print("❌ PyQt5가 설치되지 않았습니다.")
+    print("PyQt5가 설치되지 않았습니다.")
     print("다음 명령어로 설치해주세요:")
     print("pip install PyQt5")
     sys.exit(1)
@@ -47,7 +47,7 @@ def main():
         sys.exit(app.exec_())
 
     except Exception as e:
-        print(f"❌ GUI 시작 중 오류 발생: {str(e)}")
+        print(f"GUI 시작 중 오류 발생: {str(e)}")
         sys.exit(1)
 
 
