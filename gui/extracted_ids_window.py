@@ -13,10 +13,101 @@ class ExtractedIdsWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.extracted_ids_manager = ExtractedIdsManager()
-        self.setWindowTitle("추출된 블로그 아이디 관리")
-        self.setGeometry(200, 200, 800, 600)
+        self.setWindowTitle("추출된 계정 관리")
+        self.setGeometry(200, 200, 900, 650)
         self.setModal(True)
-        
+
+        # 다크 테마 적용
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #1a1a1a;
+                color: white;
+            }
+            QLabel {
+                color: white;
+            }
+            QGroupBox {
+                color: white;
+                border: 2px solid #333;
+                border-radius: 5px;
+                margin: 10px 0px;
+                padding-top: 10px;
+                font-weight: bold;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0px 5px 0px 5px;
+                color: #fe4847;
+            }
+            QLineEdit {
+                background-color: #333;
+                color: white;
+                border: 1px solid #555;
+                border-radius: 3px;
+                padding: 5px;
+            }
+            QLineEdit:focus {
+                border: 2px solid #fe4847;
+            }
+            QCheckBox {
+                color: white;
+                spacing: 8px;
+            }
+            QCheckBox::indicator {
+                width: 13px;
+                height: 13px;
+            }
+            QCheckBox::indicator:unchecked {
+                border: 2px solid #555;
+                border-radius: 2px;
+                background-color: #333;
+            }
+            QCheckBox::indicator:checked {
+                border: 2px solid #fe4847;
+                border-radius: 2px;
+                background-color: #fe4847;
+            }
+            QTableWidget {
+                background-color: #1a1a1a;
+                color: white;
+                gridline-color: #333;
+                border: 1px solid #333;
+                selection-background-color: #fe4847;
+                alternate-background-color: #2a2a2a;
+            }
+            QTableWidget::item {
+                padding: 5px;
+                border-bottom: 1px solid #333;
+            }
+            QTableWidget::item:selected {
+                background-color: #fe4847;
+                color: white;
+            }
+            QHeaderView::section {
+                background-color: #333;
+                color: white;
+                padding: 8px;
+                border: 1px solid #555;
+                font-weight: bold;
+            }
+            QPushButton {
+                background-color: #333;
+                color: white;
+                border: 1px solid #555;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #555;
+                border: 1px solid #777;
+            }
+            QPushButton:pressed {
+                background-color: #222;
+            }
+        """)
+
         self.setup_ui()
         self.load_extracted_ids()
     
@@ -25,48 +116,49 @@ class ExtractedIdsWindow(QDialog):
         layout = QVBoxLayout(self)
         layout.setSpacing(20)
         
-        # 폰트 설정
-        font_24px = QFont()
-        font_24px.setPointSize(18)
-        
+        # 폰트 설정 (크기 축소)
+        font_default = QFont()
+        font_default.setPointSize(10)
+
         # 제목
-        title_label = QLabel("추출된 블로그 아이디 목록")
+        title_label = QLabel("추출된 계정 목록")
         title_font = QFont()
-        title_font.setPointSize(20)
+        title_font.setPointSize(14)
         title_font.setBold(True)
         title_label.setFont(title_font)
         title_label.setAlignment(Qt.AlignCenter)
+        title_label.setStyleSheet("color: #fe4847; font-weight: bold;")
         layout.addWidget(title_label)
         
         # 통계 정보
         self.stats_label = QLabel()
-        self.stats_label.setFont(font_24px)
+        self.stats_label.setFont(font_default)
         self.stats_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.stats_label)
         
         # 검색 필터
         filter_group = QGroupBox("필터 및 검색")
-        filter_group.setFont(font_24px)
+        filter_group.setFont(font_default)
         filter_layout = QHBoxLayout(filter_group)
         
         search_label = QLabel("검색:")
-        search_label.setFont(font_24px)
+        search_label.setFont(font_default)
         filter_layout.addWidget(search_label)
         
         self.search_edit = QLineEdit()
-        self.search_edit.setFont(font_24px)
+        self.search_edit.setFont(font_default)
         self.search_edit.setPlaceholderText("블로그 아이디로 검색...")
         self.search_edit.textChanged.connect(self.filter_table)
         filter_layout.addWidget(self.search_edit)
         
         # 상태 필터 체크박스
         self.show_success_cb = QCheckBox("성공만 표시")
-        self.show_success_cb.setFont(font_24px)
+        self.show_success_cb.setFont(font_default)
         self.show_success_cb.stateChanged.connect(self.filter_table)
         filter_layout.addWidget(self.show_success_cb)
         
         self.show_fail_cb = QCheckBox("실패만 표시")
-        self.show_fail_cb.setFont(font_24px)
+        self.show_fail_cb.setFont(font_default)
         self.show_fail_cb.stateChanged.connect(self.filter_table)
         filter_layout.addWidget(self.show_fail_cb)
         
@@ -74,7 +166,7 @@ class ExtractedIdsWindow(QDialog):
         
         # 테이블
         self.table = QTableWidget()
-        self.table.setFont(font_24px)
+        self.table.setFont(font_default)
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(["선택", "블로그 아이디", "서이추 상태", "처리 날짜"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -82,7 +174,7 @@ class ExtractedIdsWindow(QDialog):
         
         # 테이블 헤더 설정
         header = self.table.horizontalHeader()
-        header.setFont(font_24px)
+        header.setFont(font_default)
         header.setSectionResizeMode(0, QHeaderView.Fixed)
         header.setSectionResizeMode(1, QHeaderView.Stretch)
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
@@ -97,25 +189,41 @@ class ExtractedIdsWindow(QDialog):
         
         # 전체 선택/해제
         self.select_all_btn = QPushButton("전체 선택")
-        self.select_all_btn.setFont(font_24px)
+        self.select_all_btn.setFont(font_default)
         self.select_all_btn.clicked.connect(self.select_all_items)
         button_layout.addWidget(self.select_all_btn)
         
         self.deselect_all_btn = QPushButton("전체 해제")
-        self.deselect_all_btn.setFont(font_24px)
+        self.deselect_all_btn.setFont(font_default)
         self.deselect_all_btn.clicked.connect(self.deselect_all_items)
         button_layout.addWidget(self.deselect_all_btn)
         
         # 선택된 항목 삭제
         self.delete_selected_btn = QPushButton("선택 삭제")
-        self.delete_selected_btn.setFont(font_24px)
+        self.delete_selected_btn.setFont(font_default)
         self.delete_selected_btn.clicked.connect(self.delete_selected_items)
         button_layout.addWidget(self.delete_selected_btn)
         
         # 전체 삭제
         self.delete_all_btn = QPushButton("전체 삭제")
-        self.delete_all_btn.setFont(font_24px)
-        self.delete_all_btn.setStyleSheet("QPushButton { background-color: #ff6b6b; color: white; }")
+        self.delete_all_btn.setFont(font_default)
+        self.delete_all_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #fe4847;
+                color: white;
+                border: 1px solid #fe4847;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #e63946;
+                border: 1px solid #e63946;
+            }
+            QPushButton:pressed {
+                background-color: #d62828;
+            }
+        """)
         self.delete_all_btn.clicked.connect(self.delete_all_items)
         button_layout.addWidget(self.delete_all_btn)
         
@@ -125,19 +233,36 @@ class ExtractedIdsWindow(QDialog):
         bottom_layout = QHBoxLayout()
         
         self.export_btn = QPushButton("텍스트로 내보내기")
-        self.export_btn.setFont(font_24px)
+        self.export_btn.setFont(font_default)
         self.export_btn.clicked.connect(self.export_to_text)
         bottom_layout.addWidget(self.export_btn)
         
         bottom_layout.addStretch()
         
         self.refresh_btn = QPushButton("새로고침")
-        self.refresh_btn.setFont(font_24px)
+        self.refresh_btn.setFont(font_default)
         self.refresh_btn.clicked.connect(self.load_extracted_ids)
         bottom_layout.addWidget(self.refresh_btn)
         
         self.close_btn = QPushButton("닫기")
-        self.close_btn.setFont(font_24px)
+        self.close_btn.setFont(font_default)
+        self.close_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #fe4847;
+                color: white;
+                border: 1px solid #fe4847;
+                border-radius: 5px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #e63946;
+                border: 1px solid #e63946;
+            }
+            QPushButton:pressed {
+                background-color: #d62828;
+            }
+        """)
         self.close_btn.clicked.connect(self.close)
         bottom_layout.addWidget(self.close_btn)
         
@@ -181,11 +306,13 @@ class ExtractedIdsWindow(QDialog):
             status_item = QTableWidgetItem(status)
             status_item.setFlags(status_item.flags() & ~Qt.ItemIsEditable)
             
-            # 상태에 따른 색상 설정
+            # 상태에 따른 색상 설정 (다크 테마에 맞게 조정)
             if status == '성공':
-                status_item.setBackground(QColor(144, 238, 144))  # 연한 초록색
+                status_item.setBackground(QColor(46, 125, 50))  # 어두운 초록색
+                status_item.setForeground(QColor(255, 255, 255))  # 흰색 텍스트
             elif status == '실패':
-                status_item.setBackground(QColor(255, 182, 193))  # 연한 빨간색
+                status_item.setBackground(QColor(183, 28, 28))  # 어두운 빨간색
+                status_item.setForeground(QColor(255, 255, 255))  # 흰색 텍스트
             
             self.table.setItem(row, 2, status_item)
             
