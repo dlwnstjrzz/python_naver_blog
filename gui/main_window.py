@@ -6,18 +6,13 @@ import threading
 from datetime import datetime
 
 # PyQt5 임포트
-try:
-    from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
-                                 QHBoxLayout, QLabel, QLineEdit, QPushButton,
-                                 QTextEdit, QRadioButton, QGroupBox, QGridLayout,
-                                 QTabWidget, QMessageBox, QProgressBar, QSpinBox,
-                                 QButtonGroup, QCheckBox, QInputDialog, QProgressDialog)
-    from PyQt5.QtCore import Qt, QThread, pyqtSignal, QTimer
-    from PyQt5.QtGui import QFont, QIcon
-except ImportError:
-    print("PyQt5가 설치되지 않았습니다. 다음 명령어로 설치해주세요:")
-    print("pip install PyQt5")
-    sys.exit(1)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
+                             QHBoxLayout, QLabel, QLineEdit, QPushButton,
+                             QTextEdit, QRadioButton, QGroupBox, QGridLayout,
+                             QTabWidget, QMessageBox, QProgressBar, QSpinBox,
+                             QButtonGroup, QCheckBox, QInputDialog, QProgressDialog)
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, QTimer
+from PyQt5.QtGui import QFont, QIcon
 
 # 프로젝트 루트 경로를 sys.path에 추가
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -212,7 +207,7 @@ class MainWindow(QMainWindow):
         tab2 = self.create_settings_tab()
         tab3 = self.create_automation_tab()
 
-        tab_widget.addTab(tab1, "1. 업데이트 테스트 확인")
+        tab_widget.addTab(tab1, "1. 계정 및 검색 설정")
         tab_widget.addTab(tab2, "2. 상세 설정")
         tab_widget.addTab(tab3, "3. 자동화 실행")
 
@@ -517,6 +512,41 @@ class MainWindow(QMainWindow):
         wait_layout.addStretch()
 
         layout.addWidget(wait_group)
+
+        # 라이선스 설정 그룹
+        license_group = QGroupBox("라이선스 설정")
+        font_30px = QFont()
+        font_30px.setPointSize(22)
+        license_group.setFont(font_30px)
+        license_layout = QVBoxLayout(license_group)
+        license_layout.setContentsMargins(20, 20, 20, 20)
+        license_layout.setSpacing(10)
+
+        license_info_label = QLabel("연간 결제를 위한 라이선스 키를 입력하세요:")
+        license_info_label.setFont(font_30px)
+        license_layout.addWidget(license_info_label)
+
+        self.license_key_edit = QLineEdit()
+        self.license_key_edit.setFont(font_30px)
+        self.license_key_edit.setMinimumHeight(50)
+        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
+        license_layout.addWidget(self.license_key_edit)
+
+        # 라이선스 검증 버튼
+        license_button_layout = QHBoxLayout()
+        self.validate_license_btn = QPushButton("라이선스 검증")
+        self.validate_license_btn.setFont(font_30px)
+        self.validate_license_btn.setMinimumHeight(50)
+        self.validate_license_btn.clicked.connect(self.validate_license_key)
+        license_button_layout.addWidget(self.validate_license_btn)
+
+        # 라이선스 상태 표시 레이블
+        self.license_status_label = QLabel("라이선스 상태: 미확인")
+        self.license_status_label.setFont(font_30px)
+        license_button_layout.addWidget(self.license_status_label)
+        license_layout.addLayout(license_button_layout)
+
+        layout.addWidget(license_group)
         layout.addStretch()
 
         return tab
@@ -647,6 +677,11 @@ class MainWindow(QMainWindow):
 
             self.wait_time_spin.setValue(
                 self.config_manager.get('wait_time', 0))
+            
+            # 라이선스 설정 로드
+            license_settings = self.config_manager.get('license_settings', {})
+            self.license_key_edit.setText(license_settings.get('license_key', ''))
+            self.update_license_status()
 
             # 체크박스 토글 상태 업데이트
             self.on_comment_checkbox_toggled()
@@ -705,6 +740,11 @@ class MainWindow(QMainWindow):
             self.config_manager.set('gemini_api_key', self.gemini_api_edit.text().strip())
 
             self.config_manager.set('wait_time', self.wait_time_spin.value())
+            
+            # 라이선스 설정 저장
+            license_settings = self.config_manager.get('license_settings', {})
+            license_settings['license_key'] = self.license_key_edit.text().strip()
+            self.config_manager.set('license_settings', license_settings)
 
             # 설정 저장
             if self.config_manager.save_config():
@@ -757,6 +797,11 @@ class MainWindow(QMainWindow):
         self.config_manager.set('gemini_api_key', self.gemini_api_edit.text().strip())
 
         self.config_manager.set('wait_time', self.wait_time_spin.value())
+        
+        # 라이선스 설정
+        license_settings = self.config_manager.get('license_settings', {})
+        license_settings['license_key'] = self.license_key_edit.text().strip()
+        self.config_manager.set('license_settings', license_settings)
 
         # 설정 저장
         if not self.config_manager.save_config():
@@ -907,6 +952,10 @@ class MainWindow(QMainWindow):
                 QMessageBox.critical(self, "오류", f"설정 저장 중 오류가 발생했습니다: {str(e)}")
                 return
             
+            # 라이선스 검증
+            if not self.validate_license_before_start():
+                return
+
             # 필수 설정 확인 (UI 값 기준으로)
             naver_id = self.id_edit.text().strip()
             naver_password = self.password_edit.text().strip()
@@ -999,6 +1048,112 @@ class MainWindow(QMainWindow):
         # 자동 스크롤
         scrollbar = self.log_text.verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
+    
+    def validate_license_key(self):
+        """라이선스 키 검증 버튼 클릭 시 실행"""
+        license_key = self.license_key_edit.text().strip()
+        
+        if not license_key:
+            QMessageBox.warning(self, "입력 오류", "라이선스 키를 먼저 입력해주세요.")
+            return
+        
+        try:
+            from utils.license_validator import validate_license
+            
+            # 로딩 다이얼로그 표시
+            loading_dialog = QProgressDialog("라이선스 검증 중...", "취소", 0, 0, self)
+            loading_dialog.setWindowTitle("라이선스 검증")
+            loading_dialog.setWindowModality(Qt.WindowModal)
+            loading_dialog.show()
+            
+            # 라이선스 검증 실행
+            result = validate_license(license_key)
+            loading_dialog.close()
+            
+            if result['valid']:
+                QMessageBox.information(self, "검증 완료", f"✅ {result['message']}")
+                # 검증 성공 시 설정 저장
+                license_settings = self.config_manager.get('license_settings', {})
+                license_settings['license_key'] = license_key
+                license_settings['last_validation'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                self.config_manager.set('license_settings', license_settings)
+                self.config_manager.save_config()
+            else:
+                QMessageBox.warning(self, "검증 실패", f"❌ {result['message']}")
+                
+            self.update_license_status()
+            
+        except ImportError:
+            QMessageBox.critical(self, "오류", "라이선스 검증 모듈을 찾을 수 없습니다.")
+        except Exception as e:
+            loading_dialog.close()
+            QMessageBox.critical(self, "오류", f"라이선스 검증 중 오류가 발생했습니다:\n{str(e)}")
+    
+    def update_license_status(self):
+        """라이선스 상태 업데이트"""
+        license_key = self.license_key_edit.text().strip()
+        
+        if not license_key:
+            self.license_status_label.setText("라이선스 상태: 미입력")
+            self.license_status_label.setStyleSheet("color: gray;")
+            return
+        
+        try:
+            from utils.license_validator import validate_license
+            result = validate_license(license_key)
+            
+            if result['valid']:
+                days_remaining = result.get('days_remaining', 0)
+                if days_remaining <= 7:
+                    self.license_status_label.setText(f"라이선스 상태: 곧 만료 ({days_remaining}일 남음)")
+                    self.license_status_label.setStyleSheet("color: orange;")
+                else:
+                    self.license_status_label.setText(f"라이선스 상태: 유효 ({days_remaining}일 남음)")
+                    self.license_status_label.setStyleSheet("color: green;")
+            else:
+                self.license_status_label.setText("라이선스 상태: 무효/만료")
+                self.license_status_label.setStyleSheet("color: red;")
+                
+        except Exception:
+            self.license_status_label.setText("라이선스 상태: 확인 불가")
+            self.license_status_label.setStyleSheet("color: gray;")
+    
+    def validate_license_before_start(self):
+        """자동화 시작 전 라이선스 검증"""
+        license_key = self.license_key_edit.text().strip()
+        
+        if not license_key:
+            QMessageBox.warning(self, "라이선스 필요", 
+                              "라이선스 키가 필요합니다.\n상세 설정 탭에서 라이선스 키를 입력하고 검증해주세요.")
+            return False
+        
+        try:
+            from utils.license_validator import validate_license
+            result = validate_license(license_key)
+            
+            if not result['valid']:
+                QMessageBox.warning(self, "라이선스 오류", 
+                                  f"라이선스가 유효하지 않습니다.\n\n{result['message']}")
+                return False
+            
+            # 만료 임박 경고
+            days_remaining = result.get('days_remaining', 0)
+            if days_remaining <= 7:
+                reply = QMessageBox.question(
+                    self, "라이선스 만료 임박", 
+                    f"라이선스가 {days_remaining}일 후 만료됩니다.\n\n계속 진행하시겠습니까?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.Yes
+                )
+                if reply == QMessageBox.No:
+                    return False
+            
+            return True
+            
+        except Exception as e:
+            QMessageBox.critical(self, "라이선스 검증 오류", 
+                               f"라이선스 검증 중 오류가 발생했습니다:\n{str(e)}")
+            return False
 
 
 if __name__ == "__main__":

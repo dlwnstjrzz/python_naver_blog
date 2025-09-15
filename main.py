@@ -21,15 +21,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 
-# PyQt5 임포트 확인
-try:
-    from PyQt5.QtWidgets import QApplication
-    from PyQt5.QtGui import QFont
-except ImportError:
-    print("❌ PyQt5가 설치되지 않았습니다.")
-    print("다음 명령어로 설치해주세요:")
-    print("pip install PyQt5")
-    sys.exit(1)
+# PyQt5 임포트
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QFont
 
 
 def check_for_updates():
