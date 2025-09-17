@@ -87,5 +87,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='image/logo.ico',  # ICO 파일을 아이콘으로 사용
+    icon='image/logo.png',  # ICO 파일을 아이콘으로 사용
 )

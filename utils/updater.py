@@ -141,24 +141,35 @@ class GitHubReleaseUpdater:
     def find_update_asset(self, assets: List[Dict], release_info: Dict) -> Optional[Dict]:
         """
         릴리스 에셋에서 업데이트 파일 찾기
-        
+
         Args:
             assets: GitHub 릴리스 에셋 목록
             release_info: 릴리스 정보
-            
+
         Returns:
             Optional[Dict]: 업데이트 파일 에셋 정보
         """
-        # 우선순위 1: 업로드된 .zip 파일 (소스코드가 아닌)
+        import platform
+
+        # 현재 OS 확인
+        current_os = platform.system().lower()
+        if current_os == 'darwin':
+            target_name = 'macos'
+        elif current_os == 'windows':
+            target_name = 'windows'
+        else:
+            target_name = 'linux'  # 기본값
+
+        # 우선순위 1: 현재 OS에 맞는 zip 파일 찾기
+        for asset in assets:
+            name = asset.get('name', '').lower()
+            if name.endswith('.zip') and target_name in name and not name.startswith('source'):
+                return asset
+
+        # 우선순위 2: 일반적인 zip 파일 (OS 구분 없이)
         for asset in assets:
             name = asset.get('name', '').lower()
             if name.endswith('.zip') and not name.startswith('source'):
-                return asset
-        
-        # 우선순위 2: 업로드된 모든 .zip 파일
-        for asset in assets:
-            name = asset.get('name', '').lower()
-            if name.endswith('.zip'):
                 return asset
         
         # 우선순위 3: GitHub이 자동 생성하는 소스코드 zip 사용
@@ -426,11 +437,11 @@ class GitHubReleaseUpdater:
     
     def install_update(self, update_zip_path: str) -> bool:
         """
-        업데이트 설치
-        
+        업데이트 설치 (exe 파일의 경우 배치 스크립트 사용)
+
         Args:
             update_zip_path: 다운로드된 업데이트 ZIP 파일 경로
-            
+
         Returns:
             bool: 설치 성공 여부
         """
@@ -438,25 +449,108 @@ class GitHubReleaseUpdater:
             # ZIP 파일 압축 해제
             extract_path = self.temp_dir / 'update_files'
             extract_path.mkdir(exist_ok=True)
-            
+
             with zipfile.ZipFile(update_zip_path, 'r') as zip_file:
                 zip_file.extractall(extract_path)
-            
-            # GitHub 소스코드 zip의 경우 루트 폴더가 있음 (예: repo-name-tag/)
-            # 실제 소스코드가 들어있는 폴더 찾기
+
+            # 압축 해제된 구조 확인 (NaverBlogAutomation 폴더가 있는지)
             source_root = extract_path
             extracted_items = list(extract_path.iterdir())
-            
-            # 압축 해제된 항목이 하나뿐이고 디렉토리인 경우 (GitHub 소스코드 zip 패턴)
-            if len(extracted_items) == 1 and extracted_items[0].is_dir():
-                source_root = extracted_items[0]
-                self.logger.info(f"GitHub 소스코드 구조 감지: {source_root.name}")
-            
+
+            # NaverBlogAutomation 폴더 찾기
+            for item in extracted_items:
+                if item.is_dir() and 'NaverBlogAutomation' in item.name:
+                    source_root = item
+                    break
+
+            # exe 파일로 실행 중인 경우 배치 스크립트를 사용한 지연 업데이트
+            if getattr(sys, 'frozen', False):
+                return self._install_exe_update(source_root)
+            else:
+                return self._install_script_update(source_root)
+
+        except Exception as e:
+            self.logger.error(f"업데이트 설치 실패: {str(e)}")
+            return False
+
+    def _install_exe_update(self, source_root: Path) -> bool:
+        """exe 파일 업데이트 (배치 스크립트 사용)"""
+        try:
+            import platform
+
+            # 현재 exe 파일의 디렉토리
+            current_exe_dir = Path(os.path.dirname(sys.executable))
+
+            # 배치 스크립트 생성
+            if platform.system().lower() == 'windows':
+                batch_script = current_exe_dir / 'update_installer.bat'
+                script_content = f'''@echo off
+echo 업데이트 설치 중...
+timeout /t 3 /nobreak >nul
+
+echo 기존 파일 백업 중...
+if exist "{current_exe_dir}\\backup_temp" rmdir /s /q "{current_exe_dir}\\backup_temp"
+mkdir "{current_exe_dir}\\backup_temp"
+xcopy "{current_exe_dir}\\*" "{current_exe_dir}\\backup_temp\\" /e /i /h /k /y /exclude:update_installer.bat,logs\\*,backups\\*
+
+echo 새 파일 복사 중...
+xcopy "{source_root}\\*" "{current_exe_dir}\\" /e /i /h /k /y
+
+echo 업데이트 완료. 프로그램을 시작합니다...
+start "" "{current_exe_dir}\\NaverBlogAutomation.exe"
+
+echo 임시 파일 정리 중...
+timeout /t 2 /nobreak >nul
+rmdir /s /q "{self.temp_dir}"
+del "%~f0"
+'''
+            else:  # macOS/Linux
+                batch_script = current_exe_dir / 'update_installer.sh'
+                script_content = f'''#!/bin/bash
+echo "업데이트 설치 중..."
+sleep 3
+
+echo "기존 파일 백업 중..."
+rm -rf "{current_exe_dir}/backup_temp"
+mkdir -p "{current_exe_dir}/backup_temp"
+cp -r "{current_exe_dir}"/* "{current_exe_dir}/backup_temp/" 2>/dev/null || true
+
+echo "새 파일 복사 중..."
+cp -r "{source_root}"/* "{current_exe_dir}/"
+
+echo "업데이트 완료. 프로그램을 시작합니다..."
+cd "{current_exe_dir}"
+./NaverBlogAutomation &
+
+echo "임시 파일 정리 중..."
+sleep 2
+rm -rf "{self.temp_dir}"
+rm "$0"
+'''
+
+            # 스크립트 파일 작성
+            with open(batch_script, 'w', encoding='utf-8') as f:
+                f.write(script_content)
+
+            # 실행 권한 부여 (Unix 계열)
+            if platform.system().lower() != 'windows':
+                os.chmod(batch_script, 0o755)
+
+            self.logger.info(f"배치 스크립트 생성 완료: {batch_script}")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"exe 업데이트 실패: {str(e)}")
+            return False
+
+    def _install_script_update(self, source_root: Path) -> bool:
+        """스크립트 버전 업데이트 (직접 파일 복사)"""
+        try:
             # 제외할 파일/디렉토리 목록
             exclude_patterns = {
                 '__pycache__',
                 '.git',
-                '.github',  
+                '.github',
                 '.DS_Store',
                 'logs',
                 'backups',
@@ -468,61 +562,76 @@ class GitHubReleaseUpdater:
                 '.vscode',
                 '.idea'
             }
-            
+
             # 파일 복사 (기존 파일 덮어쓰기)
             copied_files = 0
             for root, dirs, files in os.walk(source_root):
                 # 제외할 디렉토리 건너뛰기
                 dirs[:] = [d for d in dirs if d not in exclude_patterns]
-                
+
                 for file in files:
                     # 제외할 파일 패턴 건너뛰기
                     if any(pattern in file for pattern in exclude_patterns):
                         continue
-                        
+
                     # .pyc 파일 건너뛰기
                     if file.endswith('.pyc'):
                         continue
-                    
+
                     src_file = Path(root) / file
                     rel_path = src_file.relative_to(source_root)
                     dest_file = self.project_root / rel_path
-                    
+
                     # 디렉토리 생성
                     dest_file.parent.mkdir(parents=True, exist_ok=True)
-                    
+
                     # 파일 복사
                     shutil.copy2(src_file, dest_file)
                     copied_files += 1
-            
+
             self.logger.info(f"업데이트 설치 완료: {copied_files}개 파일 복사됨")
             return True
-            
+
         except Exception as e:
-            self.logger.error(f"업데이트 설치 실패: {str(e)}")
+            self.logger.error(f"스크립트 업데이트 실패: {str(e)}")
             return False
     
     def restart_application(self):
-        """애플리케이션 재시작"""
+        """애플리케이션 재시작 (exe의 경우 배치 스크립트 실행)"""
         try:
-            # 현재 실행 중인 파일 경로
-            current_exe = sys.executable
-            current_script = sys.argv[0]
-            
+            import platform
+
             self.logger.info("애플리케이션 재시작 중...")
-            
-            # 새 프로세스 시작
+
             if getattr(sys, 'frozen', False):
-                # PyInstaller로 빌드된 경우
-                subprocess.Popen([current_exe] + sys.argv[1:])
+                # exe 파일인 경우 배치 스크립트 실행
+                current_exe_dir = Path(os.path.dirname(sys.executable))
+
+                if platform.system().lower() == 'windows':
+                    batch_script = current_exe_dir / 'update_installer.bat'
+                    if batch_script.exists():
+                        # 배치 스크립트 실행
+                        subprocess.Popen(['cmd', '/c', str(batch_script)],
+                                       creationflags=subprocess.CREATE_NO_WINDOW)
+                    else:
+                        # 일반 재시작
+                        subprocess.Popen([sys.executable] + sys.argv[1:])
+                else:
+                    batch_script = current_exe_dir / 'update_installer.sh'
+                    if batch_script.exists():
+                        # 셸 스크립트 실행
+                        subprocess.Popen(['bash', str(batch_script)])
+                    else:
+                        # 일반 재시작
+                        subprocess.Popen([sys.executable] + sys.argv[1:])
             else:
                 # Python 스크립트인 경우
-                subprocess.Popen([current_exe, current_script] + sys.argv[1:])
-            
+                subprocess.Popen([sys.executable, sys.argv[0]] + sys.argv[1:])
+
             # 현재 프로세스 종료
             QApplication.quit()
             sys.exit(0)
-            
+
         except Exception as e:
             self.logger.error(f"애플리케이션 재시작 실패: {str(e)}")
     
