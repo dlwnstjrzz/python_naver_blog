@@ -10,6 +10,8 @@ a = Analysis(
         ('config', 'config'),
         ('data', 'data'),
         ('image', 'image'),
+        ('image/logo.png', '.'),  # 루트 디렉토리에 복사
+        ('image/logo.ico', '.'),  # 루트 디렉토리에 복사
     ],
     hiddenimports=[
         'selenium',

@@ -530,6 +530,8 @@ class MainWindow(QMainWindow):
             possible_paths = [
                 os.path.join(base_path, "image", "logo.png"),
                 os.path.join(base_path, "image", "logo.ico"),
+                os.path.join(base_path, "logo.png"),  # 루트 경로에서 찾기
+                os.path.join(base_path, "logo.ico"),   # 루트 경로에서 찾기
                 os.path.join(os.path.dirname(base_path), "image", "logo.png"),
                 os.path.join(".", "image", "logo.png"),
                 "logo.png"
