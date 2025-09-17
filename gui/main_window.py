@@ -217,9 +217,14 @@ class MainWindow(QMainWindow):
                 # 일반 Python 스크립트로 실행되는 경우
                 base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-            logo_path = os.path.join(base_path, "image", "logo.png")
-            if os.path.exists(logo_path):
-                self.setWindowIcon(QIcon(logo_path))
+            # ICO 파일을 우선 시도, 없으면 PNG 사용
+            ico_path = os.path.join(base_path, "image", "logo.ico")
+            png_path = os.path.join(base_path, "image", "logo.png")
+
+            if os.path.exists(ico_path):
+                self.setWindowIcon(QIcon(ico_path))
+            elif os.path.exists(png_path):
+                self.setWindowIcon(QIcon(png_path))
         except:
             pass
 
@@ -467,6 +472,32 @@ class MainWindow(QMainWindow):
 
         # 로고 이미지
         logo_label = QLabel()
+
+        # 디버깅 로그 파일 설정
+        def write_debug_log(message):
+            try:
+                import os
+                from datetime import datetime
+
+                # 실행 파일 위치에 따른 로그 디렉토리 설정
+                if getattr(sys, 'frozen', False):
+                    # exe 파일로 실행되는 경우, exe 파일과 같은 디렉토리에 logs 폴더 생성
+                    log_dir = os.path.join(os.path.dirname(sys.executable), "logs")
+                else:
+                    # Python 스크립트로 실행되는 경우
+                    log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "logs")
+
+                if not os.path.exists(log_dir):
+                    os.makedirs(log_dir)
+
+                log_file = os.path.join(log_dir, f"logo_debug_{datetime.now().strftime('%Y%m%d')}.log")
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+                with open(log_file, 'a', encoding='utf-8') as f:
+                    f.write(f"[{timestamp}] {message}\n")
+            except:
+                pass  # 로그 실패해도 프로그램은 계속 실행
+
         try:
             import os
             import sys
@@ -475,23 +506,66 @@ class MainWindow(QMainWindow):
             if getattr(sys, 'frozen', False):
                 # PyInstaller로 빌드된 exe 파일에서 실행되는 경우
                 base_path = sys._MEIPASS
+                write_debug_log(f"실행 환경: PyInstaller (frozen)")
+                write_debug_log(f"Base path: {base_path}")
+
+                # 베이스 경로의 디렉토리 내용 확인
+                try:
+                    dirs = os.listdir(base_path)
+                    write_debug_log(f"Base path 내용: {dirs}")
+                    if 'image' in dirs:
+                        image_files = os.listdir(os.path.join(base_path, 'image'))
+                        write_debug_log(f"image 폴더 내용: {image_files}")
+                    else:
+                        write_debug_log("image 폴더가 Base path에 없음!")
+                except Exception as e:
+                    write_debug_log(f"디렉토리 리스팅 실패: {e}")
             else:
                 # 일반 Python 스크립트로 실행되는 경우
                 base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                write_debug_log(f"실행 환경: Python 스크립트")
+                write_debug_log(f"Base path: {base_path}")
 
-            logo_path = os.path.join(base_path, "image", "logo.png")
-            if os.path.exists(logo_path):
-                from PyQt5.QtGui import QPixmap
-                pixmap = QPixmap(logo_path)
-                # 로고 크기 조절 (50x50)
-                scaled_pixmap = pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                logo_label.setPixmap(scaled_pixmap)
-            else:
+            # 여러 가능한 이미지 경로 확인
+            possible_paths = [
+                os.path.join(base_path, "image", "logo.png"),
+                os.path.join(base_path, "image", "logo.ico"),
+                os.path.join(os.path.dirname(base_path), "image", "logo.png"),
+                os.path.join(".", "image", "logo.png"),
+                "logo.png"
+            ]
+
+            logo_loaded = False
+            for i, logo_path in enumerate(possible_paths):
+                write_debug_log(f"시도 {i+1}: {logo_path}")
+                if os.path.exists(logo_path):
+                    write_debug_log(f"파일 발견: {logo_path}")
+                    try:
+                        from PyQt5.QtGui import QPixmap
+                        pixmap = QPixmap(logo_path)
+                        if not pixmap.isNull():
+                            # 로고 크기 조절 (50x50)
+                            scaled_pixmap = pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                            logo_label.setPixmap(scaled_pixmap)
+                            logo_loaded = True
+                            write_debug_log(f"로고 로딩 성공: {logo_path}")
+                            break
+                        else:
+                            write_debug_log(f"QPixmap이 null: {logo_path}")
+                    except Exception as e:
+                        write_debug_log(f"QPixmap 로딩 실패: {e}")
+                else:
+                    write_debug_log(f"파일 없음: {logo_path}")
+
+            if not logo_loaded:
                 # 이미지 파일이 없는 경우 텍스트로 대체
+                write_debug_log("모든 경로에서 로고 로딩 실패, 텍스트로 대체")
                 logo_label.setText("로고")
                 logo_label.setStyleSheet("color: #fe4847; font-size: 16px; font-weight: bold;")
+
         except Exception as e:
             # 예외 발생 시 텍스트로 대체
+            write_debug_log(f"예외 발생: {e}")
             logo_label.setText("로고")
             logo_label.setStyleSheet("color: #fe4847; font-size: 16px; font-weight: bold;")
 
