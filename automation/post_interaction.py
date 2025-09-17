@@ -205,23 +205,23 @@ class PostInteraction:
         """모바일 페이지에서 블로그 게시글 제목과 본문 내용 추출"""
         try:
             current_url = self.driver.current_url
-            self.logger.info(f"📄 블로그 내용 추출 시작 - 현재 URL: {current_url}")
+            self.logger.info(f" 블로그 내용 추출 시작 - 현재 URL: {current_url}")
 
             # 이미 추출된 내용이 있으면 사용
             if self.extracted_title or self.extracted_content:
                 self.logger.info(
-                    f"📄 미리 추출된 내용 사용 - 제목: {len(self.extracted_title)}자, 본문: {len(self.extracted_content)}자")
+                    f" 미리 추출된 내용 사용 - 제목: {len(self.extracted_title)}자, 본문: {len(self.extracted_content)}자")
                 if self.extracted_content:
                     self.logger.info(
-                        f"📖 미리 추출된 본문 내용 (전체):\n{self.extracted_content}")
+                        f" 미리 추출된 본문 내용 (전체):\n{self.extracted_content}")
                 return self.extracted_title, self.extracted_content
 
             # 모바일 페이지가 아니면 빈 값 반환
             if 'm.blog.naver.com' not in current_url:
-                self.logger.warning("⚠️ 모바일 페이지가 아님 - 내용 추출 건너뜀")
+                self.logger.warning(" 모바일 페이지가 아님 - 내용 추출 건너뜀")
                 return "", ""
 
-            self.logger.info("📱 모바일 페이지에서 실시간 내용 추출")
+            self.logger.info(" 모바일 페이지에서 실시간 내용 추출")
             title = ""
             content = ""
 
@@ -233,39 +233,39 @@ class PostInteraction:
                     "h2.se-title"
                 ]
                 for selector in title_selectors:
-                    self.logger.info(f"📄 모바일 제목 추출 시도: {selector}")
+                    self.logger.info(f" 모바일 제목 추출 시도: {selector}")
                     title_elements = self.driver.find_elements(
                         By.CSS_SELECTOR, selector)
                     self.logger.info(
-                        f"📄 {selector} 요소 개수: {len(title_elements)}")
+                        f" {selector} 요소 개수: {len(title_elements)}")
                     if title_elements:
                         title = title_elements[0].text.strip()
                         if title:
                             self.logger.info(
-                                f"✅ 모바일 제목 추출 성공 ({selector}): '{title[:50]}...'")
+                                f" 모바일 제목 추출 성공 ({selector}): '{title[:50]}...'")
                             break
                 if not title:
-                    self.logger.warning("⚠️ 모든 모바일 제목 선택자에서 내용을 찾을 수 없음")
+                    self.logger.warning(" 모든 모바일 제목 선택자에서 내용을 찾을 수 없음")
             except Exception as e:
-                self.logger.error(f"❌ 모바일 제목 추출 중 오류: {e}")
+                self.logger.error(f" 모바일 제목 추출 중 오류: {e}")
 
             # 모바일 페이지에서 본문 추출 - div.se-main-container 안의 p.se-text-paragraph들
             try:
                 self.logger.info(
-                    f"📄 모바일 본문 추출 시도: div.se-main-container 내부 p.se-text-paragraph")
+                    f" 모바일 본문 추출 시도: div.se-main-container 내부 p.se-text-paragraph")
 
                 # div.se-main-container 찾기
                 main_container = self.driver.find_elements(
                     By.CSS_SELECTOR, "div.se-main-container")
                 self.logger.info(
-                    f"📄 div.se-main-container 요소 개수: {len(main_container)}")
+                    f" div.se-main-container 요소 개수: {len(main_container)}")
 
                 if main_container:
                     # 컨테이너 내부의 모든 p.se-text-paragraph 찾기
                     paragraphs = main_container[0].find_elements(
                         By.CSS_SELECTOR, "p.se-text-paragraph")
                     self.logger.info(
-                        f"📄 p.se-text-paragraph 개수: {len(paragraphs)}")
+                        f" p.se-text-paragraph 개수: {len(paragraphs)}")
 
                     content_parts = []
                     for i, paragraph in enumerate(paragraphs):
@@ -274,7 +274,7 @@ class PostInteraction:
                             spans = paragraph.find_elements(
                                 By.TAG_NAME, "span")
                             self.logger.debug(
-                                f"📄 p[{i}] 안의 span 개수: {len(spans)}")
+                                f" p[{i}] 안의 span 개수: {len(spans)}")
 
                             paragraph_text = ""
                             for span in spans:
@@ -285,91 +285,91 @@ class PostInteraction:
                             if paragraph_text.strip():
                                 content_parts.append(paragraph_text.strip())
                                 self.logger.debug(
-                                    f"📄 p[{i}] 텍스트: '{paragraph_text.strip()[:100]}...'")
+                                    f" p[{i}] 텍스트: '{paragraph_text.strip()[:100]}...'")
                         except Exception as e:
-                            self.logger.debug(f"📄 p[{i}] 처리 중 오류: {e}")
+                            self.logger.debug(f" p[{i}] 처리 중 오류: {e}")
 
                     # 모든 문단 합치기
                     content = "\n".join(content_parts)
 
                     if content:
                         self.logger.info(
-                            f"✅ 모바일 본문 추출 성공: {len(content_parts)}개 문단, 총 {len(content)}자")
-                        self.logger.info(f"📖 추출된 본문 내용 (전체):\n{content}")
+                            f" 모바일 본문 추출 성공: {len(content_parts)}개 문단, 총 {len(content)}자")
+                        self.logger.info(f" 추출된 본문 내용 (전체):\n{content}")
                     else:
                         self.logger.warning(
-                            "⚠️ p.se-text-paragraph에서 텍스트를 찾을 수 없음")
+                            " p.se-text-paragraph에서 텍스트를 찾을 수 없음")
 
                         # fallback: 전체 컨테이너 텍스트 시도
                         content = main_container[0].text.strip()
                         if content:
                             self.logger.info(
-                                f"🔄 fallback으로 전체 컨테이너 텍스트 사용: {len(content)}자")
+                                f" fallback으로 전체 컨테이너 텍스트 사용: {len(content)}자")
                             self.logger.info(
-                                f"📖 fallback 본문 내용 (전체):\n{content}")
+                                f" fallback 본문 내용 (전체):\n{content}")
                 else:
-                    self.logger.warning("⚠️ div.se-main-container를 찾을 수 없음")
+                    self.logger.warning(" div.se-main-container를 찾을 수 없음")
 
                     # fallback: 다른 선택자들 시도
                     fallback_selectors = ["div.post_view", "div.post_ct"]
                     for selector in fallback_selectors:
-                        self.logger.info(f"📄 fallback 본문 추출 시도: {selector}")
+                        self.logger.info(f" fallback 본문 추출 시도: {selector}")
                         fallback_elements = self.driver.find_elements(
                             By.CSS_SELECTOR, selector)
                         if fallback_elements:
                             content = fallback_elements[0].text.strip()
                             if content:
                                 self.logger.info(
-                                    f"✅ fallback 본문 추출 성공 ({selector}): {len(content)}자")
+                                    f" fallback 본문 추출 성공 ({selector}): {len(content)}자")
                                 break
 
                 if not content:
-                    self.logger.warning("⚠️ 모든 본문 추출 방법에서 내용을 찾을 수 없음")
+                    self.logger.warning(" 모든 본문 추출 방법에서 내용을 찾을 수 없음")
             except Exception as e:
-                self.logger.error(f"❌ 모바일 본문 추출 중 오류: {e}")
+                self.logger.error(f" 모바일 본문 추출 중 오류: {e}")
 
             # 추가 디버깅: 페이지 소스 일부 확인
             if not title and not content:
-                self.logger.warning("⚠️ 제목과 본문 모두 추출 실패 - 페이지 구조 확인")
+                self.logger.warning(" 제목과 본문 모두 추출 실패 - 페이지 구조 확인")
                 try:
                     page_source = self.driver.page_source[:1000]  # 첫 1000자만
-                    self.logger.info(f"📄 페이지 소스 일부:\n{page_source}")
+                    self.logger.info(f" 페이지 소스 일부:\n{page_source}")
                 except:
-                    self.logger.error("❌ 페이지 소스 확인 실패")
+                    self.logger.error(" 페이지 소스 확인 실패")
 
             self.logger.info(
-                f"📄 블로그 내용 추출 완료 - 제목 길이: {len(title)}, 본문 길이: {len(content)}")
+                f" 블로그 내용 추출 완료 - 제목 길이: {len(title)}, 본문 길이: {len(content)}")
             return title, content
 
         except Exception as e:
-            self.logger.error(f"❌ 블로그 내용 추출 중 전체 오류: {e}")
+            self.logger.error(f" 블로그 내용 추출 중 전체 오류: {e}")
             import traceback
-            self.logger.error(f"❌ 스택 트레이스:\n{traceback.format_exc()}")
+            self.logger.error(f" 스택 트레이스:\n{traceback.format_exc()}")
             return "", ""
 
     def _generate_comment_message(self, nickname, use_ai=False, gemini_api_key=None):
         """댓글 메시지 생성 (미리 생성된 AI 댓글 또는 랜덤)"""
         self.logger.info(
-            f"🎯 댓글 메시지 생성 시작 - AI 사용: {use_ai}, API 키 존재: {bool(gemini_api_key)}")
+            f" 댓글 메시지 생성 시작 - AI 사용: {use_ai}, API 키 존재: {bool(gemini_api_key)}")
 
         # AI 댓글 모드이면 미리 생성된 댓글 사용
         if use_ai and gemini_api_key:
             if self.pre_generated_ai_comment:
                 self.logger.info(
-                    f"🤖 미리 생성된 AI 댓글 사용: '{self.pre_generated_ai_comment}'")
+                    f" 미리 생성된 AI 댓글 사용: '{self.pre_generated_ai_comment}'")
                 return self.pre_generated_ai_comment
             else:
-                self.logger.warning("⚠️ 미리 생성된 AI 댓글이 없음 - 기본 댓글로 대체")
+                self.logger.warning(" 미리 생성된 AI 댓글이 없음 - 기본 댓글로 대체")
         else:
             if not use_ai:
-                self.logger.info("📝 일반 댓글 모드 선택됨")
+                self.logger.info(" 일반 댓글 모드 선택됨")
             else:
-                self.logger.warning("⚠️ AI 댓글 모드이지만 API 키가 없어서 일반 댓글로 대체")
+                self.logger.warning(" AI 댓글 모드이지만 API 키가 없어서 일반 댓글로 대체")
 
         # 기본 랜덤 댓글 생성
-        self.logger.info("📝 기본 랜덤 댓글 생성")
+        self.logger.info(" 기본 랜덤 댓글 생성")
         random_comment = self._generate_random_comment(nickname)
-        self.logger.info(f"📝 기본 댓글 생성 완료: '{random_comment}'")
+        self.logger.info(f" 기본 댓글 생성 완료: '{random_comment}'")
         return random_comment
 
     def _generate_random_comment(self, nickname):
@@ -404,11 +404,11 @@ class PostInteraction:
         try:
             # 현재 URL 확인
             current_url = self.driver.current_url
-            self.logger.info(f"🔄 [{blog_name}] 현재 페이지 상호작용 시작...")
-            self.logger.info(f"📍 [{blog_name}] 현재 페이지 URL: {current_url}")
+            self.logger.info(f" [{blog_name}] 현재 페이지 상호작용 시작...")
+            self.logger.info(f" [{blog_name}] 현재 페이지 URL: {current_url}")
 
             # 모바일만 지원
-            self.logger.info(f"📱 [{blog_name}] 모바일 전용 상호작용 시작")
+            self.logger.info(f" [{blog_name}] 모바일 전용 상호작용 시작")
             return self.process_mobile_post_interaction(blog_name)
 
         except Exception as e:
@@ -420,8 +420,8 @@ class PostInteraction:
         try:
             # 현재 URL 확인
             current_url = self.driver.current_url
-            self.logger.info(f"🔄 [{blog_name}] 모바일 게시글 상호작용 시작...")
-            self.logger.info(f"📍 [{blog_name}] 현재 페이지 URL: {current_url}")
+            self.logger.info(f" [{blog_name}] 모바일 게시글 상호작용 시작...")
+            self.logger.info(f" [{blog_name}] 현재 페이지 URL: {current_url}")
 
             # 알림창 체크 및 처리
             if self._handle_alerts():
@@ -437,17 +437,17 @@ class PostInteraction:
             enable_comment = config_manager.get('enable_comment', True)
 
             self.logger.info(
-                f"⚙️ [{blog_name}] 설정: 공감={enable_like}, 댓글={enable_comment}")
+                f" [{blog_name}] 설정: 공감={enable_like}, 댓글={enable_comment}")
 
             # 둘 다 비활성화된 경우
             if not enable_like and not enable_comment:
-                self.logger.info(f"🚫 [{blog_name}] 공감/댓글 모두 비활성화 - 아무것도 하지 않음")
+                self.logger.info(f" [{blog_name}] 공감/댓글 모두 비활성화 - 아무것도 하지 않음")
                 return True  # 성공으로 처리 (서이추는 완료되었으니까)
 
             # 공감만 활성화된 경우 (댓글은 비활성화) - 체류 없이 바로 공감만
             if enable_like and not enable_comment:
                 self.logger.info(
-                    f"⚡ [{blog_name}] 공감만 활성화 - 체류 없이 바로 공감 버튼 클릭")
+                    f" [{blog_name}] 공감만 활성화 - 체류 없이 바로 공감 버튼 클릭")
                 return self._click_simple_like_button(blog_name)
 
             # 댓글이 활성화된 경우 (공감과 함께 또는 댓글만) - 기존 로직 사용
@@ -460,19 +460,19 @@ class PostInteraction:
                 if enable_like:
                     like_success = self._click_mobile_like_button(blog_name)
                 else:
-                    self.logger.info(f"🚫 [{blog_name}] 공감 비활성화 - 공감 버튼 건너뛰기")
+                    self.logger.info(f" [{blog_name}] 공감 비활성화 - 공감 버튼 건너뛰기")
 
                 # 댓글 버튼 클릭 및 댓글 작성 (활성화된 경우에만)
                 if enable_comment:
                     comment_success = self._handle_mobile_comment(
                         blog_name, nickname)
                 else:
-                    self.logger.info(f"🚫 [{blog_name}] 댓글 비활성화 - 댓글 작성 건너뛰기")
+                    self.logger.info(f" [{blog_name}] 댓글 비활성화 - 댓글 작성 건너뛰기")
 
                 return like_success and comment_success
             else:
                 self.logger.warning(
-                    f"❌ [{blog_name}] div.section_t1 섹션을 찾을 수 없음")
+                    f" [{blog_name}] div.section_t1 섹션을 찾을 수 없음")
                 return False
 
         except Exception as e:
@@ -486,16 +486,16 @@ class PostInteraction:
                 saved_nickname = self.buddy_manager.current_nickname
                 if saved_nickname:
                     self.logger.info(
-                        f"📋 [{blog_name}] 저장된 닉네임 사용: {saved_nickname}")
+                        f" [{blog_name}] 저장된 닉네임 사용: {saved_nickname}")
                     return saved_nickname
 
             # 저장된 닉네임이 없으면 현재 페이지에서 추출 시도
-            self.logger.info(f"🔍 [{blog_name}] 저장된 닉네임이 없어서 현재 페이지에서 추출 시도")
+            self.logger.info(f" [{blog_name}] 저장된 닉네임이 없어서 현재 페이지에서 추출 시도")
             return self._extract_mobile_nickname_fallback()
 
         except Exception as e:
             self.logger.warning(
-                f"⚠️ [{blog_name}] 닉네임 가져오기 중 오류: {e} - 기본값 사용")
+                f" [{blog_name}] 닉네임 가져오기 중 오류: {e} - 기본값 사용")
             return "친구"
 
     def _extract_mobile_nickname_fallback(self):
@@ -522,15 +522,15 @@ class PostInteraction:
             config_manager = ConfigManager()
             stay_time = config_manager.get('stay_time', 10)
 
-            self.logger.info(f"📊 [{blog_name}] 체류 시간 설정: {stay_time}초")
+            self.logger.info(f" [{blog_name}] 체류 시간 설정: {stay_time}초")
 
             # div.se-main-container 요소 찾기 및 끝까지 스크롤
             try:
                 self.logger.info(
-                    f"🔍 [{blog_name}] div.se-main-container 검색 중...")
+                    f" [{blog_name}] div.se-main-container 검색 중...")
                 main_container = self.driver.find_element(
                     By.CSS_SELECTOR, "div.se-main-container")
-                self.logger.info(f"✅ [{blog_name}] div.se-main-container 발견")
+                self.logger.info(f" [{blog_name}] div.se-main-container 발견")
 
                 # 요소의 위치 정보 가져오기
                 element_location = main_container.location
@@ -539,9 +539,9 @@ class PostInteraction:
                     element_size['height']
 
                 self.logger.info(
-                    f"📍 [{blog_name}] se-main-container 위치: {element_location['y']}px, 크기: {element_size['height']}px")
+                    f" [{blog_name}] se-main-container 위치: {element_location['y']}px, 크기: {element_size['height']}px")
                 self.logger.info(
-                    f"🎯 [{blog_name}] 목표 스크롤 위치 (끝): {target_scroll_position}px")
+                    f" [{blog_name}] 목표 스크롤 위치 (끝): {target_scroll_position}px")
 
                 # 현재 스크롤 위치
                 current_scroll = self.driver.execute_script(
@@ -554,7 +554,7 @@ class PostInteraction:
                 step_delay = stay_time / scroll_steps
 
                 self.logger.info(
-                    f"📊 [{blog_name}] 스크롤 계획: {scroll_steps}단계, 단계당 {step_delay:.1f}초")
+                    f" [{blog_name}] 스크롤 계획: {scroll_steps}단계, 단계당 {step_delay:.1f}초")
 
                 # 점진적 스크롤
                 for step in range(scroll_steps):
@@ -565,17 +565,17 @@ class PostInteraction:
                     self.driver.execute_script(
                         f"window.scrollTo({{top: {target_scroll}, behavior: 'smooth'}});")
                     self.logger.debug(
-                        f"📊 [{blog_name}] 스크롤 단계 {step+1}/{scroll_steps}: {target_scroll}px")
+                        f" [{blog_name}] 스크롤 단계 {step+1}/{scroll_steps}: {target_scroll}px")
 
                     time.sleep(step_delay)
 
                 self.logger.info(
-                    f"✅ [{blog_name}] div.se-main-container 끝까지 스크롤 완료")
+                    f" [{blog_name}] div.se-main-container 끝까지 스크롤 완료")
                 return True
 
             except NoSuchElementException:
                 self.logger.warning(
-                    f"❌ [{blog_name}] div.se-main-container를 찾을 수 없음")
+                    f" [{blog_name}] div.se-main-container를 찾을 수 없음")
                 return False
 
         except Exception as e:
@@ -585,10 +585,10 @@ class PostInteraction:
     def _extract_and_store_blog_content(self, blog_name):
         """모바일 페이지에서 블로그 제목과 본문 내용 미리 추출하여 저장하고 AI 댓글 생성"""
         try:
-            self.logger.info(f"📄 [{blog_name}] 블로그 내용 미리 추출 시작")
+            self.logger.info(f" [{blog_name}] 블로그 내용 미리 추출 시작")
 
             current_url = self.driver.current_url
-            self.logger.info(f"📄 [{blog_name}] 현재 URL: {current_url}")
+            self.logger.info(f" [{blog_name}] 현재 URL: {current_url}")
 
             # 제목 추출 시도
             title = ""
@@ -601,39 +601,39 @@ class PostInteraction:
             ]
             for selector in title_selectors:
                 try:
-                    self.logger.info(f"📄 [{blog_name}] 제목 추출 시도: {selector}")
+                    self.logger.info(f" [{blog_name}] 제목 추출 시도: {selector}")
                     title_elements = self.driver.find_elements(
                         By.CSS_SELECTOR, selector)
                     self.logger.info(
-                        f"📄 [{blog_name}] {selector} 요소 개수: {len(title_elements)}")
+                        f" [{blog_name}] {selector} 요소 개수: {len(title_elements)}")
                     if title_elements:
                         title = title_elements[0].text.strip()
                         if title:
                             self.logger.info(
-                                f"✅ [{blog_name}] 제목 추출 성공 ({selector}): '{title[:50]}...'")
+                                f" [{blog_name}] 제목 추출 성공 ({selector}): '{title[:50]}...'")
                             break
                 except Exception as e:
                     self.logger.debug(
-                        f"📄 [{blog_name}] {selector} 제목 추출 중 오류: {e}")
+                        f" [{blog_name}] {selector} 제목 추출 중 오류: {e}")
 
             # 본문 추출 시도 - div.se-main-container 안의 p.se-text-paragraph들
             content = ""
             try:
                 self.logger.info(
-                    f"📄 [{blog_name}] 본문 추출 시도: div.se-main-container 내부 p.se-text-paragraph")
+                    f" [{blog_name}] 본문 추출 시도: div.se-main-container 내부 p.se-text-paragraph")
 
                 # div.se-main-container 찾기
                 main_container = self.driver.find_elements(
                     By.CSS_SELECTOR, "div.se-main-container")
                 self.logger.info(
-                    f"📄 [{blog_name}] div.se-main-container 요소 개수: {len(main_container)}")
+                    f" [{blog_name}] div.se-main-container 요소 개수: {len(main_container)}")
 
                 if main_container:
                     # 컨테이너 내부의 모든 p.se-text-paragraph 찾기
                     paragraphs = main_container[0].find_elements(
                         By.CSS_SELECTOR, "p.se-text-paragraph")
                     self.logger.info(
-                        f"📄 [{blog_name}] p.se-text-paragraph 개수: {len(paragraphs)}")
+                        f" [{blog_name}] p.se-text-paragraph 개수: {len(paragraphs)}")
 
                     content_parts = []
                     for i, paragraph in enumerate(paragraphs):
@@ -642,7 +642,7 @@ class PostInteraction:
                             spans = paragraph.find_elements(
                                 By.TAG_NAME, "span")
                             self.logger.debug(
-                                f"📄 [{blog_name}] p[{i}] 안의 span 개수: {len(spans)}")
+                                f" [{blog_name}] p[{i}] 안의 span 개수: {len(spans)}")
 
                             paragraph_text = ""
                             for span in spans:
@@ -653,50 +653,50 @@ class PostInteraction:
                             if paragraph_text.strip():
                                 content_parts.append(paragraph_text.strip())
                                 self.logger.debug(
-                                    f"📄 [{blog_name}] p[{i}] 텍스트: '{paragraph_text.strip()[:100]}...'")
+                                    f" [{blog_name}] p[{i}] 텍스트: '{paragraph_text.strip()[:100]}...'")
                         except Exception as e:
                             self.logger.debug(
-                                f"📄 [{blog_name}] p[{i}] 처리 중 오류: {e}")
+                                f" [{blog_name}] p[{i}] 처리 중 오류: {e}")
 
                     # 모든 문단 합치기
                     content = "\n".join(content_parts)
 
                     if content:
                         self.logger.info(
-                            f"✅ [{blog_name}] 본문 추출 성공: {len(content_parts)}개 문단, 총 {len(content)}자")
+                            f" [{blog_name}] 본문 추출 성공: {len(content_parts)}개 문단, 총 {len(content)}자")
                         self.logger.info(
-                            f"📖 [{blog_name}] 추출된 본문 내용 (전체):\n{content}")
+                            f" [{blog_name}] 추출된 본문 내용 (전체):\n{content}")
                     else:
                         self.logger.warning(
-                            f"⚠️ [{blog_name}] p.se-text-paragraph에서 텍스트를 찾을 수 없음")
+                            f" [{blog_name}] p.se-text-paragraph에서 텍스트를 찾을 수 없음")
 
                         # fallback: 전체 컨테이너 텍스트 시도
                         content = main_container[0].text.strip()
                         if content:
                             self.logger.info(
-                                f"🔄 [{blog_name}] fallback으로 전체 컨테이너 텍스트 사용: {len(content)}자")
+                                f" [{blog_name}] fallback으로 전체 컨테이너 텍스트 사용: {len(content)}자")
                             self.logger.info(
-                                f"📖 [{blog_name}] fallback 본문 내용 (전체):\n{content}")
+                                f" [{blog_name}] fallback 본문 내용 (전체):\n{content}")
                 else:
                     self.logger.warning(
-                        f"⚠️ [{blog_name}] div.se-main-container를 찾을 수 없음")
+                        f" [{blog_name}] div.se-main-container를 찾을 수 없음")
 
                     # fallback: 다른 선택자들 시도
                     fallback_selectors = ["div.post_view", "div.post_ct"]
                     for selector in fallback_selectors:
                         self.logger.info(
-                            f"📄 [{blog_name}] fallback 본문 추출 시도: {selector}")
+                            f" [{blog_name}] fallback 본문 추출 시도: {selector}")
                         fallback_elements = self.driver.find_elements(
                             By.CSS_SELECTOR, selector)
                         if fallback_elements:
                             content = fallback_elements[0].text.strip()
                             if content:
                                 self.logger.info(
-                                    f"✅ [{blog_name}] fallback 본문 추출 성공 ({selector}): {len(content)}자")
+                                    f" [{blog_name}] fallback 본문 추출 성공 ({selector}): {len(content)}자")
                                 break
 
             except Exception as e:
-                self.logger.error(f"❌ [{blog_name}] 본문 추출 중 오류: {e}")
+                self.logger.error(f" [{blog_name}] 본문 추출 중 오류: {e}")
 
             # 결과 저장
             self.extracted_title = title
@@ -704,30 +704,30 @@ class PostInteraction:
 
             # 추출된 전체 내용을 로그로 출력
             if title:
-                self.logger.info(f"📄 [{blog_name}] 추출된 제목 전체:\n{title}")
+                self.logger.info(f" [{blog_name}] 추출된 제목 전체:\n{title}")
             if content:
-                self.logger.info(f"📄 [{blog_name}] 추출된 본문 전체:\n{content}")
+                self.logger.info(f" [{blog_name}] 추출된 본문 전체:\n{content}")
 
             # 내용 추출이 성공하면 바로 AI 댓글 생성
             self._pre_generate_ai_comment(blog_name)
 
             self.logger.info(
-                f"📄 [{blog_name}] 블로그 내용 미리 추출 완료 - 제목: {len(title)}자, 본문: {len(content)}자")
+                f" [{blog_name}] 블로그 내용 미리 추출 완료 - 제목: {len(title)}자, 본문: {len(content)}자")
 
             if not title and not content:
                 # 디버깅을 위한 페이지 소스 일부 확인
                 try:
                     page_source = self.driver.page_source[:2000]
                     self.logger.info(
-                        f"📄 [{blog_name}] 추출 실패, 페이지 소스 일부:\n{page_source}")
+                        f" [{blog_name}] 추출 실패, 페이지 소스 일부:\n{page_source}")
                 except:
-                    self.logger.error(f"❌ [{blog_name}] 페이지 소스 확인도 실패")
+                    self.logger.error(f" [{blog_name}] 페이지 소스 확인도 실패")
 
         except Exception as e:
-            self.logger.error(f"❌ [{blog_name}] 블로그 내용 미리 추출 중 오류: {e}")
+            self.logger.error(f" [{blog_name}] 블로그 내용 미리 추출 중 오류: {e}")
             import traceback
             self.logger.error(
-                f"❌ [{blog_name}] 스택 트레이스:\n{traceback.format_exc()}")
+                f" [{blog_name}] 스택 트레이스:\n{traceback.format_exc()}")
             self.extracted_title = ""
             self.extracted_content = ""
 
@@ -740,7 +740,7 @@ class PostInteraction:
             # 댓글이 비활성화된 경우 AI 댓글 생성 건너뛰기
             enable_comment = config_manager.get('enable_comment', True)
             if not enable_comment:
-                self.logger.info(f"🚫 [{blog_name}] 댓글 기능 비활성화 - AI 댓글 생성 건너뛰기")
+                self.logger.info(f" [{blog_name}] 댓글 기능 비활성화 - AI 댓글 생성 건너뛰기")
                 return
 
             comment_type = config_manager.get('comment_type', 'ai')
@@ -748,19 +748,19 @@ class PostInteraction:
             gemini_api_key = config_manager.get('gemini_api_key', '')
 
             if not use_ai_comment or not gemini_api_key:
-                self.logger.info(f"🤖 [{blog_name}] AI 댓글 생성 건너뜀 (AI 모드 아님)")
+                self.logger.info(f" [{blog_name}] AI 댓글 생성 건너뜀 (AI 모드 아님)")
                 return
 
             if not self.extracted_content:
                 self.logger.warning(
-                    f"⚠️ [{blog_name}] 추출된 본문이 없어서 AI 댓글 생성 불가")
+                    f" [{blog_name}] 추출된 본문이 없어서 AI 댓글 생성 불가")
                 return
 
-            self.logger.info(f"🤖 [{blog_name}] AI 댓글 미리 생성 시작")
+            self.logger.info(f" [{blog_name}] AI 댓글 미리 생성 시작")
 
             # AI 댓글 생성기 초기화 (한 번만)
             if not self.ai_comment_generator or self.ai_comment_generator.api_key != gemini_api_key:
-                self.logger.info(f"🔧 [{blog_name}] AI 댓글 생성기 초기화 중...")
+                self.logger.info(f" [{blog_name}] AI 댓글 생성기 초기화 중...")
                 self.ai_comment_generator = AICommentGenerator(
                     gemini_api_key, self.logger)
 
@@ -768,7 +768,7 @@ class PostInteraction:
             content_for_ai = self.extracted_content[:2000]
             if len(self.extracted_content) > 2000:
                 self.logger.info(
-                    f"📝 [{blog_name}] 본문을 2000자로 제한 (원본: {len(self.extracted_content)}자)")
+                    f" [{blog_name}] 본문을 2000자로 제한 (원본: {len(self.extracted_content)}자)")
 
             # AI 댓글 생성
             ai_comment = self.ai_comment_generator.generate_comment_with_fallback(
@@ -777,15 +777,15 @@ class PostInteraction:
             if ai_comment:
                 self.pre_generated_ai_comment = ai_comment
                 self.logger.info(
-                    f"🤖 [{blog_name}] AI 댓글 미리 생성 완료: '{ai_comment}'")
+                    f" [{blog_name}] AI 댓글 미리 생성 완료: '{ai_comment}'")
             else:
-                self.logger.warning(f"⚠️ [{blog_name}] AI 댓글 미리 생성 실패")
+                self.logger.warning(f" [{blog_name}] AI 댓글 미리 생성 실패")
 
         except Exception as e:
-            self.logger.error(f"❌ [{blog_name}] AI 댓글 미리 생성 중 오류: {e}")
+            self.logger.error(f" [{blog_name}] AI 댓글 미리 생성 중 오류: {e}")
             import traceback
             self.logger.error(
-                f"❌ [{blog_name}] 스택 트레이스:\n{traceback.format_exc()}")
+                f" [{blog_name}] 스택 트레이스:\n{traceback.format_exc()}")
             self.pre_generated_ai_comment = None
 
     def _click_mobile_like_button(self, blog_name):
@@ -795,7 +795,7 @@ class PostInteraction:
             from selenium.webdriver.support import expected_conditions as EC
 
             self.logger.info(
-                f"🔍 [{blog_name}] div.like_area__afpHi 내부 공감 버튼 검색 중...")
+                f" [{blog_name}] div.like_area__afpHi 내부 공감 버튼 검색 중...")
 
             # div.like_area__afpHi 안에 있는 span.u_likeit_icons._icons 찾기
             like_area = self.driver.find_element(
@@ -804,23 +804,23 @@ class PostInteraction:
                 By.CSS_SELECTOR, "span.u_likeit_icons._icons")
 
             self.logger.info(
-                f"✅ [{blog_name}] 공감 아이콘 발견 (span.u_likeit_icons._icons)")
+                f" [{blog_name}] 공감 아이콘 발견 (span.u_likeit_icons._icons)")
 
             # 공감 아이콘 클릭
-            self.logger.info(f"👆 [{blog_name}] 공감 아이콘 클릭 중...")
+            self.logger.info(f" [{blog_name}] 공감 아이콘 클릭 중...")
             like_icon.click()
             time.sleep(0.5)
 
             # ul.u_likeit_layer._faceLayer가 나타날 때까지 대기
             self.logger.info(
-                f"⏳ [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
+                f" [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
             wait = WebDriverWait(self.driver, 5)
             like_layer = wait.until(EC.presence_of_element_located(
                 (By.CSS_SELECTOR, "ul.u_likeit_layer._faceLayer")))
-            self.logger.info(f"✅ [{blog_name}] 공감 레이어 발견")
+            self.logger.info(f" [{blog_name}] 공감 레이어 발견")
 
             # 공감 아이콘 위치를 기준으로 상대 위치 클릭 (위로 55px, 오른쪽으로 10px)
-            self.logger.info(f"👆 [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
+            self.logger.info(f" [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
             
             # 클릭할 위치 계산 (시각적 표시용)
             like_icon_location = like_icon.location
@@ -849,17 +849,17 @@ class PostInteraction:
                 }}, 3000);
             """)
             
-            self.logger.info(f"🎯 [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
+            self.logger.info(f" [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
             
             # ActionChains로 공감 아이콘에서 상대적으로 이동하여 클릭
             actions = ActionChains(self.driver)
             actions.move_to_element(like_icon).move_by_offset(10, -55).click().perform()
             
-            self.logger.info(f"✅ [{blog_name}] 모바일 공감 완료")
+            self.logger.info(f" [{blog_name}] 모바일 공감 완료")
             return True
 
         except NoSuchElementException as e:
-            self.logger.warning(f"❌ [{blog_name}] 모바일 공감 버튼을 찾을 수 없음: {e}")
+            self.logger.warning(f" [{blog_name}] 모바일 공감 버튼을 찾을 수 없음: {e}")
             return False
         except Exception as e:
             self.logger.error(f"모바일 공감 버튼 클릭 중 오류 ({blog_name}): {e}")
@@ -872,65 +872,65 @@ class PostInteraction:
             from selenium.webdriver.support import expected_conditions as EC
 
             self.logger.info(
-                f"⚡ [{blog_name}] 간단 공감 모드 - div.interact_section__y00DX 대기 중... (최대 10초)")
+                f" [{blog_name}] 간단 공감 모드 - div.interact_section__y00DX 대기 중... (최대 10초)")
 
             # div.interact_section__y00DX.is_floating__hiq1u가 나타날 때까지 최대 10초 대기
             wait = WebDriverWait(self.driver, 10)
             interact_section = wait.until(EC.presence_of_element_located(
                 (By.CSS_SELECTOR, "div.interact_section__y00DX.is_floating__hiq1u")))
-            self.logger.info(f"✅ [{blog_name}] div.interact_section__y00DX 발견")
+            self.logger.info(f" [{blog_name}] div.interact_section__y00DX 발견")
 
             # div.interact_section__y00DX 안에 있는 span.u_likeit_icons 찾기
             self.logger.info(
-                f"⏳ [{blog_name}] interact_section 내부 공감 아이콘 검색 중...")
+                f" [{blog_name}] interact_section 내부 공감 아이콘 검색 중...")
             like_icon = interact_section.find_element(
                 By.CSS_SELECTOR, "span.u_likeit_icons")
             self.logger.info(
-                f"✅ [{blog_name}] interact_section 내부 공감 아이콘 발견")
+                f" [{blog_name}] interact_section 내부 공감 아이콘 발견")
 
             # 여러 방법으로 공감 아이콘 클릭 시도
-            self.logger.info(f"👆 [{blog_name}] 공감 아이콘 클릭 시도 중...")
+            self.logger.info(f" [{blog_name}] 공감 아이콘 클릭 시도 중...")
 
             # 방법 1: ActionChains 클릭
             try:
                 from selenium.webdriver.common.action_chains import ActionChains
                 actions = ActionChains(self.driver)
                 actions.move_to_element(like_icon).click().perform()
-                self.logger.info(f"✅ [{blog_name}] ActionChains 클릭 완료")
+                self.logger.info(f" [{blog_name}] ActionChains 클릭 완료")
             except Exception as e:
                 self.logger.warning(
-                    f"⚠️ [{blog_name}] ActionChains 클릭 실패: {e}")
+                    f" [{blog_name}] ActionChains 클릭 실패: {e}")
 
                 # 방법 2: JavaScript 클릭
                 try:
-                    self.logger.info(f"🔄 [{blog_name}] JavaScript 클릭 시도...")
+                    self.logger.info(f" [{blog_name}] JavaScript 클릭 시도...")
                     self.driver.execute_script(
                         "arguments[0].click();", like_icon)
-                    self.logger.info(f"✅ [{blog_name}] JavaScript 클릭 완료")
+                    self.logger.info(f" [{blog_name}] JavaScript 클릭 완료")
                 except Exception as e2:
                     self.logger.error(
-                        f"❌ [{blog_name}] JavaScript 클릭도 실패: {e2}")
+                        f" [{blog_name}] JavaScript 클릭도 실패: {e2}")
 
                     # 방법 3: 일반 클릭
                     try:
-                        self.logger.info(f"🔄 [{blog_name}] 일반 클릭 시도...")
+                        self.logger.info(f" [{blog_name}] 일반 클릭 시도...")
                         like_icon.click()
-                        self.logger.info(f"✅ [{blog_name}] 일반 클릭 완료")
+                        self.logger.info(f" [{blog_name}] 일반 클릭 완료")
                     except Exception as e3:
-                        self.logger.error(f"❌ [{blog_name}] 모든 클릭 방법 실패: {e3}")
+                        self.logger.error(f" [{blog_name}] 모든 클릭 방법 실패: {e3}")
                         return False
 
             time.sleep(1)  # 클릭 후 반응 시간
 
             # ul.u_likeit_layer._faceLayer가 나타날 때까지 대기
             self.logger.info(
-                f"⏳ [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
+                f" [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
             like_layer = wait.until(EC.presence_of_element_located(
                 (By.CSS_SELECTOR, "ul.u_likeit_layer._faceLayer")))
-            self.logger.info(f"✅ [{blog_name}] 공감 레이어 발견")
+            self.logger.info(f" [{blog_name}] 공감 레이어 발견")
 
             # 공감 아이콘 위치를 기준으로 상대 위치 클릭 (위로 55px, 오른쪽으로 10px)
-            self.logger.info(f"👆 [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
+            self.logger.info(f" [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
             
             # 클릭할 위치 계산 (시각적 표시용)
             like_icon_location = like_icon.location
@@ -959,13 +959,13 @@ class PostInteraction:
                 }}, 3000);
             """)
             
-            self.logger.info(f"🎯 [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
+            self.logger.info(f" [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
             
             # ActionChains로 공감 아이콘에서 상대적으로 이동하여 클릭
             actions = ActionChains(self.driver)
             actions.move_to_element(like_icon).move_by_offset(10, -55).click().perform()
             
-            self.logger.info(f"✅ [{blog_name}] 간단 공감 완룼")
+            self.logger.info(f" [{blog_name}] 간단 공감 완룼")
             return True
 
         except Exception as e:
@@ -979,24 +979,24 @@ class PostInteraction:
 
             # div.comment_area__nxrQe 버튼 찾기 및 클릭
             self.logger.info(
-                f"🔍 [{blog_name}] div.comment_area__nxrQe 댓글 버튼 검색 중...")
+                f" [{blog_name}] div.comment_area__nxrQe 댓글 버튼 검색 중...")
             comment_button = self.driver.find_element(
                 By.CSS_SELECTOR, "div.comment_area__nxrQe")
-            self.logger.info(f"✅ [{blog_name}] 모바일 댓글 버튼 발견")
+            self.logger.info(f" [{blog_name}] 모바일 댓글 버튼 발견")
 
             # 댓글 버튼 클릭
-            self.logger.info(f"👆 [{blog_name}] 모바일 댓글 버튼 클릭 중...")
+            self.logger.info(f" [{blog_name}] 모바일 댓글 버튼 클릭 중...")
             comment_button.click()
             time.sleep(1)  # 토스트 팝업 대기
 
-            self.logger.info(f"✅ [{blog_name}] 댓글 토스트 팝업 활성화")
+            self.logger.info(f" [{blog_name}] 댓글 토스트 팝업 활성화")
 
             # 댓글 입력창에서 댓글 작성
             return self._write_mobile_comment(blog_name, nickname)
 
         except NoSuchElementException:
             self.logger.warning(
-                f"❌ [{blog_name}] div.comment_area__nxrQe 댓글 버튼을 찾을 수 없음")
+                f" [{blog_name}] div.comment_area__nxrQe 댓글 버튼을 찾을 수 없음")
             return False
         except Exception as e:
             self.logger.error(f"모바일 댓글 처리 중 오류 ({blog_name}): {e}")
@@ -1010,27 +1010,27 @@ class PostInteraction:
 
             # div.u_cbox_inbox가 나타날 때까지 대기 (댓글 팝업 로딩 대기)
             self.logger.info(
-                f"⏳ [{blog_name}] div.u_cbox_inbox 대기 중... (최대 10초)")
+                f" [{blog_name}] div.u_cbox_inbox 대기 중... (최대 10초)")
             wait = WebDriverWait(self.driver, 10)
             inbox_element = wait.until(EC.presence_of_element_located(
                 (By.CSS_SELECTOR, "div.u_cbox_inbox")))
-            self.logger.info(f"✅ [{blog_name}] div.u_cbox_inbox 발견")
+            self.logger.info(f" [{blog_name}] div.u_cbox_inbox 발견")
 
             # ActionChains로 inbox 클릭
             self.logger.info(
-                f"👆 [{blog_name}] ActionChains로 div.u_cbox_inbox 클릭 중...")
+                f" [{blog_name}] ActionChains로 div.u_cbox_inbox 클릭 중...")
             from selenium.webdriver.common.action_chains import ActionChains
             actions = ActionChains(self.driver)
             actions.move_to_element(inbox_element).click().perform()
             time.sleep(0.5)
             self.logger.info(
-                f"✅ [{blog_name}] div.u_cbox_inbox 클릭 완료 - 댓글 입력 모드 활성화")
+                f" [{blog_name}] div.u_cbox_inbox 클릭 완료 - 댓글 입력 모드 활성화")
 
             # 이제 댓글 입력창 찾기 (활성화된 상태)
-            self.logger.info(f"🔍 [{blog_name}] 활성화된 댓글 입력창 검색 중...")
+            self.logger.info(f" [{blog_name}] 활성화된 댓글 입력창 검색 중...")
             comment_textarea = self.driver.find_element(
                 By.CSS_SELECTOR, 'div[contenteditable="true"][data-area-code="RPC.input"]')
-            self.logger.info(f"✅ [{blog_name}] 활성화된 댓글 입력창 발견")
+            self.logger.info(f" [{blog_name}] 활성화된 댓글 입력창 발견")
 
             # 설정에서 댓글 타입 옵션 확인
             from utils.config_manager import ConfigManager
@@ -1045,7 +1045,7 @@ class PostInteraction:
 
             # ActionChains로 textarea 클릭 후 댓글 입력
             self.logger.info(
-                f"📝 [{blog_name}] ActionChains로 댓글 입력창 클릭 및 댓글 작성 중...")
+                f" [{blog_name}] ActionChains로 댓글 입력창 클릭 및 댓글 작성 중...")
             actions = ActionChains(self.driver)
             actions.move_to_element(comment_textarea).click().perform()
             time.sleep(1)  # 댓글 입력 UI 컴포넌트가 나타날 시간 확보
@@ -1055,7 +1055,7 @@ class PostInteraction:
             time.sleep(0.5)
 
             # 추가 대기 시간 - 댓글 입력 후 UI 컴포넌트가 완전히 로드될 때까지
-            self.logger.info(f"⏳ [{blog_name}] 댓글 입력 UI 컴포넌트 로딩 대기...")
+            self.logger.info(f" [{blog_name}] 댓글 입력 UI 컴포넌트 로딩 대기...")
             time.sleep(0.5)
 
             # 비밀댓글 옵션 확인 및 처리
@@ -1066,7 +1066,7 @@ class PostInteraction:
             if is_secret_comment:
                 # 비밀댓글 체크박스 찾기 및 클릭 (WebDriverWait 사용)
                 try:
-                    self.logger.info(f"🔍 [{blog_name}] 비밀댓글 체크박스 검색 중...")
+                    self.logger.info(f" [{blog_name}] 비밀댓글 체크박스 검색 중...")
 
                     # WebDriverWait로 요소가 나타날 때까지 대기 (최대 5초)
                     from selenium.webdriver.support.ui import WebDriverWait
@@ -1077,21 +1077,21 @@ class PostInteraction:
                         (By.CSS_SELECTOR, "span.u_cbox_secret_tag")))
                     secret_checkbox = secret_span.find_element(
                         By.CSS_SELECTOR, "input.u_cbox_secret_check")
-                    self.logger.info(f"✅ [{blog_name}] 비밀댓글 체크박스 발견")
+                    self.logger.info(f" [{blog_name}] 비밀댓글 체크박스 발견")
 
                     # ActionChains로 비밀댓글 체크박스 클릭
-                    self.logger.info(f"👆 [{blog_name}] 비밀댓글 체크박스 클릭 중...")
+                    self.logger.info(f" [{blog_name}] 비밀댓글 체크박스 클릭 중...")
                     actions = ActionChains(self.driver)
                     actions.move_to_element(secret_checkbox).click().perform()
                     time.sleep(0.3)
 
-                    self.logger.info(f"✅ [{blog_name}] 비밀댓글 체크박스 클릭 완료")
+                    self.logger.info(f" [{blog_name}] 비밀댓글 체크박스 클릭 완료")
                 except Exception as e:
                     self.logger.warning(
-                        f"❌ [{blog_name}] 비밀댓글 체크박스 처리 중 오류: {e} - 일반 댓글로 등록")
+                        f" [{blog_name}] 비밀댓글 체크박스 처리 중 오류: {e} - 일반 댓글로 등록")
 
             # 댓글 등록 버튼 찾기 및 클릭 (WebDriverWait 사용)
-            self.logger.info(f"🔍 [{blog_name}] 댓글 등록 버튼 검색 중...")
+            self.logger.info(f" [{blog_name}] 댓글 등록 버튼 검색 중...")
             try:
                 from selenium.webdriver.support.ui import WebDriverWait
                 from selenium.webdriver.support import expected_conditions as EC
@@ -1099,25 +1099,25 @@ class PostInteraction:
                 wait = WebDriverWait(self.driver, 5)
                 submit_button = wait.until(EC.element_to_be_clickable(
                     (By.CSS_SELECTOR, 'button.u_cbox_btn_upload.__uis_naverComment_writeButton[data-action="write#request"]')))
-                self.logger.info(f"✅ [{blog_name}] 댓글 등록 버튼 발견")
+                self.logger.info(f" [{blog_name}] 댓글 등록 버튼 발견")
             except Exception as e:
-                self.logger.error(f"❌ [{blog_name}] 댓글 등록 버튼을 찾을 수 없음: {e}")
+                self.logger.error(f" [{blog_name}] 댓글 등록 버튼을 찾을 수 없음: {e}")
                 return False
 
             # ActionChains로 등록 버튼 클릭
             comment_type = "비밀댓글" if is_secret_comment else "일반댓글"
             self.logger.info(
-                f"👆 [{blog_name}] ActionChains로 {comment_type} 등록 버튼 클릭 중...")
+                f" [{blog_name}] ActionChains로 {comment_type} 등록 버튼 클릭 중...")
             actions = ActionChains(self.driver)
             actions.move_to_element(submit_button).click().perform()
             time.sleep(1)
 
             self.logger.info(
-                f"✅ [{blog_name}] 모바일 {comment_type} 등록 완료: {comment_message}")
+                f" [{blog_name}] 모바일 {comment_type} 등록 완료: {comment_message}")
             return True
 
         except NoSuchElementException as e:
-            self.logger.warning(f"❌ [{blog_name}] 필수 요소를 찾을 수 없음: {e}")
+            self.logger.warning(f" [{blog_name}] 필수 요소를 찾을 수 없음: {e}")
             return False
         except Exception as e:
             self.logger.error(f"모바일 댓글 작성 중 오류 ({blog_name}): {e}")

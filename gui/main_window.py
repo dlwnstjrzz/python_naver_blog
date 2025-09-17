@@ -193,7 +193,16 @@ class MainWindow(QMainWindow):
     def init_ui(self):
         """UI 초기화"""
         self.setWindowTitle("네이버 블로그 자동화")
-        self.setGeometry(100, 100, 800, 700)  # 로고 공간을 위해 약간 늘림
+
+        # 창 크기를 유연하게 설정 (모든 요소가 보이는 크기로 최소 크기 설정)
+        self.setMinimumSize(550, 620)  # 최소 크기 설정 (모든 요소가 보이는 크기)
+        self.resize(650, 700)  # 초기 크기 (가로 축소)
+
+        # 화면 중앙에 위치시키기
+        screen = QApplication.desktop().screenGeometry()
+        size = self.geometry()
+        self.move(int((screen.width() - size.width()) / 2),
+                 int((screen.height() - size.height()) / 2))
 
         # 윈도우 아이콘 설정
         try:
@@ -454,22 +463,23 @@ class MainWindow(QMainWindow):
             if os.path.exists(logo_path):
                 from PyQt5.QtGui import QPixmap
                 pixmap = QPixmap(logo_path)
-                # 로고 크기 조절 (60x60)
-                scaled_pixmap = pixmap.scaled(60, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                # 로고 크기 조절 (50x50)
+                scaled_pixmap = pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 logo_label.setPixmap(scaled_pixmap)
         except:
             logo_label.setText("로고")
-            logo_label.setStyleSheet("color: #fe4847; font-size: 20px; font-weight: bold;")
+            logo_label.setStyleSheet("color: #fe4847; font-size: 16px; font-weight: bold;")
 
         # 타이틀 레이블
-        title_label = QLabel("네이버 블로그 자동화")
+        title_label = QLabel("자동화로 시간을 지배하라")
         title_label.setStyleSheet("""
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
-            margin-left: 15px;
+            margin-left: 12px;
         """)
 
+        logo_layout.addStretch()  # 왼쪽 공간 채우기
         logo_layout.addWidget(logo_label)
         logo_layout.addWidget(title_label)
         logo_layout.addStretch()  # 오른쪽 공간 채우기
@@ -498,7 +508,7 @@ class MainWindow(QMainWindow):
         button_layout.setContentsMargins(0, 10, 0, 0)  # 버튼 영역 상단 여백
 
         self.save_button = QPushButton("설정 저장")
-        self.save_button.setMinimumHeight(40)
+        self.save_button.setMinimumHeight(32)
         save_font = QFont()
         save_font.setPointSize(10)  # 버튼 폰트 크기 줄임
         self.save_button.setFont(save_font)
@@ -508,7 +518,7 @@ class MainWindow(QMainWindow):
                 color: white;
                 border: 1px solid #fe4847;
                 border-radius: 5px;
-                padding: 8px 16px;
+                padding: 6px 12px;
                 font-weight: bold;
             }
             QPushButton:hover {
@@ -523,13 +533,13 @@ class MainWindow(QMainWindow):
 
         # 추출한 계정 보기 버튼 추가
         self.view_extracted_users_btn = QPushButton("추출한 계정 보기")
-        self.view_extracted_users_btn.setMinimumHeight(40)
+        self.view_extracted_users_btn.setMinimumHeight(32)
         self.view_extracted_users_btn.setFont(save_font)
         self.view_extracted_users_btn.clicked.connect(self.show_extracted_users)
         
         # 서이추 신청 자동 취소 버튼 추가
         self.auto_cancel_btn = QPushButton("서이추 신청 자동 취소")
-        self.auto_cancel_btn.setMinimumHeight(40)
+        self.auto_cancel_btn.setMinimumHeight(32)
         self.auto_cancel_btn.setFont(save_font)
         self.auto_cancel_btn.clicked.connect(self.start_auto_cancel)
         self.auto_cancel_btn.setStyleSheet("""
@@ -538,7 +548,7 @@ class MainWindow(QMainWindow):
                 color: white;
                 border: 1px solid #fe4847;
                 border-radius: 5px;
-                padding: 8px 16px;
+                padding: 6px 12px;
                 font-weight: bold;
             }
             QPushButton:hover {
@@ -705,14 +715,14 @@ class MainWindow(QMainWindow):
         message_group.setFont(font_default)
         message_layout = QVBoxLayout(message_group)
         message_layout.setContentsMargins(15, 15, 15, 15)  # 그룹 내부 여백 줄임
-        message_layout.setSpacing(8)  # 그룹 내 요소간 간격 줄임
+        message_layout.setSpacing(4)  # 그룹 내 요소간 간격 더 줄임
 
-        msg_label = QLabel("메시지 ({nickname} 변수 사용 가능):")
+        msg_label = QLabel("{nickname} = 추가하는 이웃의 닉네임")
         msg_label.setFont(font_default)
         message_layout.addWidget(msg_label)
         self.neighbor_message_edit = QTextEdit()
         self.neighbor_message_edit.setFont(font_default)
-        self.neighbor_message_edit.setMaximumHeight(60)
+        self.neighbor_message_edit.setMaximumHeight(28)
         self.neighbor_message_edit.setText("안녕하세요! {nickname}님 서로이웃 해요!")
         message_layout.addWidget(self.neighbor_message_edit)
 
@@ -725,18 +735,24 @@ class MainWindow(QMainWindow):
         interaction_layout.setContentsMargins(15, 15, 15, 15)  # 그룹 내부 여백 줄임
         interaction_layout.setSpacing(8)  # 그룹 내 요소간 간격 줄임
 
+        # 공감/댓글 체크박스 가로 배치
+        checkbox_layout = QHBoxLayout()
+
         # 공감 체크박스
         self.like_checkbox = QCheckBox("공감하기")
         self.like_checkbox.setFont(font_default)
         self.like_checkbox.setChecked(True)  # 기본값 True
-        interaction_layout.addWidget(self.like_checkbox)
+        checkbox_layout.addWidget(self.like_checkbox)
 
         # 댓글 체크박스
         self.comment_checkbox = QCheckBox("댓글 작성")
         self.comment_checkbox.setFont(font_default)
         self.comment_checkbox.setChecked(True)  # 기본값 True
         self.comment_checkbox.toggled.connect(self.on_comment_checkbox_toggled)
-        interaction_layout.addWidget(self.comment_checkbox)
+        checkbox_layout.addWidget(self.comment_checkbox)
+
+        checkbox_layout.addStretch()  # 오른쪽 공간 채우기
+        interaction_layout.addLayout(checkbox_layout)
 
         # 댓글 세부 옵션 그룹 (댓글 체크박스가 체크된 경우에만 표시)
         self.comment_detail_group = QGroupBox("댓글 세부 옵션")
@@ -745,39 +761,50 @@ class MainWindow(QMainWindow):
         comment_detail_layout.setContentsMargins(15, 15, 15, 15)
         comment_detail_layout.setSpacing(10)
 
-        # 댓글 타입 라디오 버튼
+        # 댓글 타입 라디오 버튼과 비밀댓글 체크박스를 가로로 배치
+        comment_options_layout = QHBoxLayout()
+
         self.comment_type_group = QButtonGroup()
-        
+
         self.ai_radio = QRadioButton("AI 댓글")
         self.ai_radio.setFont(font_default)
         self.ai_radio.setChecked(True)
         self.ai_radio.toggled.connect(self.on_ai_comment_toggled)
         self.comment_type_group.addButton(self.ai_radio, 0)
-        comment_detail_layout.addWidget(self.ai_radio)
+        comment_options_layout.addWidget(self.ai_radio)
+
+        self.random_radio = QRadioButton("랜덤 멘트")
+        self.random_radio.setFont(font_default)
+        self.random_radio.toggled.connect(self.on_random_comment_toggled)
+        self.comment_type_group.addButton(self.random_radio, 1)
+        comment_options_layout.addWidget(self.random_radio)
+
+        # 비밀댓글 체크박스 추가 (가로 배치)
+        self.secret_comment_checkbox = QCheckBox("비밀댓글 달기")
+        self.secret_comment_checkbox.setFont(font_default)
+        comment_options_layout.addWidget(self.secret_comment_checkbox)
+
+        comment_options_layout.addStretch()  # 오른쪽 공간 채우기
+        comment_detail_layout.addLayout(comment_options_layout)
 
         # AI 댓글용 Gemini API 키 입력칸
         self.gemini_api_layout = QHBoxLayout()
         self.gemini_api_label = QLabel("Gemini API 키:")
         self.gemini_api_label.setFont(font_default)
         self.gemini_api_layout.addWidget(self.gemini_api_label)
-        
+
         self.gemini_api_edit = QLineEdit()
         self.gemini_api_edit.setFont(font_default)
         self.gemini_api_edit.setPlaceholderText("Gemini API 키를 입력하세요...")
         self.gemini_api_edit.setEchoMode(QLineEdit.Password)  # 비밀번호처럼 숨김 처리
         self.gemini_api_layout.addWidget(self.gemini_api_edit)
-        
+
         comment_detail_layout.addLayout(self.gemini_api_layout)
 
-        self.random_radio = QRadioButton("랜덤 멘트")
-        self.random_radio.setFont(font_default)
-        self.comment_type_group.addButton(self.random_radio, 1)
-        comment_detail_layout.addWidget(self.random_radio)
-
-        # 랜덤 댓글 입력창
-        random_label = QLabel("랜덤 댓글 목록 ({nickname} 사용 가능):")
-        random_label.setFont(font_default)
-        comment_detail_layout.addWidget(random_label)
+        # 랜덤 댓글 입력창 (랜덤 멘트 선택 시에만 표시)
+        self.random_label = QLabel("랜덤 댓글 목록:")
+        self.random_label.setFont(font_default)
+        comment_detail_layout.addWidget(self.random_label)
         self.random_comments_edit = QTextEdit()
         self.random_comments_edit.setFont(font_default)
         self.random_comments_edit.setMaximumHeight(80)
@@ -790,11 +817,6 @@ class MainWindow(QMainWindow):
         ]
         self.random_comments_edit.setText('\n'.join(default_comments))
         comment_detail_layout.addWidget(self.random_comments_edit)
-
-        # 비밀댓글 체크박스 추가
-        self.secret_comment_checkbox = QCheckBox("비밀댓글 달기")
-        self.secret_comment_checkbox.setFont(font_default)
-        comment_detail_layout.addWidget(self.secret_comment_checkbox)
 
         interaction_layout.addWidget(self.comment_detail_group)
         layout.addWidget(interaction_group)
@@ -845,12 +867,10 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(status_group)
 
-        # 실행 컨트롤 그룹
-        control_group = QGroupBox("실행 제어")
-        control_group.setFont(font_default)
-        control_layout = QVBoxLayout(control_group)
-        control_layout.setContentsMargins(15, 15, 15, 15)  # 그룹 내부 여백 줄임
-        control_layout.setSpacing(10)  # 그룹 내 요소간 간격 줄임
+        # 실행 컨트롤 (소제목 제거)
+        control_layout = QVBoxLayout()
+        control_layout.setContentsMargins(0, 0, 0, 0)  # 여백 제거
+        control_layout.setSpacing(10)
 
         self.start_button = QPushButton("자동화 시작")
         self.start_button.setMinimumHeight(50)
@@ -886,7 +906,7 @@ class MainWindow(QMainWindow):
         self.progress_bar.setVisible(False)
         control_layout.addWidget(self.progress_bar)
 
-        layout.addWidget(control_group)
+        layout.addLayout(control_layout)
 
         # 로그 그룹
         log_group = QGroupBox("실행 로그")
@@ -1132,19 +1152,38 @@ class MainWindow(QMainWindow):
                 return
             
             # 페이지 선택 다이얼로그 표시
-            pages, ok = QInputDialog.getInt(self, "📄 페이지 선택",
-                                          "🔙 뒤에서부터 몇 페이지를 취소할까요?",
-                                          value=1, min=1, max=50)
+            input_dialog = QInputDialog(self)
+            input_dialog.setWindowTitle("📄 페이지 선택")
+            input_dialog.setLabelText("🔙 뒤에서부터 몇 페이지를 취소할까요?")
+            input_dialog.setIntValue(1)
+            input_dialog.setIntMinimum(1)
+            input_dialog.setIntMaximum(50)
+            input_dialog.setIntStep(1)
+            input_dialog.setInputMode(QInputDialog.IntInput)
+
+            # 버튼 텍스트 변경
+            input_dialog.setOkButtonText("확인")
+            input_dialog.setCancelButtonText("취소")
+
+            ok = input_dialog.exec_()
+            pages = input_dialog.intValue()
             
             if not ok:
                 return
             
             # 확인 다이얼로그
-            reply = QMessageBox.question(self, "❓ 중요 확인",
-                                       f"🚨 뒤에서부터 {pages}페이지의 서이추 신청을 모두 취소하시겠습니까?\n\n⚠️ 이 작업은 취소할 수 없습니다.",
-                                       QMessageBox.Yes | QMessageBox.No)
-            
-            if reply == QMessageBox.Yes:
+            msg_box = QMessageBox(self)
+            msg_box.setWindowTitle("❓ 중요 확인")
+            msg_box.setText(f"🚨 뒤에서부터 {pages}페이지의 서이추 신청을 모두 취소하시겠습니까?\n\n⚠️ 이 작업은 취소할 수 없습니다.")
+            msg_box.setIcon(QMessageBox.Question)
+
+            # 커스텀 버튼 추가
+            execute_btn = msg_box.addButton("실행하기", QMessageBox.YesRole)
+            cancel_btn = msg_box.addButton("취소", QMessageBox.NoRole)
+
+            msg_box.exec_()
+
+            if msg_box.clickedButton() == execute_btn:
                 self.execute_auto_cancel(naver_id, pages)
                 
         except Exception as e:
@@ -1225,16 +1264,27 @@ class MainWindow(QMainWindow):
         # AI 댓글이 선택되었고 댓글이 활성화된 경우에만 API 키 입력칸 표시
         if is_comment_enabled:
             self.on_ai_comment_toggled()
+            self.on_random_comment_toggled()
 
     def on_ai_comment_toggled(self):
         """AI 댓글 라디오 버튼 상태 변경 시 호출"""
         is_ai_selected = self.ai_radio.isChecked()
         is_comment_enabled = self.comment_checkbox.isChecked()
-        
+
         # AI 댓글이 선택되고 댓글이 활성화된 경우에만 Gemini API 키 입력칸 표시
         show_api_key = is_ai_selected and is_comment_enabled
         self.gemini_api_label.setVisible(show_api_key)
         self.gemini_api_edit.setVisible(show_api_key)
+
+    def on_random_comment_toggled(self):
+        """랜덤 댓글 라디오 버튼 상태 변경 시 호출"""
+        is_random_selected = self.random_radio.isChecked()
+        is_comment_enabled = self.comment_checkbox.isChecked()
+
+        # 랜덤 멘트가 선택되고 댓글이 활성화된 경우에만 랜덤 댓글 목록 표시
+        show_random_comments = is_random_selected and is_comment_enabled
+        self.random_label.setVisible(show_random_comments)
+        self.random_comments_edit.setVisible(show_random_comments)
 
     def toggle_automation(self):
         """자동화 시작/중지"""
