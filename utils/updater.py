@@ -63,32 +63,99 @@ class UpdateDownloadThread(QThread):
 
 class GitHubReleaseUpdater:
     """GitHub Releases를 사용한 자동 업데이트 관리 클래스"""
-    
+
     def __init__(self, config: Dict):
         """
         초기화
-        
+
         Args:
             config: 업데이트 관련 설정 딕셔너리
         """
         self.config = config
         self.logger = setup_logger()
         self.current_version = get_version()
-        
+
         # GitHub 설정
         self.github_repo = config.get('github_repo', 'dlwnstjrzz/python_naver_blog')
         self.github_token = config.get('github_token', '')  # 선택적, private repo용
         self.check_on_startup = config.get('check_update_on_startup', True)
         self.backup_enabled = config.get('backup_on_update', True)
-        
+
         # GitHub API URL 구성
         self.api_base = f"https://api.github.com/repos/{self.github_repo}"
-        
+
         # 경로 설정
         self.project_root = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.backup_dir = self.project_root / 'backups'
         self.temp_dir = Path(tempfile.mkdtemp(prefix='naver_blog_update_'))
-        
+
+        # 업데이트 전용 로그 설정
+        self.setup_update_logger()
+
+    def setup_update_logger(self):
+        """업데이트 전용 로그 파일 설정"""
+        try:
+            import logging
+            from datetime import datetime
+
+            # 로그 디렉토리 설정
+            if getattr(sys, 'frozen', False):
+                # exe 파일로 실행되는 경우, exe 파일과 같은 디렉토리에 logs 폴더 생성
+                log_dir = Path(os.path.dirname(sys.executable)) / "logs"
+            else:
+                # Python 스크립트로 실행되는 경우
+                log_dir = self.project_root / "logs"
+
+            log_dir.mkdir(exist_ok=True)
+
+            # 업데이트 로그 파일명 (날짜별)
+            today = datetime.now().strftime('%Y%m%d')
+            self.update_log_file = log_dir / f"update_{today}.log"
+
+            # 업데이트 전용 로거 생성
+            self.update_logger = logging.getLogger('updater')
+            self.update_logger.setLevel(logging.DEBUG)
+
+            # 기존 핸들러 제거
+            for handler in self.update_logger.handlers[:]:
+                self.update_logger.removeHandler(handler)
+
+            # 파일 핸들러 생성
+            file_handler = logging.FileHandler(self.update_log_file, encoding='utf-8')
+            file_handler.setLevel(logging.DEBUG)
+
+            # 로그 포맷 설정
+            formatter = logging.Formatter(
+                '[%(asctime)s] %(levelname)s - %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'
+            )
+            file_handler.setFormatter(formatter)
+
+            self.update_logger.addHandler(file_handler)
+
+            # 업데이트 시작 로그
+            self.update_logger.info("=" * 60)
+            self.update_logger.info("업데이트 프로세스 시작")
+            self.update_logger.info(f"현재 버전: {self.current_version}")
+            self.update_logger.info(f"GitHub 레포지토리: {self.github_repo}")
+            self.update_logger.info(f"실행 환경: {'PyInstaller (exe)' if getattr(sys, 'frozen', False) else 'Python 스크립트'}")
+            self.update_logger.info(f"프로젝트 루트: {self.project_root}")
+            self.update_logger.info(f"백업 디렉토리: {self.backup_dir}")
+            self.update_logger.info(f"임시 디렉토리: {self.temp_dir}")
+            self.update_logger.info("=" * 60)
+
+        except Exception as e:
+            self.logger.error(f"업데이트 로거 설정 실패: {str(e)}")
+
+    def log_update(self, level: str, message: str):
+        """업데이트 로그 기록"""
+        try:
+            getattr(self.update_logger, level.lower())(message)
+            # 일반 로거에도 기록
+            getattr(self.logger, level.lower())(f"[UPDATE] {message}")
+        except:
+            self.logger.info(f"[UPDATE] {message}")
+
     def get_github_headers(self) -> Dict[str, str]:
         """GitHub API 요청 헤더 생성"""
         headers = {
@@ -160,16 +227,22 @@ class GitHubReleaseUpdater:
         else:
             target_name = 'linux'  # 기본값
 
+        self.log_update('info', f"에셋 검색 시작 (대상 OS: {target_name})")
+
         # 우선순위 1: 현재 OS에 맞는 zip 파일 찾기
         for asset in assets:
             name = asset.get('name', '').lower()
+            self.log_update('debug', f"에셋 검사: {name}")
             if name.endswith('.zip') and target_name in name and not name.startswith('source'):
+                self.log_update('info', f"OS별 에셋 발견: {asset.get('name')}")
                 return asset
 
         # 우선순위 2: 일반적인 zip 파일 (OS 구분 없이)
+        self.log_update('info', "OS별 에셋을 찾을 수 없음. 일반 zip 파일 검색 중...")
         for asset in assets:
             name = asset.get('name', '').lower()
             if name.endswith('.zip') and not name.startswith('source'):
+                self.log_update('info', f"일반 zip 에셋 발견: {asset.get('name')}")
                 return asset
         
         # 우선순위 3: GitHub이 자동 생성하는 소스코드 zip 사용
@@ -192,39 +265,58 @@ class GitHubReleaseUpdater:
     def check_for_updates(self) -> Tuple[bool, Optional[Dict]]:
         """
         GitHub Releases에서 업데이트 확인
-        
+
         Returns:
             Tuple[bool, Optional[Dict]]: (업데이트 필요 여부, 업데이트 정보)
         """
         try:
+            self.log_update('info', "업데이트 확인 시작")
+
             # 최신 릴리스 정보 가져오기
+            self.log_update('info', f"GitHub API 요청: {self.api_base}/releases/latest")
             release_info = self.get_latest_release()
             if not release_info:
-                self.logger.warning("릴리스 정보를 가져올 수 없습니다.")
+                self.log_update('warning', "릴리스 정보를 가져올 수 없습니다.")
                 return False, None
-            
+
+            self.log_update('info', f"릴리스 정보 가져오기 성공")
+
             # 버전 정보 추출
             tag_name = release_info.get('tag_name', '')
             if not tag_name:
-                self.logger.warning("릴리스 태그를 찾을 수 없습니다.")
+                self.log_update('warning', "릴리스 태그를 찾을 수 없습니다.")
                 return False, None
-            
+
             latest_version = self.parse_version_from_tag(tag_name)
             release_name = release_info.get('name', tag_name)
             release_body = release_info.get('body', '업데이트 내용이 없습니다.')
-            
-            self.logger.info(f"현재 버전: {self.current_version}, 최신 버전: {latest_version}")
-            
+
+            self.log_update('info', f"현재 버전: {self.current_version}")
+            self.log_update('info', f"최신 버전: {latest_version}")
+            self.log_update('info', f"릴리스명: {release_name}")
+
             # 버전 비교
-            if compare_versions(self.current_version, latest_version) < 0:
+            version_compare = compare_versions(self.current_version, latest_version)
+            self.log_update('info', f"버전 비교 결과: {version_compare} (음수: 업데이트 필요, 0: 동일, 양수: 최신)")
+
+            if version_compare < 0:
+                self.log_update('info', "새 버전 발견! 에셋 파일 검색 중...")
+
                 # 다운로드 가능한 에셋 찾기
                 assets = release_info.get('assets', [])
+                self.log_update('info', f"릴리스 에셋 수: {len(assets)}")
+
+                for i, asset in enumerate(assets):
+                    self.log_update('info', f"에셋 {i+1}: {asset.get('name', 'Unknown')} ({asset.get('size', 0)} bytes)")
+
                 update_asset = self.find_update_asset(assets, release_info)
-                
+
                 if not update_asset:
-                    self.logger.warning("다운로드 가능한 업데이트 파일을 찾을 수 없습니다.")
+                    self.log_update('warning', "다운로드 가능한 업데이트 파일을 찾을 수 없습니다.")
                     return False, None
-                
+
+                self.log_update('info', f"선택된 업데이트 파일: {update_asset.get('name', 'Unknown')}")
+
                 # 업데이트 정보 구성
                 update_info = {
                     'version': latest_version,
@@ -237,13 +329,17 @@ class GitHubReleaseUpdater:
                     'published_at': release_info.get('published_at'),
                     'prerelease': release_info.get('prerelease', False)
                 }
-                
+
+                self.log_update('info', f"업데이트 URL: {update_info['download_url']}")
                 return True, update_info
             else:
+                self.log_update('info', "이미 최신 버전입니다.")
                 return False, None
-                
+
         except Exception as e:
-            self.logger.error(f"GitHub 업데이트 확인 실패: {str(e)}")
+            self.log_update('error', f"GitHub 업데이트 확인 실패: {str(e)}")
+            import traceback
+            self.log_update('error', f"스택 트레이스: {traceback.format_exc()}")
             return False, None
     
     def show_update_dialog(self, update_info: Dict) -> bool:
@@ -478,11 +574,18 @@ class GitHubReleaseUpdater:
         try:
             import platform
 
+            self.log_update('info', "exe 파일 업데이트 시작")
+
             # 현재 exe 파일의 디렉토리
             current_exe_dir = Path(os.path.dirname(sys.executable))
+            self.log_update('info', f"exe 디렉토리: {current_exe_dir}")
+            self.log_update('info', f"소스 루트: {source_root}")
 
             # 배치 스크립트 생성
-            if platform.system().lower() == 'windows':
+            platform_name = platform.system().lower()
+            self.log_update('info', f"플랫폼: {platform_name}")
+
+            if platform_name == 'windows':
                 batch_script = current_exe_dir / 'update_installer.bat'
                 script_content = f'''@echo off
 echo 업데이트 설치 중...
@@ -529,18 +632,27 @@ rm "$0"
 '''
 
             # 스크립트 파일 작성
+            self.log_update('info', f"배치 스크립트 작성 중: {batch_script}")
             with open(batch_script, 'w', encoding='utf-8') as f:
                 f.write(script_content)
 
             # 실행 권한 부여 (Unix 계열)
-            if platform.system().lower() != 'windows':
+            if platform_name != 'windows':
                 os.chmod(batch_script, 0o755)
+                self.log_update('info', "실행 권한 부여 완료")
 
-            self.logger.info(f"배치 스크립트 생성 완료: {batch_script}")
+            self.log_update('info', f"배치 스크립트 생성 완료: {batch_script}")
+            self.log_update('info', "배치 스크립트 내용:")
+            for i, line in enumerate(script_content.split('\n'), 1):
+                if line.strip():
+                    self.log_update('debug', f"  {i:2d}: {line}")
+
             return True
 
         except Exception as e:
-            self.logger.error(f"exe 업데이트 실패: {str(e)}")
+            self.log_update('error', f"exe 업데이트 실패: {str(e)}")
+            import traceback
+            self.log_update('error', f"스택 트레이스: {traceback.format_exc()}")
             return False
 
     def _install_script_update(self, source_root: Path) -> bool:
@@ -647,28 +759,38 @@ rm "$0"
     def run_auto_update(self, parent_widget=None) -> bool:
         """
         전체 자동 업데이트 프로세스 실행
-        
+
         Args:
             parent_widget: 부모 위젯
-            
+
         Returns:
             bool: 업데이트 실행 여부
         """
         try:
+            self.log_update('info', "자동 업데이트 프로세스 시작")
+
             # 1. 업데이트 확인
+            self.log_update('info', "1단계: 업데이트 확인")
             needs_update, update_info = self.check_for_updates()
-            
+
             if not needs_update:
-                self.logger.info("업데이트가 필요하지 않습니다.")
+                self.log_update('info', "업데이트가 필요하지 않습니다.")
                 return False
-            
+
+            self.log_update('info', f"업데이트 필요: {update_info['version']}")
+
             # 2. 사용자에게 업데이트 확인
+            self.log_update('info', "2단계: 사용자 확인 대화상자 표시")
             if not self.show_update_dialog(update_info):
-                self.logger.info("사용자가 업데이트를 취소했습니다.")
+                self.log_update('info', "사용자가 업데이트를 취소했습니다.")
                 return False
-            
+
+            self.log_update('info', "사용자가 업데이트를 승인했습니다.")
+
             # 3. 백업 생성
+            self.log_update('info', "3단계: 백업 생성")
             if not self.create_backup():
+                self.log_update('warning', "백업 생성 실패")
                 reply = QMessageBox.question(
                     parent_widget,
                     "백업 실패",
@@ -677,23 +799,36 @@ rm "$0"
                     QMessageBox.No
                 )
                 if reply != QMessageBox.Yes:
+                    self.log_update('info', "사용자가 백업 실패로 인해 업데이트를 취소했습니다.")
                     return False
-            
+                self.log_update('warning', "백업 없이 업데이트 진행")
+            else:
+                self.log_update('info', "백업 생성 완료")
+
             # 4. 업데이트 다운로드
+            self.log_update('info', "4단계: 업데이트 다운로드")
             success, download_path = self.download_update(update_info, parent_widget)
             if not success or not download_path:
+                self.log_update('error', "업데이트 다운로드 실패")
                 return False
-            
+
+            self.log_update('info', f"다운로드 완료: {download_path}")
+
             # 5. 업데이트 설치
+            self.log_update('info', "5단계: 업데이트 설치")
             if not self.install_update(download_path):
+                self.log_update('error', "업데이트 설치 실패")
                 QMessageBox.critical(
                     parent_widget,
                     "설치 실패",
                     "업데이트 설치에 실패했습니다."
                 )
                 return False
-            
+
+            self.log_update('info', "업데이트 설치 완료")
+
             # 6. 성공 메시지 및 재시작 확인
+            self.log_update('info', "6단계: 재시작 확인")
             reply = QMessageBox.question(
                 parent_widget,
                 "업데이트 완료",
@@ -701,24 +836,32 @@ rm "$0"
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.Yes
             )
-            
+
             if reply == QMessageBox.Yes:
+                self.log_update('info', "사용자가 재시작을 선택했습니다.")
                 self.cleanup_temp_files()
                 self.restart_application()
-            
+            else:
+                self.log_update('info', "사용자가 재시작을 연기했습니다.")
+
+            self.log_update('info', "업데이트 프로세스 완료!")
             return True
-            
+
         except Exception as e:
-            self.logger.error(f"자동 업데이트 실패: {str(e)}")
+            self.log_update('error', f"자동 업데이트 실패: {str(e)}")
+            import traceback
+            self.log_update('error', f"스택 트레이스: {traceback.format_exc()}")
+
             QMessageBox.critical(
                 parent_widget,
                 "업데이트 오류",
                 f"업데이트 중 오류가 발생했습니다:\n{str(e)}"
             )
             return False
-        
+
         finally:
             self.cleanup_temp_files()
+            self.log_update('info', "=" * 60)
 
 # 호환성을 위한 별칭
 AutoUpdater = GitHubReleaseUpdater
