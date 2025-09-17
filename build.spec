@@ -74,10 +74,10 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,  # GUI 애플리케이션이므로 콘솔 창 숨김
+    console=True,  # 디버깅을 위해 콘솔 창 표시
     disable_windowed_traceback=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='image/logo.png',  # 로고 이미지를 아이콘으로 사용
+    icon='image/logo.ico',  # ICO 파일을 아이콘으로 사용
 )
