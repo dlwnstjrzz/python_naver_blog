@@ -207,7 +207,17 @@ class MainWindow(QMainWindow):
         # 윈도우 아이콘 설정
         try:
             import os
-            logo_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "image", "logo.png")
+            import sys
+
+            # PyInstaller 실행 파일에서의 경로 처리
+            if getattr(sys, 'frozen', False):
+                # PyInstaller로 빌드된 exe 파일에서 실행되는 경우
+                base_path = sys._MEIPASS
+            else:
+                # 일반 Python 스크립트로 실행되는 경우
+                base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+            logo_path = os.path.join(base_path, "image", "logo.png")
             if os.path.exists(logo_path):
                 self.setWindowIcon(QIcon(logo_path))
         except:
@@ -459,14 +469,29 @@ class MainWindow(QMainWindow):
         logo_label = QLabel()
         try:
             import os
-            logo_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "image", "logo.png")
+            import sys
+
+            # PyInstaller 실행 파일에서의 경로 처리
+            if getattr(sys, 'frozen', False):
+                # PyInstaller로 빌드된 exe 파일에서 실행되는 경우
+                base_path = sys._MEIPASS
+            else:
+                # 일반 Python 스크립트로 실행되는 경우
+                base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+            logo_path = os.path.join(base_path, "image", "logo.png")
             if os.path.exists(logo_path):
                 from PyQt5.QtGui import QPixmap
                 pixmap = QPixmap(logo_path)
                 # 로고 크기 조절 (50x50)
                 scaled_pixmap = pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 logo_label.setPixmap(scaled_pixmap)
-        except:
+            else:
+                # 이미지 파일이 없는 경우 텍스트로 대체
+                logo_label.setText("로고")
+                logo_label.setStyleSheet("color: #fe4847; font-size: 16px; font-weight: bold;")
+        except Exception as e:
+            # 예외 발생 시 텍스트로 대체
             logo_label.setText("로고")
             logo_label.setStyleSheet("color: #fe4847; font-size: 16px; font-weight: bold;")
 

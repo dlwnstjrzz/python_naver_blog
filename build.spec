@@ -9,6 +9,7 @@ a = Analysis(
     datas=[
         ('config', 'config'),
         ('data', 'data'),
+        ('image', 'image'),
     ],
     hiddenimports=[
         'selenium',
@@ -78,5 +79,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,  # 아이콘 파일이 있다면 경로 지정
+    icon='image/logo.png',  # 로고 이미지를 아이콘으로 사용
 )
