@@ -92,6 +92,9 @@ class GitHubReleaseUpdater:
         # 업데이트 전용 로그 설정
         self.setup_update_logger()
 
+        # 배치 스크립트 경로 (exe 업데이트용)
+        self.batch_script_path = None
+
     def setup_update_logger(self):
         """업데이트 전용 로그 파일 설정"""
         try:
@@ -561,7 +564,9 @@ class GitHubReleaseUpdater:
 
             # exe 파일로 실행 중인 경우 배치 스크립트를 사용한 지연 업데이트
             if getattr(sys, 'frozen', False):
-                return self._install_exe_update(source_root)
+                # 배치 스크립트만 생성하고, 실제 실행은 restart_application에서 처리
+                self.batch_script_path = self._create_update_script(source_root)
+                return self.batch_script_path is not None
             else:
                 return self._install_script_update(source_root)
 
@@ -569,12 +574,12 @@ class GitHubReleaseUpdater:
             self.logger.error(f"업데이트 설치 실패: {str(e)}")
             return False
 
-    def _install_exe_update(self, source_root: Path) -> bool:
-        """exe 파일 업데이트 (배치 스크립트 사용)"""
+    def _create_update_script(self, source_root: Path) -> str:
+        """exe 파일 업데이트용 배치 스크립트 생성만 수행"""
         try:
             import platform
 
-            self.log_update('info', "exe 파일 업데이트 시작")
+            self.log_update('info', "업데이트 배치 스크립트 생성 시작")
 
             # 현재 exe 파일의 디렉토리
             current_exe_dir = Path(os.path.dirname(sys.executable))
@@ -647,13 +652,13 @@ rm "$0"
                 if line.strip():
                     self.log_update('debug', f"  {i:2d}: {line}")
 
-            return True
+            return str(batch_script)
 
         except Exception as e:
-            self.log_update('error', f"exe 업데이트 실패: {str(e)}")
+            self.log_update('error', f"배치 스크립트 생성 실패: {str(e)}")
             import traceback
             self.log_update('error', f"스택 트레이스: {traceback.format_exc()}")
-            return False
+            return None
 
     def _install_script_update(self, source_root: Path) -> bool:
         """스크립트 버전 업데이트 (직접 파일 복사)"""
@@ -713,39 +718,46 @@ rm "$0"
         try:
             import platform
 
-            self.logger.info("애플리케이션 재시작 중...")
+            self.log_update('info', "애플리케이션 재시작 중...")
 
-            if getattr(sys, 'frozen', False):
-                # exe 파일인 경우 배치 스크립트 실행
-                current_exe_dir = Path(os.path.dirname(sys.executable))
+            if getattr(sys, 'frozen', False) and hasattr(self, 'batch_script_path') and self.batch_script_path:
+                # exe 파일이고 배치 스크립트가 생성된 경우
+                self.log_update('info', f"배치 스크립트 실행: {self.batch_script_path}")
 
                 if platform.system().lower() == 'windows':
-                    batch_script = current_exe_dir / 'update_installer.bat'
-                    if batch_script.exists():
-                        # 배치 스크립트 실행
-                        subprocess.Popen(['cmd', '/c', str(batch_script)],
-                                       creationflags=subprocess.CREATE_NO_WINDOW)
-                    else:
-                        # 일반 재시작
-                        subprocess.Popen([sys.executable] + sys.argv[1:])
+                    # Windows: cmd를 통해 배치 스크립트 실행
+                    subprocess.Popen(
+                        ['cmd', '/c', self.batch_script_path],
+                        creationflags=subprocess.CREATE_NEW_CONSOLE
+                    )
                 else:
-                    batch_script = current_exe_dir / 'update_installer.sh'
-                    if batch_script.exists():
-                        # 셸 스크립트 실행
-                        subprocess.Popen(['bash', str(batch_script)])
-                    else:
-                        # 일반 재시작
-                        subprocess.Popen([sys.executable] + sys.argv[1:])
+                    # macOS/Linux: bash를 통해 셸 스크립트 실행
+                    subprocess.Popen(['bash', self.batch_script_path])
+
+                self.log_update('info', "배치 스크립트 실행 완료. 프로그램 종료 중...")
+
+            elif getattr(sys, 'frozen', False):
+                # exe 파일이지만 배치 스크립트가 없는 경우 (일반 재시작)
+                self.log_update('info', "일반 exe 재시작")
+                subprocess.Popen([sys.executable] + sys.argv[1:])
             else:
                 # Python 스크립트인 경우
+                self.log_update('info', "Python 스크립트 재시작")
                 subprocess.Popen([sys.executable, sys.argv[0]] + sys.argv[1:])
 
-            # 현재 프로세스 종료
+            # 현재 프로세스 강제 종료
+            self.log_update('info', "현재 프로세스 종료")
             QApplication.quit()
+
+            # 조금 더 강제적으로 종료
+            import time
+            time.sleep(0.5)
             sys.exit(0)
 
         except Exception as e:
-            self.logger.error(f"애플리케이션 재시작 실패: {str(e)}")
+            self.log_update('error', f"애플리케이션 재시작 실패: {str(e)}")
+            import traceback
+            self.log_update('error', f"스택 트레이스: {traceback.format_exc()}")
     
     def cleanup_temp_files(self):
         """임시 파일 정리"""
