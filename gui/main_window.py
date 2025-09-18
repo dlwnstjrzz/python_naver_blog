@@ -520,7 +520,7 @@ class MainWindow(QMainWindow):
         tab2 = self.create_settings_tab()
         tab3 = self.create_automation_tab()
 
-        tab_widget.addTab(tab1, "1. 테스트32")
+        tab_widget.addTab(tab1, "1. 계정 및 기본 설정")
         tab_widget.addTab(tab2, "2. 상세 설정")
         tab_widget.addTab(tab3, "3. 자동화 실행")
 
