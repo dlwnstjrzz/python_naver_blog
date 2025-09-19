@@ -9,6 +9,9 @@ a = Analysis(
     datas=[
         ('config', 'config'),
         ('data', 'data'),
+        ('image', 'image'),
+        ('image/logo.png', '.'),  # 루트 디렉토리에 복사
+        ('image/logo.ico', '.'),  # 루트 디렉토리에 복사
     ],
     hiddenimports=[
         'selenium',
@@ -29,9 +32,13 @@ a = Analysis(
         'bs4',
         'lxml',
         'requests',
+        'requests.exceptions',
         'pyperclip',
         'dotenv',
         'PIL',
+        'zipfile',
+        'tempfile',
+        'shutil',
         'automation',
         'automation.blog_automation',
         'automation.buddy_manager',
@@ -43,6 +50,8 @@ a = Analysis(
         'utils.logger',
         'utils.extracted_ids_manager',
         'utils.ai_comment_generator',
+        'utils.updater',
+        'version',
         'gui',
         'gui.main_window',
         'gui.extracted_ids_window',
@@ -78,5 +87,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,  # 아이콘 파일이 있다면 경로 지정
+    icon='image/logo.png',  # ICO 파일을 아이콘으로 사용
 )

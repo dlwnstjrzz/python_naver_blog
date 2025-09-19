@@ -25,6 +25,7 @@ def build_exe():
         '--name=NaverBlogAutomation',
         '--add-data=config:config',
         '--add-data=data:data',
+        '--add-data=image:image',
         '--hidden-import=selenium',
         '--hidden-import=selenium.webdriver.chrome.service',
         '--hidden-import=webdriver_manager',
@@ -33,6 +34,10 @@ def build_exe():
         '--hidden-import=google.generativeai',
         '--hidden-import=automation',
         '--hidden-import=utils',
+        '--hidden-import=utils.updater',
+        '--hidden-import=utils.config_manager',
+        '--hidden-import=version',
+        '--hidden-import=requests',
         '--hidden-import=gui',
         '--exclude-module=matplotlib',  # matplotlib 제외
         '--exclude-module=numpy',  # numpy 제외
