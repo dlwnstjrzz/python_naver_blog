@@ -3,18 +3,11 @@
 네이버 블로그 자동화 GUI 실행 스크립트
 """
 
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QApplication
 from gui.main_window import MainWindow
 import sys
 import os
-
-# 자동 업데이트 모듈 import
-try:
-    from utils.updater import AutoUpdater
-    from utils.config_manager import ConfigManager
-    UPDATE_AVAILABLE = True
-except ImportError as e:
-    print(f"⚠️  자동 업데이트 모듈 로드 실패: {e}")
-    UPDATE_AVAILABLE = False
 
 # 프로젝트 루트 경로를 sys.path에 추가
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -22,30 +15,29 @@ if current_dir not in sys.path:
     sys.path.append(current_dir)
 
 # PyQt5 임포트
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QFont
 
 
 def check_for_updates():
     """프로그램 시작 시 업데이트 확인"""
     if not UPDATE_AVAILABLE:
         return
-    
+
     try:
         # 설정 로드
         config_manager = ConfigManager()
         update_settings = config_manager.get('update_settings', {})
-        
+
         # 시작 시 업데이트 확인이 비활성화된 경우 건너뛰기
         if not update_settings.get('check_update_on_startup', True):
             return
-        
+
         # 업데이트 체크 실행
         updater = AutoUpdater(update_settings)
         updater.run_auto_update()
-        
+
     except Exception as e:
         print(f"⚠️  업데이트 확인 중 오류: {e}")
+
 
 def main():
     """메인 실행 함수"""
@@ -67,40 +59,12 @@ def main():
         window = MainWindow()
         window.show()
 
-        # 자동 업데이트 확인 (GUI 표시 후)
-        if UPDATE_AVAILABLE:
-            try:
-                from PyQt5.QtCore import QTimer
-                # 윈도우가 완전히 로드된 후 업데이트 확인 (1초 후)
-                QTimer.singleShot(1000, lambda: check_for_updates_with_parent(window))
-            except Exception as e:
-                print(f"⚠️  업데이트 확인 타이머 설정 실패: {e}")
-
         # 이벤트 루프 시작
         sys.exit(app.exec_())
 
     except Exception as e:
-        print(f"❌ GUI 시작 중 오류 발생: {str(e)}")
+        print(f"GUI 시작 중 오류 발생: {str(e)}")
         sys.exit(1)
-
-def check_for_updates_with_parent(parent_window):
-    """부모 윈도우와 함께 업데이트 확인"""
-    try:
-        config_manager = ConfigManager()
-        update_settings = config_manager.get('update_settings', {})
-        
-        if not update_settings.get('check_update_on_startup', True):
-            return
-        
-        # GitHub 레포지토리가 설정되지 않았으면 확인 건너뛰기
-        if not update_settings.get('github_repo'):
-            return
-        
-        updater = AutoUpdater(update_settings)
-        updater.run_auto_update(parent_window)
-        
-    except Exception as e:
-        print(f"⚠️  업데이트 확인 중 오류: {e}")
 
 
 if __name__ == "__main__":
