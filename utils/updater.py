@@ -660,6 +660,13 @@ class GitHubReleaseUpdater:
 
             self.log_update('info', f"ZIP 파일 압축 해제 중: {update_zip_path} -> {extract_path}")
             with zipfile.ZipFile(update_zip_path, 'r') as zip_file:
+                file_list = zip_file.namelist()
+                self.log_update('info', f"ZIP 파일 내용: {len(file_list)}개 파일")
+                for i, filename in enumerate(file_list[:10]):  # 처음 10개만 로그
+                    self.log_update('debug', f"ZIP 파일 {i+1}: {filename}")
+                if len(file_list) > 10:
+                    self.log_update('debug', f"... 및 {len(file_list) - 10}개 더")
+
                 zip_file.extractall(extract_path)
 
             self.log_update('info', "압축 해제 완료. 파일 구조 분석 중...")
@@ -734,8 +741,31 @@ class GitHubReleaseUpdater:
 
             # 현재 exe 파일의 디렉토리
             current_exe_dir = Path(os.path.dirname(sys.executable))
+            current_exe_path = Path(sys.executable)
+
+            self.log_update('info', f"현재 실행 중인 exe: {current_exe_path}")
             self.log_update('info', f"exe 디렉토리: {current_exe_dir}")
             self.log_update('info', f"소스 루트: {source_root}")
+
+            # 현재 exe 파일 정보
+            if current_exe_path.exists():
+                exe_size = current_exe_path.stat().st_size
+                exe_mtime = current_exe_path.stat().st_mtime
+                self.log_update('info', f"현재 exe 크기: {exe_size} bytes, 수정시간: {exe_mtime}")
+
+            # 소스에 새로운 exe가 있는지 확인
+            new_exe_path = source_root / "NaverBlogAutomation.exe"
+            if new_exe_path.exists():
+                new_exe_size = new_exe_path.stat().st_size
+                new_exe_mtime = new_exe_path.stat().st_mtime
+                self.log_update('info', f"새 exe 크기: {new_exe_size} bytes, 수정시간: {new_exe_mtime}")
+
+                if exe_size != new_exe_size:
+                    self.log_update('info', "exe 파일 크기가 다릅니다. 업데이트가 포함되어 있습니다.")
+                else:
+                    self.log_update('warning', "exe 파일 크기가 동일합니다. 업데이트가 없을 수 있습니다.")
+            else:
+                self.log_update('warning', "소스에 새로운 exe 파일이 없습니다.")
 
             # 배치 스크립트 생성
             platform_name = platform.system().lower()
@@ -745,48 +775,187 @@ class GitHubReleaseUpdater:
                 batch_script = current_exe_dir / 'update_installer.bat'
                 script_content = f'''@echo off
 chcp 65001 >nul
+echo ========================================
+echo 네이버 블로그 자동화 프로그램 업데이트
+echo ========================================
 echo 업데이트 설치 중...
 timeout /t 3 /nobreak >nul
 
-echo 기존 파일 백업 중...
+echo [1/6] 기존 파일 백업 중...
 if exist "{current_exe_dir}\\backup_temp" rmdir /s /q "{current_exe_dir}\\backup_temp"
 mkdir "{current_exe_dir}\\backup_temp"
 
-REM 실행 중인 exe 파일 종료까지 대기
+REM 실행 중인 exe 파일 종료까지 대기 (최대 30초)
+echo [2/6] 프로그램 종료 대기 중...
+set wait_count=0
 :wait_for_close
 tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I /N "NaverBlogAutomation.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-    echo 프로그램 종료 대기 중...
+    set /a wait_count+=1
+    if %wait_count% GEQ 30 (
+        echo 프로그램이 자동으로 종료되지 않습니다. 강제 종료 시도...
+        taskkill /f /im NaverBlogAutomation.exe >nul 2>&1
+        timeout /t 2 /nobreak >nul
+        goto check_process_end
+    )
+    echo 프로그램 종료 대기 중... (%wait_count%/30초)
     timeout /t 1 /nobreak >nul
     goto wait_for_close
 )
+:check_process_end
+echo 프로그램 종료 확인됨.
 
-REM 백업 (실행 파일과 중요 파일들만)
-for %%f in (*.exe *.dll *.py *.pyd) do (
-    if exist "%%f" copy "%%f" "{current_exe_dir}\\backup_temp\\" >nul 2>&1
-)
-
-echo 새 파일 복사 중...
-REM 파일별로 개별 복사하여 오류 무시
-for /r "{source_root}" %%f in (*) do (
-    set "src=%%f"
-    set "dst=%%f"
-    call set "dst=%%dst:{source_root}={current_exe_dir}%%"
-    if not exist "%%~dpf" mkdir "%%~dpf" >nul 2>&1
-    copy "%%f" "%%dst" >nul 2>&1
-    if errorlevel 1 (
-        echo 파일 복사 실패: %%~nxf
+REM EXE 파일 백업 (중요!)
+echo [3/6] EXE 파일 백업 중...
+if exist "{current_exe_dir}\\NaverBlogAutomation.exe" (
+    copy "{current_exe_dir}\\NaverBlogAutomation.exe" "{current_exe_dir}\\backup_temp\\NaverBlogAutomation.exe.backup" >nul 2>&1
+    if %errorlevel% equ 0 (
+        echo EXE 파일 백업 성공
+    ) else (
+        echo EXE 파일 백업 실패 (코드: %errorlevel%)
     )
 )
 
-echo 업데이트 완료. 프로그램을 시작합니다...
+REM 기타 파일 백업
+for %%f in (*.dll *.py *.pyd *.pyo) do (
+    if exist "%%f" copy "%%f" "{current_exe_dir}\\backup_temp\\" >nul 2>&1
+)
+
+echo [4/6] 새 파일 복사 중...
+echo 소스: {source_root}
+echo 대상: {current_exe_dir}
+echo.
+
+REM 소스 디렉토리 내용 확인
+echo 소스 디렉토리 내용:
+if exist "{source_root}" (
+    dir "{source_root}" /b 2>nul | head -n 10
+) else (
+    echo 오류: 소스 디렉토리가 존재하지 않습니다!
+    goto error_exit
+)
+echo.
+
+REM EXE 파일이 소스에 있는지 확인
+set new_exe_found=0
+if exist "{source_root}\\NaverBlogAutomation.exe" (
+    echo 새 EXE 파일 발견: NaverBlogAutomation.exe
+    set new_exe_found=1
+) else (
+    echo 경고: 새 EXE 파일을 찾을 수 없습니다.
+)
+
+REM 단계별 파일 복사
+echo [5/6] 파일 복사 실행...
+
+REM 1단계: EXE가 아닌 파일들 먼저 복사
+echo 1단계: 일반 파일 복사 중...
+for /r "{source_root}" %%f in (*) do (
+    if /i not "%%~nxf"=="NaverBlogAutomation.exe" (
+        if not "%%~nxf"=="update_installer.bat" (
+            set "rel_path=%%f"
+            setlocal enabledelayedexpansion
+            set "rel_path=!rel_path:{source_root}\\=!"
+            set "dest_file={current_exe_dir}\\!rel_path!"
+
+            REM 대상 디렉토리 생성
+            for %%d in ("!dest_file!") do (
+                if not exist "%%~dpd" mkdir "%%~dpd" 2>nul
+            )
+
+            copy "%%f" "!dest_file!" >nul 2>&1
+            endlocal
+        )
+    )
+)
+
+REM 2단계: EXE 파일 복사 (가장 중요!)
+if %new_exe_found% equ 1 (
+    echo 2단계: EXE 파일 교체 중...
+
+    REM 기존 EXE를 임시 이름으로 변경
+    if exist "{current_exe_dir}\\NaverBlogAutomation.exe" (
+        echo 기존 EXE를 임시 이름으로 변경...
+        move "{current_exe_dir}\\NaverBlogAutomation.exe" "{current_exe_dir}\\NaverBlogAutomation_old.exe" >nul 2>&1
+        if %errorlevel% neq 0 (
+            echo 기존 EXE 이름 변경 실패. 강제 삭제 시도...
+            del /f /q "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
+        )
+    )
+
+    REM 새 EXE 복사
+    echo 새 EXE 파일 복사...
+    copy "{source_root}\\NaverBlogAutomation.exe" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
+    set copy_result=%errorlevel%
+
+    if %copy_result% equ 0 (
+        echo EXE 파일 복사 성공!
+
+        REM 복사 검증
+        if exist "{current_exe_dir}\\NaverBlogAutomation.exe" (
+            echo EXE 파일 존재 확인됨.
+
+            REM 이전 EXE 파일 삭제
+            if exist "{current_exe_dir}\\NaverBlogAutomation_old.exe" (
+                del /f /q "{current_exe_dir}\\NaverBlogAutomation_old.exe" >nul 2>&1
+            )
+        ) else (
+            echo 오류: 복사된 EXE 파일을 찾을 수 없습니다!
+            goto restore_backup
+        )
+    ) else (
+        echo EXE 파일 복사 실패 (코드: %copy_result%)
+        goto restore_backup
+    )
+) else (
+    echo EXE 파일 업데이트 건너뜀 (소스에 새 EXE 없음)
+)
+
+echo.
+echo [6/6] 업데이트 완료!
+echo 복사 후 대상 디렉토리 내용:
+dir "{current_exe_dir}" /b 2>nul | head -n 10
+echo.
+
+echo 프로그램을 시작합니다...
 cd /d "{current_exe_dir}"
+timeout /t 2 /nobreak >nul
 start "" "{current_exe_dir}\\NaverBlogAutomation.exe"
 
 echo 임시 파일 정리 중...
-timeout /t 2 /nobreak >nul
-if exist "{self.temp_dir}" rmdir /s /q "{self.temp_dir}"
-del "%~f0"
+timeout /t 3 /nobreak >nul
+if exist "{self.temp_dir}" rmdir /s /q "{self.temp_dir}" >nul 2>&1
+if exist "{current_exe_dir}\\backup_temp" rmdir /s /q "{current_exe_dir}\\backup_temp" >nul 2>&1
+del "%~f0" >nul 2>&1
+exit
+
+:restore_backup
+echo.
+echo ========================================
+echo 오류 발생! 백업에서 복원 중...
+echo ========================================
+if exist "{current_exe_dir}\\backup_temp\\NaverBlogAutomation.exe.backup" (
+    copy "{current_exe_dir}\\backup_temp\\NaverBlogAutomation.exe.backup" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
+    echo 백업에서 EXE 파일 복원 완료
+) else (
+    echo 백업 파일을 찾을 수 없습니다!
+)
+if exist "{current_exe_dir}\\NaverBlogAutomation_old.exe" (
+    move "{current_exe_dir}\\NaverBlogAutomation_old.exe" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
+    echo 이전 EXE 파일 복원 완료
+)
+echo 업데이트 실패. 원래 프로그램을 시작합니다...
+start "" "{current_exe_dir}\\NaverBlogAutomation.exe"
+pause
+exit
+
+:error_exit
+echo.
+echo ========================================
+echo 오류 발생! 업데이트를 중단합니다.
+echo ========================================
+pause
+exit
 '''
             else:  # macOS/Linux
                 batch_script = current_exe_dir / 'update_installer.sh'
@@ -895,10 +1064,22 @@ rm "$0"
                             except Exception as e:
                                 self.log_update('warning', f"파일 백업 실패: {dest_file} - {e}")
 
+                        # 파일 복사 전 크기 확인
+                        src_size = src_file.stat().st_size
+                        dest_size_before = dest_file.stat().st_size if dest_file.exists() else 0
+
                         # 파일 복사
                         shutil.copy2(src_file, dest_file)
+
+                        # 복사 후 크기 확인
+                        dest_size_after = dest_file.stat().st_size if dest_file.exists() else 0
+
                         copied_files += 1
-                        self.log_update('debug', f"파일 복사 완료: {rel_path}")
+                        self.log_update('debug', f"파일 복사 완료: {rel_path} (소스: {src_size}bytes, 복사전: {dest_size_before}bytes, 복사후: {dest_size_after}bytes)")
+
+                        # 크기가 다르면 경고
+                        if src_size != dest_size_after:
+                            self.log_update('warning', f"파일 크기 불일치: {rel_path} - 소스: {src_size}, 대상: {dest_size_after}")
 
                         # 성공하면 백업 파일 삭제
                         backup_file = dest_file.with_suffix(dest_file.suffix + '.backup')
@@ -926,6 +1107,47 @@ rm "$0"
 
             if failed_files > 0:
                 self.log_update('warning', f"{failed_files}개 파일 복사에 실패했지만 업데이트를 계속 진행합니다.")
+
+            # 업데이트 검증: 주요 파일들이 실제로 변경되었는지 확인
+            self.log_update('info', "업데이트 검증 중...")
+            verification_files = ['main.py', 'utils/updater.py', 'gui/main_window.py']
+            verified_files = 0
+
+            for verify_file in verification_files:
+                verify_path = self.project_root / verify_file
+                if verify_path.exists():
+                    file_size = verify_path.stat().st_size
+                    modify_time = verify_path.stat().st_mtime
+                    self.log_update('debug', f"검증 파일 {verify_file}: 크기={file_size}, 수정시간={modify_time}")
+
+                    # 파일 내용 일부 확인 (처음 100자)
+                    try:
+                        with open(verify_path, 'r', encoding='utf-8') as f:
+                            content_preview = f.read(100).replace('\n', '\\n')
+                            self.log_update('debug', f"파일 내용 미리보기 {verify_file}: {content_preview}...")
+                    except Exception as read_error:
+                        self.log_update('warning', f"파일 읽기 실패 {verify_file}: {read_error}")
+
+                    verified_files += 1
+                else:
+                    self.log_update('warning', f"검증 파일 누락: {verify_file}")
+
+            self.log_update('info', f"업데이트 검증 완료: {verified_files}/{len(verification_files)}개 파일 확인")
+
+            # Python 스크립트 실행 모드 경고
+            if not getattr(sys, 'frozen', False):
+                self.log_update('warning', "="*60)
+                self.log_update('warning', "Python 스크립트 모드 업데이트 완료!")
+                self.log_update('warning', "")
+                self.log_update('warning', "중요: 파일은 업데이트되었지만 현재 실행 중인")
+                self.log_update('warning', "메모리의 코드는 변경되지 않았습니다.")
+                self.log_update('warning', "")
+                self.log_update('warning', "변경사항을 적용하려면:")
+                self.log_update('warning', "1. 현재 프로그램을 완전히 종료")
+                self.log_update('warning', "2. run_app.py를 다시 실행")
+                self.log_update('warning', "")
+                self.log_update('warning', "이는 Python의 모듈 로딩 방식 때문입니다.")
+                self.log_update('warning', "="*60)
 
             return copied_files > 0  # 최소 1개 파일이라도 복사되면 성공으로 간주
 
@@ -1110,10 +1332,18 @@ rm "$0"
             self.log_update('info', "6단계: 애플리케이션 재시작 확인")
             total_time = time.time() - self.start_time if hasattr(self, 'start_time') else 0
 
+            # Python 스크립트와 EXE에 따라 다른 메시지
+            if getattr(sys, 'frozen', False):
+                # EXE 모드
+                restart_message = f"업데이트가 완료되었습니다! ({total_time:.1f}초 소요)\n\n변경사항을 적용하려면 프로그램을 재시작해야 합니다.\n\n지금 재시작하시겠습니까?"
+            else:
+                # Python 스크립트 모드
+                restart_message = f"업데이트가 완료되었습니다! ({total_time:.1f}초 소요)\n\n⚠️ Python 스크립트 모드 안내:\n파일은 업데이트되었지만 현재 메모리의 코드는 변경되지 않습니다.\n\n변경사항을 확인하려면:\n1. 이 프로그램을 완전히 종료\n2. run_app.py를 다시 실행\n\n지금 프로그램을 종료하시겠습니까?"
+
             reply = QMessageBox.question(
                 parent_widget,
                 "업데이트 완료",
-                f"업데이트가 완료되었습니다! ({total_time:.1f}초 소요)\n\n변경사항을 적용하려면 프로그램을 재시작해야 합니다.\n\n지금 재시작하시겠습니까?",
+                restart_message,
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.Yes
             )
