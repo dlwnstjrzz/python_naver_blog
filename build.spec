@@ -4,13 +4,13 @@ block_cipher = None
 
 a = Analysis(
     ['main.py'],
-    pathex=['/Users/noah/personal/python_naver_blog'],
+    pathex=[],
     binaries=[],
     datas=[
         ('config', 'config'),
         ('data', 'data'),
         ('image', 'image'),
-        ('image/logo.png', '.'),  # 루트 디렉토리에 복사
+         ('image/logo.png', '.'),  # 루트 디렉토리에 복사
         ('image/logo.ico', '.'),  # 루트 디렉토리에 복사
     ],
     hiddenimports=[
@@ -87,5 +87,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='image/logo.png',  # ICO 파일을 아이콘으로 사용
+    icon='image/logo.png',
 )
