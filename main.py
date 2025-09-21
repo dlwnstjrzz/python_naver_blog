@@ -12,9 +12,9 @@ try:
     from utils.updater import AutoUpdater
     from utils.config_manager import ConfigManager
     UPDATE_AVAILABLE = True
-    print("✅ 자동 업데이트 모듈 로드 성공")
+    print("[INFO] 자동 업데이트 모듈 로드 성공")
 except ImportError as e:
-    print(f"⚠️  자동 업데이트 모듈 로드 실패: {e}")
+    print(f"[WARNING] 자동 업데이트 모듈 로드 실패: {e}")
     UPDATE_AVAILABLE = False
 
 # 프로젝트 루트 경로를 sys.path에 추가
@@ -52,7 +52,7 @@ def check_for_updates():
         updater.run_auto_update()
         
     except Exception as e:
-        print(f"⚠️  업데이트 확인 중 오류: {e}")
+        print(f"[WARNING] 업데이트 확인 중 오류: {e}")
 
 def main():
     """메인 실행 함수"""
@@ -75,18 +75,18 @@ def main():
         window.show()
 
         # 자동 업데이트 확인 (GUI 표시 후)
-        print(f"🔧 UPDATE_AVAILABLE: {UPDATE_AVAILABLE}")
+        print(f"[DEBUG] UPDATE_AVAILABLE: {UPDATE_AVAILABLE}")
         if UPDATE_AVAILABLE:
             try:
                 from PyQt5.QtCore import QTimer
-                print("⏰ 업데이트 확인 타이머 설정 중...")
+                print("[INFO] 업데이트 확인 타이머 설정 중...")
                 # 윈도우가 완전히 로드된 후 업데이트 확인 (1초 후)
                 QTimer.singleShot(1000, lambda: check_for_updates_with_parent(window))
-                print("✅ 업데이트 확인 타이머 설정 완료")
+                print("[INFO] 업데이트 확인 타이머 설정 완료")
             except Exception as e:
-                print(f"⚠️  업데이트 확인 타이머 설정 실패: {e}")
+                print(f"[WARNING] 업데이트 확인 타이머 설정 실패: {e}")
         else:
-            print("❌ 업데이트 모듈을 사용할 수 없음")
+            print("[WARNING] 업데이트 모듈을 사용할 수 없음")
 
         # 이벤트 루프 시작
         sys.exit(app.exec_())
@@ -98,26 +98,26 @@ def main():
 def check_for_updates_with_parent(parent_window):
     """부모 윈도우와 함께 업데이트 확인"""
     try:
-        print("🔍 업데이트 확인 시작...")
+        print("[INFO] 업데이트 확인 시작...")
         config_manager = ConfigManager()
         update_settings = config_manager.get('update_settings', {})
-        print(f"📄 업데이트 설정: {update_settings}")
+        print(f"[INFO] 업데이트 설정: {update_settings}")
 
         if not update_settings.get('check_update_on_startup', True):
-            print("⏭️ 시작 시 업데이트 확인이 비활성화됨")
+            print("[INFO] 시작 시 업데이트 확인이 비활성화됨")
             return
 
         # GitHub 레포지토리가 설정되지 않았으면 확인 건너뛰기
         if not update_settings.get('github_repo'):
-            print("⚠️  GitHub 레포지토리가 설정되지 않음")
+            print("[WARNING] GitHub 레포지토리가 설정되지 않음")
             return
 
-        print("🚀 업데이터 실행 중...")
+        print("[INFO] 업데이터 실행 중...")
         updater = AutoUpdater(update_settings)
         updater.run_auto_update(parent_window)
 
     except Exception as e:
-        print(f"⚠️  업데이트 확인 중 오류: {e}")
+        print(f"[WARNING] 업데이트 확인 중 오류: {e}")
         import traceback
         print(traceback.format_exc())
 
