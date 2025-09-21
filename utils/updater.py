@@ -774,6 +774,7 @@ class GitHubReleaseUpdater:
             if platform_name == 'windows':
                 batch_script = current_exe_dir / 'update_installer.bat'
                 script_content = f'''@echo off
+setlocal enabledelayedexpansion
 chcp 65001 >nul
 echo ========================================
 echo 네이버 블로그 자동화 프로그램 업데이트
@@ -841,23 +842,75 @@ for %%f in (*.dll *.py *.pyd *.pyo) do (
 )
 
 echo [4/6] 새 파일 복사 중...
-echo 소스: {source_root}
+echo 초기 소스: {source_root}
 echo 대상: {current_exe_dir}
+echo.
+
+REM 소스 디렉토리 자동 탐지
+echo 소스 디렉토리 탐지 중...
+set "actual_source="
+
+REM 1. 기본 경로 확인
+if exist "{source_root}" (
+    echo 기본 소스 경로 존재: {source_root}
+    set "actual_source={source_root}"
+    goto source_found
+)
+
+REM 2. 상위 디렉토리에서 찾기 (update_files 확인)
+set "parent_dir={source_root}\.."
+for /d %%d in ("%parent_dir%\*") do (
+    if exist "%%d\NaverBlogAutomation.exe" (
+        echo 상위 디렉토리에서 발견: %%d
+        set "actual_source=%%d"
+        goto source_found
+    )
+    if exist "%%d\main.py" (
+        echo 상위 디렉토리에서 Python 소스 발견: %%d
+        set "actual_source=%%d"
+        goto source_found
+    )
+)
+
+REM 3. 임시 디렉토리 전체 검색
+echo 임시 디렉토리 전체 검색 중...
+for /r "{source_root}\.." %%f in (NaverBlogAutomation.exe) do (
+    if exist "%%f" (
+        set "actual_source=%%~dpf"
+        set "actual_source=!actual_source:~0,-1!"
+        echo 전체 검색에서 EXE 발견: !actual_source!
+        goto source_found
+    )
+)
+
+for /r "{source_root}\.." %%f in (main.py) do (
+    if exist "%%f" (
+        set "actual_source=%%~dpf"
+        set "actual_source=!actual_source:~0,-1!"
+        echo 전체 검색에서 Python 소스 발견: !actual_source!
+        goto source_found
+    )
+)
+
+echo 오류: 소스 디렉토리를 찾을 수 없습니다!
+echo 검색 경로들:
+echo - 기본: {source_root}
+echo - 상위: {source_root}\..
+dir "{source_root}\.." /s /b 2>nul | head -n 20
+goto error_exit
+
+:source_found
+echo 최종 소스 디렉토리: %actual_source%
 echo.
 
 REM 소스 디렉토리 내용 확인
 echo 소스 디렉토리 내용:
-if exist "{source_root}" (
-    dir "{source_root}" /b 2>nul | head -n 10
-) else (
-    echo 오류: 소스 디렉토리가 존재하지 않습니다!
-    goto error_exit
-)
+dir "%actual_source%" /b 2>nul | head -n 10
 echo.
 
 REM EXE 파일이 소스에 있는지 확인
 set new_exe_found=0
-if exist "{source_root}\\NaverBlogAutomation.exe" (
+if exist "%actual_source%\\NaverBlogAutomation.exe" (
     echo 새 EXE 파일 발견: NaverBlogAutomation.exe
     set new_exe_found=1
 ) else (
@@ -869,12 +922,12 @@ echo [5/6] 파일 복사 실행...
 
 REM 1단계: EXE가 아닌 파일들 먼저 복사
 echo 1단계: 일반 파일 복사 중...
-for /r "{source_root}" %%f in (*) do (
+for /r "%actual_source%" %%f in (*) do (
     if /i not "%%~nxf"=="NaverBlogAutomation.exe" (
         if not "%%~nxf"=="update_installer.bat" (
             set "rel_path=%%f"
             setlocal enabledelayedexpansion
-            set "rel_path=!rel_path:{source_root}\\=!"
+            set "rel_path=!rel_path:%actual_source%\\=!"
             set "dest_file={current_exe_dir}\\!rel_path!"
 
             REM 대상 디렉토리 생성
@@ -904,7 +957,7 @@ if %new_exe_found% equ 1 (
 
     REM 새 EXE 복사
     echo 새 EXE 파일 복사...
-    copy "{source_root}\\NaverBlogAutomation.exe" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
+    copy "%actual_source%\\NaverBlogAutomation.exe" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
     set copy_result=%errorlevel%
 
     if %copy_result% equ 0 (
