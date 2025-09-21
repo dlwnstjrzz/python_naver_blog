@@ -8,3 +8,5 @@ pyperclip>=1.8.2
 python-dotenv>=1.0.0
 pillow>=10.1.0
 PyQt5>=5.15.10
+firebase-admin>=7.1.0
+pyrebase4>=4.8.0

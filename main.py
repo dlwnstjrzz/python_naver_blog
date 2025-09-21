@@ -3,6 +3,8 @@
 네이버 블로그 자동화 GUI 실행 스크립트
 """
 
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QApplication
 from gui.main_window import MainWindow
 import sys
 import os
@@ -22,15 +24,29 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 
-# PyQt5 임포트 확인
-try:
-    from PyQt5.QtWidgets import QApplication
-    from PyQt5.QtGui import QFont
-except ImportError:
-    print("PyQt5가 설치되지 않았습니다.")
-    print("다음 명령어로 설치해주세요:")
-    print("pip install PyQt5")
-    sys.exit(1)
+# PyQt5 임포트
+
+
+def check_for_updates():
+    """프로그램 시작 시 업데이트 확인"""
+    if not UPDATE_AVAILABLE:
+        return
+
+    try:
+        # 설정 로드
+        config_manager = ConfigManager()
+        update_settings = config_manager.get('update_settings', {})
+
+        # 시작 시 업데이트 확인이 비활성화된 경우 건너뛰기
+        if not update_settings.get('check_update_on_startup', True):
+            return
+
+        # 업데이트 체크 실행
+        updater = AutoUpdater(update_settings)
+        updater.run_auto_update()
+
+    except Exception as e:
+        print(f"⚠️  업데이트 확인 중 오류: {e}")
 
 
 def check_for_updates():
