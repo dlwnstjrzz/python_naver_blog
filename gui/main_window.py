@@ -195,9 +195,9 @@ class MainWindow(QMainWindow):
         """UI 초기화"""
         self.setWindowTitle("네이버 블로그 자동화")
 
-        # 창 크기를 유연하게 설정 (모든 요소가 보이는 크기로 최소 크기 설정)
-        self.setMinimumSize(550, 620)  # 최소 크기 설정 (모든 요소가 보이는 크기)
-        self.resize(650, 700)  # 초기 크기 (가로 축소)
+        # 창 크기를 유연하게 설정 (DPI 스케일링 적용됨)
+        self.setMinimumSize(550, 620)  # 최소 크기 설정
+        self.resize(650, 700)  # 초기 크기 (DPI에 따라 자동 스케일링됨)
 
         # 화면 중앙에 위치시키기
         screen = QApplication.desktop().screenGeometry()
@@ -877,40 +877,6 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(wait_group)
 
-        # 라이선스 설정 그룹
-        license_group = QGroupBox("라이선스 설정")
-        font_30px = QFont()
-        font_30px.setPointSize(22)
-        license_group.setFont(font_30px)
-        license_layout = QVBoxLayout(license_group)
-        license_layout.setContentsMargins(20, 20, 20, 20)
-        license_layout.setSpacing(10)
-
-        license_info_label = QLabel("연간 결제를 위한 라이선스 키를 입력하세요:")
-        license_info_label.setFont(font_30px)
-        license_layout.addWidget(license_info_label)
-
-        self.license_key_edit = QLineEdit()
-        self.license_key_edit.setFont(font_30px)
-        self.license_key_edit.setMinimumHeight(50)
-        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
-        license_layout.addWidget(self.license_key_edit)
-
-        # 라이선스 검증 버튼
-        license_button_layout = QHBoxLayout()
-        self.validate_license_btn = QPushButton("라이선스 검증")
-        self.validate_license_btn.setFont(font_30px)
-        self.validate_license_btn.setMinimumHeight(50)
-        self.validate_license_btn.clicked.connect(self.validate_license_key)
-        license_button_layout.addWidget(self.validate_license_btn)
-
-        # 라이선스 상태 표시 레이블
-        self.license_status_label = QLabel("라이선스 상태: 미확인")
-        self.license_status_label.setFont(font_30px)
-        license_button_layout.addWidget(self.license_status_label)
-        license_layout.addLayout(license_button_layout)
-
-        layout.addWidget(license_group)
         layout.addStretch()
 
         return tab
@@ -990,6 +956,47 @@ class MainWindow(QMainWindow):
         log_layout.addWidget(self.log_text)
 
         layout.addWidget(log_group)
+
+        # 라이선스 설정 그룹
+        license_group = QGroupBox("라이선스 설정")
+        license_group.setFont(font_default)
+        license_layout = QVBoxLayout(license_group)
+        license_layout.setContentsMargins(15, 15, 15, 15)
+        license_layout.setSpacing(10)
+
+        # 라이선스 정보와 상태를 가로로 배치
+        license_info_layout = QHBoxLayout()
+
+        license_info_label = QLabel("라이선스 키는 주문조회 페이지에서 확인 가능합니다.")
+        license_info_label.setFont(font_default)
+        license_info_layout.addWidget(license_info_label)
+
+        # 라이선스 상태 표시 레이블
+        self.license_status_label = QLabel("라이선스 상태: 미확인")
+        self.license_status_label.setFont(font_default)
+        license_info_layout.addWidget(self.license_status_label)
+
+        license_info_layout.addStretch()  # 오른쪽 공간 채우기
+        license_layout.addLayout(license_info_layout)
+
+        # 라이선스 키 입력과 검증 버튼을 가로로 배치
+        license_input_layout = QHBoxLayout()
+
+        self.license_key_edit = QLineEdit()
+        self.license_key_edit.setFont(font_default)
+        self.license_key_edit.setMinimumHeight(30)
+        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
+        license_input_layout.addWidget(self.license_key_edit)
+
+        self.validate_license_btn = QPushButton("라이선스 검증")
+        self.validate_license_btn.setFont(font_default)
+        self.validate_license_btn.setMinimumHeight(30)
+        self.validate_license_btn.clicked.connect(self.validate_license_key)
+        license_input_layout.addWidget(self.validate_license_btn)
+
+        license_layout.addLayout(license_input_layout)
+
+        layout.addWidget(license_group)
 
         return tab
 
@@ -1620,7 +1627,17 @@ if __name__ == "__main__":
 
     # 그래도 실행하고 싶다면
     try:
+        # DPI 인식 및 자동 스케일링 활성화
+        import os
+        os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+        os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"
+
+        # 고해상도 디스플레이 지원 설정
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+        QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
         app = QApplication(sys.argv)
+
         window = MainWindow()
         window.show()
         sys.exit(app.exec_())

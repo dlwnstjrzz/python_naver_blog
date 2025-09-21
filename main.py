@@ -72,6 +72,16 @@ def check_for_updates():
 
 def main():
     """메인 실행 함수"""
+    # DPI 인식 및 자동 스케일링 활성화
+    import os
+    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+    os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"
+
+    # 고해상도 디스플레이 지원 설정
+    from PyQt5.QtCore import Qt
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
     # QApplication 생성
     app = QApplication(sys.argv)
 
