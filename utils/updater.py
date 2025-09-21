@@ -785,25 +785,44 @@ echo [1/6] 기존 파일 백업 중...
 if exist "{current_exe_dir}\\backup_temp" rmdir /s /q "{current_exe_dir}\\backup_temp"
 mkdir "{current_exe_dir}\\backup_temp"
 
-REM 실행 중인 exe 파일 종료까지 대기 (최대 30초)
+REM 실행 중인 exe 파일 종료까지 대기 (최대 10초)
 echo [2/6] 프로그램 종료 대기 중...
-set wait_count=0
-:wait_for_close
-tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I /N "NaverBlogAutomation.exe">NUL
-if "%ERRORLEVEL%"=="0" (
-    set /a wait_count+=1
-    if %wait_count% GEQ 30 (
-        echo 프로그램이 자동으로 종료되지 않습니다. 강제 종료 시도...
-        taskkill /f /im NaverBlogAutomation.exe >nul 2>&1
-        timeout /t 2 /nobreak >nul
+
+REM 먼저 현재 실행 중인 프로세스 확인
+echo 현재 실행 중인 NaverBlogAutomation.exe 프로세스 확인...
+tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I "NaverBlogAutomation.exe"
+if %errorlevel% neq 0 (
+    echo 실행 중인 프로세스가 없습니다. 대기 단계를 건너뜀.
+    goto check_process_end
+)
+
+REM 간단한 대기 방법 - 10초만 대기
+echo 프로그램 종료를 10초간 대기합니다...
+for /L %%i in (1,1,10) do (
+    timeout /t 1 /nobreak >nul
+    tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I "NaverBlogAutomation.exe" >NUL
+    if errorlevel 1 (
+        echo %%i초 후 프로세스 종료 확인됨.
         goto check_process_end
     )
-    echo 프로그램 종료 대기 중... (%wait_count%/30초)
-    timeout /t 1 /nobreak >nul
-    goto wait_for_close
+    echo %%i초 경과...
 )
+
+REM 10초 후에도 실행 중이면 강제 종료
+echo 10초 경과. 프로그램을 강제 종료합니다...
+taskkill /f /im NaverBlogAutomation.exe >nul 2>&1
+timeout /t 2 /nobreak >nul
+
+REM 강제 종료 후 확인
+tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I "NaverBlogAutomation.exe" >NUL
+if %errorlevel% equ 0 (
+    echo 강제 종료 실패! 수동으로 프로그램을 종료해주세요.
+    echo 아무 키나 누르면 계속 진행합니다...
+    pause
+)
+
 :check_process_end
-echo 프로그램 종료 확인됨.
+echo 프로그램 종료 확인 완료.
 
 REM EXE 파일 백업 (중요!)
 echo [3/6] EXE 파일 백업 중...
