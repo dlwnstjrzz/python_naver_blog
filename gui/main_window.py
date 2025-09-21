@@ -482,19 +482,25 @@ class MainWindow(QMainWindow):
 
             # 로고 파일 경로
             logo_path = os.path.join(base_path, "image", "logo.png")
+            print(f"DEBUG: logo_path = {logo_path}")
+            print(f"DEBUG: logo file exists = {os.path.exists(logo_path)}")
 
             if os.path.exists(logo_path):
                 pixmap = QPixmap(logo_path)
+                print(f"DEBUG: pixmap.isNull() = {pixmap.isNull()}")
                 if not pixmap.isNull():
                     # 로고 크기 조절 (50x50)
                     scaled_pixmap = pixmap.scaled(
                         50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                     logo_label.setPixmap(scaled_pixmap)
+                    print("DEBUG: 로고 이미지 로드 성공")
                 else:
+                    print("DEBUG: pixmap이 null입니다")
                     logo_label.setText("로고")
                     logo_label.setStyleSheet(
                         "color: #fe4847; font-size: 16px; font-weight: bold;")
             else:
+                print("DEBUG: 로고 파일이 존재하지 않습니다")
                 logo_label.setText("로고")
                 logo_label.setStyleSheet(
                     "color: #fe4847; font-size: 16px; font-weight: bold;")
@@ -527,7 +533,7 @@ class MainWindow(QMainWindow):
         tab2 = self.create_settings_tab()
         tab3 = self.create_automation_tab()
 
-        tab_widget.addTab(tab1, "1. 계정 및 기본 설정")
+        tab_widget.addTab(tab1, "1. 테스트 ")
         tab_widget.addTab(tab2, "2. 상세 설정")
         tab_widget.addTab(tab3, "3. 자동화 실행")
 
