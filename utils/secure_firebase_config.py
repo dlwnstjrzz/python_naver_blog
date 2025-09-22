@@ -9,6 +9,8 @@ import sys
 from typing import Optional, Dict, Any
 from dotenv import load_dotenv
 
+from .firebase_key import FERNET_KEY
+
 
 def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
     """환경변수에서 Firebase 설정 로드 (로컬은 .env, CI는 환경변수)"""
@@ -113,8 +115,7 @@ def _decrypt_firebase_config(encrypted_path: str) -> Optional[Dict[str, Any]]:
         import base64
 
         # 암호화 키 (빌드 시와 동일한 키)
-        encryption_key = b'NaverBlogAutomation2024_SecureKey='
-        cipher_suite = Fernet(encryption_key)
+        cipher_suite = Fernet(FERNET_KEY)
 
         # 파일 읽기 및 복호화
         with open(encrypted_path, 'rb') as f:

@@ -8,6 +8,8 @@ import sys
 import os
 import json
 
+from utils.firebase_key import FERNET_KEY
+
 # Windows 콘솔 인코딩 설정
 if sys.platform == "win32":
     import codecs
@@ -42,8 +44,7 @@ def create_encrypted_firebase_config():
             firebase_config["private_key"] = firebase_config["private_key"].replace('\\n', '\n')
 
         # 암호화 키 (실제 배포시에는 더 복잡한 키 사용)
-        encryption_key = b'NaverBlogAutomation2024_SecureKey='  # 32바이트
-        cipher_suite = Fernet(encryption_key)
+        cipher_suite = Fernet(FERNET_KEY)
 
         # config 디렉토리 생성
         config_dir = "config"
