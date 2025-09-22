@@ -47,15 +47,15 @@ class LicenseValidator:
                 logger.error("Firebase 설정을 로드할 수 없습니다. 환경변수 또는 설정 파일을 확인하세요.")
                 return
             
-            # pyrebase 설정 구성 (환경변수 우선)
+            # pyrebase 설정 구성 (pyrebase 필수값 모두 포함)
             config = {
-                "apiKey": os.getenv('FIREBASE_API_KEY') or firebase_config.get('api_key', ''),
-                "authDomain": os.getenv('FIREBASE_AUTH_DOMAIN') or f"{firebase_config['project_id']}.firebaseapp.com",
-                "databaseURL": os.getenv('FIREBASE_DATABASE_URL') or f"https://{firebase_config['project_id']}-default-rtdb.asia-southeast1.firebasedatabase.app",
+                "apiKey": firebase_config.get('api_key', 'dummy-key'),
+                "authDomain": f"{firebase_config['project_id']}.firebaseapp.com",
+                "databaseURL": f"https://{firebase_config['project_id']}-default-rtdb.asia-southeast1.firebasedatabase.app",
                 "projectId": firebase_config['project_id'],
-                "storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET') or f"{firebase_config['project_id']}.appspot.com",
-                "messagingSenderId": os.getenv('FIREBASE_MESSAGING_SENDER_ID') or firebase_config.get('messaging_sender_id', ''),
-                "appId": os.getenv('FIREBASE_APP_ID') or firebase_config.get('app_id', ''),
+                "storageBucket": f"{firebase_config['project_id']}.appspot.com",
+                "messagingSenderId": "123456789",  # 더미값
+                "appId": "1:123456789:web:abcdef",  # 더미값
                 "serviceAccount": firebase_config if os.getenv('FIREBASE_PROJECT_ID') else self.config_path
             }
             
