@@ -72,34 +72,65 @@ def get_secure_firebase_config(license_key: str = None) -> Optional[Dict[str, An
     if config:
         return config
 
-    # 2. 배포 환경에서는 환경변수만 사용, 로컬 개발환경에서만 파일 폴백
+    # 2. 설정 파일에서 로드 시도 (개발환경 + 배포환경 모두)
     try:
-        # 개발 환경에서만 파일 폴백 시도 (PyInstaller로 빌드된 환경이 아닌 경우)
-        if not getattr(sys, 'frozen', False):  # PyInstaller가 아닌 경우만
+        if getattr(sys, 'frozen', False):
+            # PyInstaller 배포 환경 - 암호화된 파일 우선
+            base_path = sys._MEIPASS
+            encrypted_path = os.path.join(base_path, 'config', 'firebase_encrypted.dat')
+            if os.path.exists(encrypted_path):
+                config = _decrypt_firebase_config(encrypted_path)
+                if config:
+                    print("암호화된 Firebase 설정 파일에서 로드 성공")
+                    return config
+
+            # 일반 파일 폴백
+            config_path = os.path.join(base_path, 'config', 'firebase_config.json')
+        else:
+            # 개발 환경 - 일반 파일 우선
             config_path = os.path.join(
                 os.path.dirname(os.path.dirname(__file__)),
                 'config',
                 'firebase_config.json'
             )
 
-            if os.path.exists(config_path):
-                with open(config_path, 'r', encoding='utf-8') as f:
-                    config = json.load(f)
-                print("✅ 로컬 firebase_config.json에서 설정 로드 (개발 환경)")
-                return config
-            else:
-                print(f"⚠️ 로컬 설정 파일이 없습니다: {config_path}")
+        if os.path.exists(config_path):
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+            print("Firebase 설정 파일에서 로드 성공")
+            return config
         else:
-            print("📦 배포 환경에서는 환경변수만 사용합니다.")
+            print(f"Firebase 설정 파일이 없습니다: {config_path}")
 
     except Exception as e:
-        print(f"❌ 로컬 설정 파일 로드 시도 실패: {e}")
+        print(f"설정 파일 로드 시도 실패: {e}")
 
-    print("❌ Firebase 설정을 로드할 수 없습니다.")
-    print("💡 배포 환경에서는 환경변수 설정이 필요합니다:")
-    print("   - FIREBASE_PROJECT_ID")
-    print("   - FIREBASE_PRIVATE_KEY")
-    print("   - FIREBASE_CLIENT_EMAIL")
+
+def _decrypt_firebase_config(encrypted_path: str) -> Optional[Dict[str, Any]]:
+    """암호화된 Firebase 설정 파일 복호화"""
+    try:
+        from cryptography.fernet import Fernet
+        import base64
+
+        # 암호화 키 (빌드 시와 동일한 키)
+        encryption_key = b'NaverBlogAutomation2024_SecureKey='
+        cipher_suite = Fernet(encryption_key)
+
+        # 파일 읽기 및 복호화
+        with open(encrypted_path, 'rb') as f:
+            encrypted_data = base64.b64decode(f.read())
+
+        decrypted_data = cipher_suite.decrypt(encrypted_data)
+        config = json.loads(decrypted_data.decode())
+
+        return config
+
+    except Exception as e:
+        print(f"암호화된 설정 파일 복호화 실패: {e}")
+        return None
+
+    print("Firebase 설정을 로드할 수 없습니다.")
+    print("배포 환경에서는 환경변수 또는 설정 파일이 필요합니다.")
     return None
 
 
