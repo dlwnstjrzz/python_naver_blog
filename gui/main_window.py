@@ -1562,15 +1562,15 @@ class MainWindow(QMainWindow):
         license_key = self.license_key_edit.text().strip()
 
         if not license_key:
-            QMessageBox.warning(self, "입력 오류", "라이선스 키를 먼저 입력해주세요.")
+            QMessageBox.warning(self, "입력 오류", "활성화 코드를 먼저 입력해주세요.")
             return
 
         try:
             from utils.license_validator import validate_license
 
             # 로딩 다이얼로그 표시
-            loading_dialog = QProgressDialog("라이선스 검증 중...", "취소", 0, 0, self)
-            loading_dialog.setWindowTitle("라이선스 검증")
+            loading_dialog = QProgressDialog("코드 검증 중...", "취소", 0, 0, self)
+            loading_dialog.setWindowTitle("활성화 코드 검증")
             loading_dialog.setWindowModality(Qt.WindowModal)
             loading_dialog.show()
 
@@ -1595,18 +1595,18 @@ class MainWindow(QMainWindow):
             self.update_license_status()
 
         except ImportError:
-            QMessageBox.critical(self, "오류", "라이선스 검증 모듈을 찾을 수 없습니다.")
+            QMessageBox.critical(self, "오류", "활성화 코드 검증 모듈을 찾을 수 없습니다.")
         except Exception as e:
             loading_dialog.close()
             QMessageBox.critical(
-                self, "오류", f"라이선스 검증 중 오류가 발생했습니다:\n{str(e)}")
+                self, "오류", f"활성화 코드 검증 중 오류가 발생했습니다:\n{str(e)}")
 
     def update_license_status(self):
         """라이선스 상태 업데이트"""
         license_key = self.license_key_edit.text().strip()
 
         if not license_key:
-            self.license_status_label.setText("라이선스 상태: 미입력")
+            self.license_status_label.setText("활성화 상태: 미입력")
             self.license_status_label.setStyleSheet("color: gray;")
             return
 
@@ -1618,18 +1618,18 @@ class MainWindow(QMainWindow):
                 days_remaining = result.get('days_remaining', 0)
                 if days_remaining <= 7:
                     self.license_status_label.setText(
-                        f"라이선스 상태: 곧 만료 ({days_remaining}일 남음)")
+                        f"활성화 상태: 곧 만료 ({days_remaining}일 남음)")
                     self.license_status_label.setStyleSheet("color: orange;")
                 else:
                     self.license_status_label.setText(
-                        f"라이선스 상태: 유효 ({days_remaining}일 남음)")
+                        f"활성화 상태: 유효 ({days_remaining}일 남음)")
                     self.license_status_label.setStyleSheet("color: green;")
             else:
-                self.license_status_label.setText("라이선스 상태: 무효/만료")
+                self.license_status_label.setText("활성화 상태: 무효/만료")
                 self.license_status_label.setStyleSheet("color: red;")
 
         except Exception:
-            self.license_status_label.setText("라이선스 상태: 확인 불가")
+            self.license_status_label.setText("활성화 상태: 확인 불가")
             self.license_status_label.setStyleSheet("color: gray;")
 
     def validate_license_before_start(self):
@@ -1637,8 +1637,8 @@ class MainWindow(QMainWindow):
         license_key = self.license_key_edit.text().strip()
 
         if not license_key:
-            QMessageBox.warning(self, "라이선스 필요",
-                                "라이선스 키가 필요합니다.\n상세 설정 탭에서 라이선스 키를 입력하고 검증해주세요.")
+            QMessageBox.warning(self, "코드 필요",
+                                "활성화 코드가 필요합니다.\n상세 설정 탭에서 활성화 코드를 입력하고 검증해주세요.")
             return False
 
         try:
@@ -1647,15 +1647,15 @@ class MainWindow(QMainWindow):
 
             if not result['valid']:
                 QMessageBox.warning(self, "라이선스 오류",
-                                    f"라이선스가 유효하지 않습니다.\n\n{result['message']}")
+                                    f"코드가 유효하지 않습니다.\n\n{result['message']}")
                 return False
 
             # 만료 임박 경고
             days_remaining = result.get('days_remaining', 0)
             if days_remaining <= 7:
                 reply = QMessageBox.question(
-                    self, "라이선스 만료 임박",
-                    f"라이선스가 {days_remaining}일 후 만료됩니다.\n\n계속 진행하시겠습니까?",
+                    self, "코드 만료 임박",
+                    f"활성화 코드가 {days_remaining}일 후 만료됩니다.\n\n계속 진행하시겠습니까?",
                     QMessageBox.Yes | QMessageBox.No,
                     QMessageBox.Yes
                 )
@@ -1665,8 +1665,8 @@ class MainWindow(QMainWindow):
             return True
 
         except Exception as e:
-            QMessageBox.critical(self, "라이선스 검증 오류",
-                                 f"라이선스 검증 중 오류가 발생했습니다:\n{str(e)}")
+            QMessageBox.critical(self, "코드 검증 오류",
+                                 f"활성화 코드 검증 중 오류가 발생했습니다:\n{str(e)}")
             return False
 
 

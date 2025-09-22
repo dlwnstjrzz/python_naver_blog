@@ -39,25 +39,24 @@ class LicenseValidator:
     def _initialize_firebase(self):
         """Firebase 초기화"""
         try:
-            # 보안 Firebase 설정 로드
+            # 보안 Firebase 설정 로드 (환경변수 우선)
             from utils.secure_firebase_config import get_secure_firebase_config
             firebase_config = get_secure_firebase_config()
-            
+
             if not firebase_config:
-                # 기존 방식으로 폴백
-                with open(self.config_path, 'r', encoding='utf-8') as f:
-                    firebase_config = json.load(f)
+                logger.error("Firebase 설정을 로드할 수 없습니다. 환경변수 또는 설정 파일을 확인하세요.")
+                return
             
-            # Firebase 설정에 필요한 추가 정보
+            # pyrebase 설정 구성 (환경변수 우선)
             config = {
-                "apiKey": firebase_config.get('api_key', ''),
-                "authDomain": f"{firebase_config['project_id']}.firebaseapp.com",
-                "databaseURL": f"https://{firebase_config['project_id']}-default-rtdb.asia-southeast1.firebasedatabase.app",
+                "apiKey": os.getenv('FIREBASE_API_KEY') or firebase_config.get('api_key', ''),
+                "authDomain": os.getenv('FIREBASE_AUTH_DOMAIN') or f"{firebase_config['project_id']}.firebaseapp.com",
+                "databaseURL": os.getenv('FIREBASE_DATABASE_URL') or f"https://{firebase_config['project_id']}-default-rtdb.asia-southeast1.firebasedatabase.app",
                 "projectId": firebase_config['project_id'],
-                "storageBucket": f"{firebase_config['project_id']}.appspot.com",
-                "messagingSenderId": firebase_config.get('messaging_sender_id', ''),
-                "appId": firebase_config.get('app_id', ''),
-                "serviceAccount": self.config_path
+                "storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET') or f"{firebase_config['project_id']}.appspot.com",
+                "messagingSenderId": os.getenv('FIREBASE_MESSAGING_SENDER_ID') or firebase_config.get('messaging_sender_id', ''),
+                "appId": os.getenv('FIREBASE_APP_ID') or firebase_config.get('app_id', ''),
+                "serviceAccount": firebase_config if os.getenv('FIREBASE_PROJECT_ID') else self.config_path
             }
             
             # Firebase 초기화
