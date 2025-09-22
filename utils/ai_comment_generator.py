@@ -25,25 +25,25 @@ class AICommentGenerator:
         try:
             if self.logger:
                 self.logger.info(
-                    f"🔧 Gemini API 초기화 시작 - API 키 길이: {len(self.api_key)}")
+                    f"Gemini API 초기화 시작 - API 키 길이: {len(self.api_key)}")
 
             if not self.api_key or len(self.api_key) < 10:
                 raise ValueError(f"유효하지 않은 API 키: 길이 {len(self.api_key)}")
 
             genai.configure(api_key=self.api_key)
             if self.logger:
-                self.logger.info("🔧 genai.configure() 완료")
+                self.logger.info("genai.configure() 완료")
 
             self.model = genai.GenerativeModel('gemini-2.5-flash')
             if self.logger:
-                self.logger.info("✅ Gemini API 초기화 완료 - GenerativeModel 생성 성공")
+                self.logger.info(" Gemini API 초기화 완료 - GenerativeModel 생성 성공")
         except Exception as e:
             if self.logger:
                 self.logger.error(
-                    f"❌ Gemini API 초기화 실패 - 예외 타입: {type(e).__name__}")
-                self.logger.error(f"❌ 오류 메시지: {str(e)}")
+                    f" Gemini API 초기화 실패 - 예외 타입: {type(e).__name__}")
+                self.logger.error(f" 오류 메시지: {str(e)}")
                 import traceback
-                self.logger.error(f"❌ 전체 스택 트레이스:\n{traceback.format_exc()}")
+                self.logger.error(f" 전체 스택 트레이스:\n{traceback.format_exc()}")
             self.model = None
 
     def generate_comment(self, blog_content: str, blog_title: str = "") -> Optional[str]:
@@ -58,78 +58,78 @@ class AICommentGenerator:
             생성된 댓글 (1-2줄) 또는 None
         """
         if self.logger:
-            self.logger.info("🤖 AI 댓글 생성 시작")
+            self.logger.info(" AI 댓글 생성 시작")
 
         if not self.model:
             if self.logger:
-                self.logger.error("❌ Gemini 모델이 초기화되지 않았습니다 - model is None")
+                self.logger.error(" Gemini 모델이 초기화되지 않았습니다 - model is None")
             return None
 
         if not blog_content.strip():
             if self.logger:
                 self.logger.warning(
-                    f"⚠️ 블로그 내용이 비어있습니다 - 내용 길이: {len(blog_content)}")
+                    f" 블로그 내용이 비어있습니다 - 내용 길이: {len(blog_content)}")
             return None
 
         try:
             if self.logger:
                 self.logger.info(
-                    f"📝 블로그 내용 분석 중 - 제목: '{blog_title[:30]}...', 본문 길이: {len(blog_content)}")
+                    f" 블로그 내용 분석 중 - 제목: '{blog_title[:30]}...', 본문 길이: {len(blog_content)}")
 
             # 프롬프트 구성
             prompt = self._create_comment_prompt(blog_content, blog_title)
             if self.logger:
-                self.logger.info(f"📋 프롬프트 생성 완료 - 길이: {len(prompt)}")
+                self.logger.info(f" 프롬프트 생성 완료 - 길이: {len(prompt)}")
 
             # Gemini API 호출
             if self.logger:
-                self.logger.info("🌐 Gemini API 호출 시작")
+                self.logger.info(" Gemini API 호출 시작")
 
             response = self.model.generate_content(prompt)
 
             if self.logger:
-                self.logger.info("🌐 Gemini API 응답 수신 완료")
-                self.logger.info(f"📨 응답 객체 타입: {type(response)}")
+                self.logger.info(" Gemini API 응답 수신 완료")
+                self.logger.info(f" 응답 객체 타입: {type(response)}")
                 self.logger.info(
-                    f"📨 응답 hasattr text: {hasattr(response, 'text')}")
+                    f" 응답 hasattr text: {hasattr(response, 'text')}")
 
             if hasattr(response, 'text') and response.text:
                 if self.logger:
-                    self.logger.info(f"📨 응답 텍스트 길이: {len(response.text)}")
-                    self.logger.info(f"📨 원본 응답: '{response.text}'")
+                    self.logger.info(f" 응답 텍스트 길이: {len(response.text)}")
+                    self.logger.info(f" 원본 응답: '{response.text}'")
 
                 comment = response.text.strip()
                 # 댓글 길이 및 형식 검증
                 comment = self._validate_and_clean_comment(comment)
 
                 if self.logger:
-                    self.logger.info(f"🤖 AI 댓글 생성 완료: '{comment}'")
+                    self.logger.info(f" AI 댓글 생성 완료: '{comment}'")
 
                 return comment
             else:
                 if self.logger:
-                    self.logger.warning("⚠️ Gemini API에서 빈 응답을 받았습니다")
+                    self.logger.warning(" Gemini API에서 빈 응답을 받았습니다")
                     if hasattr(response, 'text'):
                         self.logger.warning(
-                            f"⚠️ response.text 내용: '{response.text}'")
+                            f" response.text 내용: '{response.text}'")
                     else:
-                        self.logger.warning("⚠️ response 객체에 text 속성이 없음")
+                        self.logger.warning(" response 객체에 text 속성이 없음")
                     # 추가 디버깅 정보
                     if hasattr(response, 'candidates'):
                         self.logger.info(
-                            f"📨 response.candidates: {response.candidates}")
+                            f" response.candidates: {response.candidates}")
                     if hasattr(response, 'prompt_feedback'):
                         self.logger.info(
-                            f"📨 response.prompt_feedback: {response.prompt_feedback}")
+                            f" response.prompt_feedback: {response.prompt_feedback}")
                 return None
 
         except Exception as e:
             if self.logger:
                 self.logger.error(
-                    f"❌ AI 댓글 생성 중 오류 - 예외 타입: {type(e).__name__}")
-                self.logger.error(f"❌ 오류 메시지: {str(e)}")
+                    f" AI 댓글 생성 중 오류 - 예외 타입: {type(e).__name__}")
+                self.logger.error(f" 오류 메시지: {str(e)}")
                 import traceback
-                self.logger.error(f"❌ 전체 스택 트레이스:\n{traceback.format_exc()}")
+                self.logger.error(f" 전체 스택 트레이스:\n{traceback.format_exc()}")
             return None
 
     def _create_comment_prompt(self, blog_content: str, blog_title: str = "") -> str:
@@ -209,6 +209,6 @@ class AICommentGenerator:
         selected_comment = random.choice(fallback_comments)
 
         if self.logger:
-            self.logger.info(f"🔄 AI 댓글 생성 실패, 기본 댓글 사용: {selected_comment}")
+            self.logger.info(f" AI 댓글 생성 실패, 기본 댓글 사용: {selected_comment}")
 
         return selected_comment

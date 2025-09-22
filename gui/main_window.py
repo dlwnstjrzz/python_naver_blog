@@ -195,9 +195,9 @@ class MainWindow(QMainWindow):
         """UI 초기화"""
         self.setWindowTitle("네이버 블로그 자동화")
 
-        # 창 크기를 유연하게 설정 (모든 요소가 보이는 크기로 최소 크기 설정)
-        self.setMinimumSize(550, 620)  # 최소 크기 설정 (모든 요소가 보이는 크기)
-        self.resize(650, 700)  # 초기 크기 (가로 축소)
+        # 창 크기를 유연하게 설정 (DPI 스케일링 적용됨)
+        self.setMinimumSize(550, 620)  # 최소 크기 설정
+        self.resize(650, 700)  # 초기 크기 (DPI에 따라 자동 스케일링됨)
 
         # 화면 중앙에 위치시키기
         screen = QApplication.desktop().screenGeometry()
@@ -482,19 +482,25 @@ class MainWindow(QMainWindow):
 
             # 로고 파일 경로
             logo_path = os.path.join(base_path, "image", "logo.png")
+            print(f"DEBUG: logo_path = {logo_path}")
+            print(f"DEBUG: logo file exists = {os.path.exists(logo_path)}")
 
             if os.path.exists(logo_path):
                 pixmap = QPixmap(logo_path)
+                print(f"DEBUG: pixmap.isNull() = {pixmap.isNull()}")
                 if not pixmap.isNull():
                     # 로고 크기 조절 (50x50)
                     scaled_pixmap = pixmap.scaled(
                         50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                     logo_label.setPixmap(scaled_pixmap)
+                    print("DEBUG: 로고 이미지 로드 성공")
                 else:
+                    print("DEBUG: pixmap이 null입니다")
                     logo_label.setText("로고")
                     logo_label.setStyleSheet(
                         "color: #fe4847; font-size: 16px; font-weight: bold;")
             else:
+                print("DEBUG: 로고 파일이 존재하지 않습니다")
                 logo_label.setText("로고")
                 logo_label.setStyleSheet(
                     "color: #fe4847; font-size: 16px; font-weight: bold;")
@@ -527,8 +533,7 @@ class MainWindow(QMainWindow):
         tab2 = self.create_settings_tab()
         tab3 = self.create_automation_tab()
 
-        tab_widget.addTab(tab1, "1. 계정 및 검색 설정")
-        tab_widget.addTab(tab1, "1. 계정 및 기본 설정")
+        tab_widget.addTab(tab1, "1. 테스트222333 ")
         tab_widget.addTab(tab2, "2. 상세 설정")
         tab_widget.addTab(tab3, "3. 자동화 실행")
 
@@ -878,40 +883,6 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(wait_group)
 
-        # 라이선스 설정 그룹
-        license_group = QGroupBox("라이선스 설정")
-        font_30px = QFont()
-        font_30px.setPointSize(22)
-        license_group.setFont(font_30px)
-        license_layout = QVBoxLayout(license_group)
-        license_layout.setContentsMargins(20, 20, 20, 20)
-        license_layout.setSpacing(10)
-
-        license_info_label = QLabel("연간 결제를 위한 라이선스 키를 입력하세요:")
-        license_info_label.setFont(font_30px)
-        license_layout.addWidget(license_info_label)
-
-        self.license_key_edit = QLineEdit()
-        self.license_key_edit.setFont(font_30px)
-        self.license_key_edit.setMinimumHeight(50)
-        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
-        license_layout.addWidget(self.license_key_edit)
-
-        # 라이선스 검증 버튼
-        license_button_layout = QHBoxLayout()
-        self.validate_license_btn = QPushButton("라이선스 검증")
-        self.validate_license_btn.setFont(font_30px)
-        self.validate_license_btn.setMinimumHeight(50)
-        self.validate_license_btn.clicked.connect(self.validate_license_key)
-        license_button_layout.addWidget(self.validate_license_btn)
-
-        # 라이선스 상태 표시 레이블
-        self.license_status_label = QLabel("라이선스 상태: 미확인")
-        self.license_status_label.setFont(font_30px)
-        license_button_layout.addWidget(self.license_status_label)
-        license_layout.addLayout(license_button_layout)
-
-        layout.addWidget(license_group)
         layout.addStretch()
 
         return tab
@@ -991,6 +962,47 @@ class MainWindow(QMainWindow):
         log_layout.addWidget(self.log_text)
 
         layout.addWidget(log_group)
+
+        # 라이선스 설정 그룹
+        license_group = QGroupBox("라이선스 설정")
+        license_group.setFont(font_default)
+        license_layout = QVBoxLayout(license_group)
+        license_layout.setContentsMargins(15, 15, 15, 15)
+        license_layout.setSpacing(10)
+
+        # 라이선스 정보와 상태를 가로로 배치
+        license_info_layout = QHBoxLayout()
+
+        license_info_label = QLabel("라이선스 키는 주문조회 페이지에서 확인 가능합니다.")
+        license_info_label.setFont(font_default)
+        license_info_layout.addWidget(license_info_label)
+
+        # 라이선스 상태 표시 레이블
+        self.license_status_label = QLabel("라이선스 상태: 미확인")
+        self.license_status_label.setFont(font_default)
+        license_info_layout.addWidget(self.license_status_label)
+
+        license_info_layout.addStretch()  # 오른쪽 공간 채우기
+        license_layout.addLayout(license_info_layout)
+
+        # 라이선스 키 입력과 검증 버튼을 가로로 배치
+        license_input_layout = QHBoxLayout()
+
+        self.license_key_edit = QLineEdit()
+        self.license_key_edit.setFont(font_default)
+        self.license_key_edit.setMinimumHeight(30)
+        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
+        license_input_layout.addWidget(self.license_key_edit)
+
+        self.validate_license_btn = QPushButton("라이선스 검증")
+        self.validate_license_btn.setFont(font_default)
+        self.validate_license_btn.setMinimumHeight(30)
+        self.validate_license_btn.clicked.connect(self.validate_license_key)
+        license_input_layout.addWidget(self.validate_license_btn)
+
+        license_layout.addLayout(license_input_layout)
+
+        layout.addWidget(license_group)
 
         return tab
 
@@ -1621,7 +1633,17 @@ if __name__ == "__main__":
 
     # 그래도 실행하고 싶다면
     try:
+        # DPI 인식 및 자동 스케일링 활성화
+        import os
+        os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+        os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "1"
+
+        # 고해상도 디스플레이 지원 설정
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+        QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+
         app = QApplication(sys.argv)
+
         window = MainWindow()
         window.show()
         sys.exit(app.exec_())
