@@ -510,18 +510,59 @@ class MainWindow(QMainWindow):
             logo_label.setStyleSheet(
                 "color: #fe4847; font-size: 16px; font-weight: bold;")
 
-        # 타이틀 레이블
-        title_label = QLabel("자동화로 시간을 지배하라")
-        title_label.setStyleSheet("""
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            margin-left: 12px;
-        """)
+        # 슬로건 이미지 레이블
+        slogan_label = QLabel()
+
+        try:
+            from PyQt5.QtGui import QPixmap
+
+            # PyInstaller 실행 파일에서의 경로 처리
+            if getattr(sys, 'frozen', False):
+                base_path = sys._MEIPASS
+            else:
+                base_path = os.path.dirname(
+                    os.path.dirname(os.path.abspath(__file__)))
+
+            slogan_path = os.path.join(base_path, "image", "slogan.png")
+
+            if os.path.exists(slogan_path):
+                pixmap = QPixmap(slogan_path)
+                if not pixmap.isNull():
+                    # 슬로건 이미지 크기 조절
+                    scaled_pixmap = pixmap.scaled(
+                        400, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                    slogan_label.setPixmap(scaled_pixmap)
+                else:
+                    # 이미지 로드 실패시 텍스트로 대체
+                    slogan_label.setText("자동화로 시간을 지배하라")
+                    slogan_label.setStyleSheet("""
+                        color: white;
+                        font-size: 20px;
+                        font-weight: bold;
+                        margin-left: 12px;
+                    """)
+            else:
+                # 이미지 파일이 없으면 텍스트로 대체
+                slogan_label.setText("자동화로 시간을 지배하라")
+                slogan_label.setStyleSheet("""
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-left: 12px;
+                """)
+        except Exception:
+            # 오류 발생시 텍스트로 대체
+            slogan_label.setText("자동화로 시간을 지배하라")
+            slogan_label.setStyleSheet("""
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                margin-left: 12px;
+            """)
 
         logo_layout.addStretch()  # 왼쪽 공간 채우기
         logo_layout.addWidget(logo_label)
-        logo_layout.addWidget(title_label)
+        logo_layout.addWidget(slogan_label)
         logo_layout.addStretch()  # 오른쪽 공간 채우기
 
         # 탭 위젯 생성
@@ -533,7 +574,7 @@ class MainWindow(QMainWindow):
         tab2 = self.create_settings_tab()
         tab3 = self.create_automation_tab()
 
-        tab_widget.addTab(tab1, "1. 테스트222333 ")
+        tab_widget.addTab(tab1, "1. 계정 및 기본 설정")
         tab_widget.addTab(tab2, "2. 상세 설정")
         tab_widget.addTab(tab3, "3. 자동화 실행")
 
@@ -964,7 +1005,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(log_group)
 
         # 라이선스 설정 그룹
-        license_group = QGroupBox("라이선스 설정")
+        license_group = QGroupBox("활성화 코드 설정")
         license_group.setFont(font_default)
         license_layout = QVBoxLayout(license_group)
         license_layout.setContentsMargins(15, 15, 15, 15)
@@ -973,12 +1014,12 @@ class MainWindow(QMainWindow):
         # 라이선스 정보와 상태를 가로로 배치
         license_info_layout = QHBoxLayout()
 
-        license_info_label = QLabel("라이선스 키는 주문조회 페이지에서 확인 가능합니다.")
+        license_info_label = QLabel("활성화 코드는 주문조회 페이지에서 확인 가능합니다.")
         license_info_label.setFont(font_default)
         license_info_layout.addWidget(license_info_label)
 
         # 라이선스 상태 표시 레이블
-        self.license_status_label = QLabel("라이선스 상태: 미확인")
+        self.license_status_label = QLabel("활성화 상태: 미확인")
         self.license_status_label.setFont(font_default)
         license_info_layout.addWidget(self.license_status_label)
 
@@ -991,10 +1032,10 @@ class MainWindow(QMainWindow):
         self.license_key_edit = QLineEdit()
         self.license_key_edit.setFont(font_default)
         self.license_key_edit.setMinimumHeight(30)
-        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
+        self.license_key_edit.setPlaceholderText("활성화 코드를 입력하세요...")
         license_input_layout.addWidget(self.license_key_edit)
 
-        self.validate_license_btn = QPushButton("라이선스 검증")
+        self.validate_license_btn = QPushButton("활성화 코드 검증")
         self.validate_license_btn.setFont(font_default)
         self.validate_license_btn.setMinimumHeight(30)
         self.validate_license_btn.clicked.connect(self.validate_license_key)

@@ -12,6 +12,7 @@ a = Analysis(
         ('image', 'image'),
          ('image/logo.png', '.'),  # 루트 디렉토리에 복사
         ('image/logo.ico', '.'),  # 루트 디렉토리에 복사
+        ('image/slogan.png', '.'),  # 슬로건 PNG 파일 추가
     ],
     hiddenimports=[
         'selenium',
@@ -87,5 +88,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='image/logo.png',
+    icon='image/logo.ico',
 )
