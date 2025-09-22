@@ -22,16 +22,12 @@ class LicenseValidator:
     
     def __init__(self, config_path: str = None):
         """
-        초기화
-        
+        초기화 (환경변수 전용, 배포 환경 지원)
+
         Args:
-            config_path: Firebase 설정 파일 경로
+            config_path: 사용하지 않음 (하위 호환성을 위해 유지)
         """
-        self.config_path = config_path or os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), 
-            'config', 
-            'firebase_config.json'
-        )
+        # 환경변수만 사용하므로 config_path는 무시
         self.firebase = None
         self.db = None
         self._initialize_firebase()
@@ -41,12 +37,19 @@ class LicenseValidator:
         try:
             # 보안 Firebase 설정 로드 (환경변수 우선)
             from utils.secure_firebase_config import get_secure_firebase_config
+
+            print("Firebase 설정 로드 시도...")
             firebase_config = get_secure_firebase_config()
 
             if not firebase_config:
+                print("Firebase 설정을 로드할 수 없습니다.")
                 logger.error("Firebase 설정을 로드할 수 없습니다. 환경변수 또는 설정 파일을 확인하세요.")
+                self.firebase = None
+                self.db = None
                 return
-            
+
+            print(f"Firebase 설정 로드 성공. Project ID: {firebase_config.get('project_id', 'N/A')}")
+
             # pyrebase 설정 구성 (pyrebase 필수값 모두 포함)
             config = {
                 "apiKey": firebase_config.get('api_key', 'dummy-key'),
@@ -56,26 +59,41 @@ class LicenseValidator:
                 "storageBucket": f"{firebase_config['project_id']}.appspot.com",
                 "messagingSenderId": "123456789",  # 더미값
                 "appId": "1:123456789:web:abcdef",  # 더미값
-                "serviceAccount": firebase_config if os.getenv('FIREBASE_PROJECT_ID') else self.config_path
+                "serviceAccount": firebase_config  # 환경변수에서 로드된 설정 사용
             }
-            
+
+            print("pyrebase 초기화 시도...")
+            print(f"Database URL: {config['databaseURL']}")
+
             # Firebase 초기화
             self.firebase = pyrebase.initialize_app(config)
             self.db = self.firebase.database()
-            
+
+            print("Firebase 초기화 완료!")
             logger.info("Firebase 초기화 완료")
-            
+
         except Exception as e:
+            import traceback
+            error_detail = traceback.format_exc()
+            print(f"Firebase 초기화 실패:")
+            print(f"   에러: {e}")
+            print(f"   상세: {error_detail}")
+            print(f"배포된 버전에서는 환경변수 설정이 필요합니다:")
+            print(f"   - FIREBASE_PROJECT_ID")
+            print(f"   - FIREBASE_PRIVATE_KEY")
+            print(f"   - FIREBASE_CLIENT_EMAIL")
             logger.error(f"Firebase 초기화 실패: {e}")
-            raise
+            logger.error(f"상세 오류: {error_detail}")
+            self.firebase = None
+            self.db = None
     
     def validate_license_key(self, license_key: str) -> Dict[str, Any]:
         """
         라이선스 키 검증 (기기 등록 포함)
-        
+
         Args:
             license_key: 검증할 라이선스 키
-            
+
         Returns:
             Dict: 검증 결과
                 - valid: bool - 유효성 여부
@@ -85,6 +103,17 @@ class LicenseValidator:
                 - device_registered: bool - 기기 등록 여부
         """
         try:
+            # Firebase 초기화 확인
+            if not self.db:
+                logger.error("Firebase가 초기화되지 않았습니다.")
+                return {
+                    "valid": False,
+                    "message": "Firebase 연결 오류가 발생했습니다.",
+                    "expiry_date": None,
+                    "days_remaining": 0,
+                    "device_registered": False
+                }
+
             if not license_key or license_key.strip() == "":
                 return {
                     "valid": False,
@@ -93,10 +122,10 @@ class LicenseValidator:
                     "days_remaining": 0,
                     "device_registered": False
                 }
-            
+
             # 현재 기기 ID 가져오기
             current_device_id = get_device_id()
-            
+
             # Firebase에서 라이선스 키 조회
             license_data = self.db.child("licenses").child(license_key).get()
             

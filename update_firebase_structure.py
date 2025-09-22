@@ -14,19 +14,24 @@ def update_firebase_structure():
         import pyrebase
         from utils.device_identifier import get_device_id
         
-        # Firebase 설정 로드
-        config_path = os.path.join(os.path.dirname(__file__), 'config', 'firebase_config.json')
-        with open(config_path, 'r', encoding='utf-8') as f:
-            firebase_config = json.load(f)
+        # Firebase 설정 로드 (환경변수 우선)
+        from utils.secure_firebase_config import get_secure_firebase_config
+        firebase_config = get_secure_firebase_config()
+
+        if not firebase_config:
+            print("Firebase 설정을 로드할 수 없습니다. 환경변수를 확인하세요.")
+            return
         
-        # Firebase 설정
+        # pyrebase 설정 구성
         config = {
-            "apiKey": "",
+            "apiKey": firebase_config.get('api_key', 'dummy-key'),
             "authDomain": f"{firebase_config['project_id']}.firebaseapp.com",
             "databaseURL": f"https://{firebase_config['project_id']}-default-rtdb.asia-southeast1.firebasedatabase.app",
             "projectId": firebase_config['project_id'],
             "storageBucket": f"{firebase_config['project_id']}.appspot.com",
-            "serviceAccount": config_path
+            "messagingSenderId": "123456789",
+            "appId": "1:123456789:web:abcdef",
+            "serviceAccount": firebase_config
         }
         
         # Firebase 초기화

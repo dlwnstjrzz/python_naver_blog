@@ -5,6 +5,7 @@
 """
 
 import os
+import sys
 from typing import Optional, Dict, Any
 from dotenv import load_dotenv
 
@@ -54,7 +55,7 @@ def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
             "universe_domain": os.getenv('FIREBASE_UNIVERSE_DOMAIN', 'googleapis.com')
         }
 
-        print("✅ 환경변수에서 Firebase 설정 로드 성공")
+        print("환경변수에서 Firebase 설정 로드 성공")
         return config
 
     except Exception as e:
@@ -63,7 +64,7 @@ def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
 
 
 def get_secure_firebase_config(license_key: str = None) -> Optional[Dict[str, Any]]:
-    """보안 Firebase 설정 가져오기 (환경변수 우선, 파일 폴백)"""
+    """보안 Firebase 설정 가져오기 (환경변수 전용, 배포 환경 지원)"""
     import json
 
     # 1. 환경변수에서 Firebase 설정 로드 시도
@@ -71,25 +72,34 @@ def get_secure_firebase_config(license_key: str = None) -> Optional[Dict[str, An
     if config:
         return config
 
-    # 2. 로컬 파일에서 폴백
+    # 2. 배포 환경에서는 환경변수만 사용, 로컬 개발환경에서만 파일 폴백
     try:
-        config_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)),
-            'config',
-            'firebase_config.json'
-        )
+        # 개발 환경에서만 파일 폴백 시도 (PyInstaller로 빌드된 환경이 아닌 경우)
+        if not getattr(sys, 'frozen', False):  # PyInstaller가 아닌 경우만
+            config_path = os.path.join(
+                os.path.dirname(os.path.dirname(__file__)),
+                'config',
+                'firebase_config.json'
+            )
 
-        if os.path.exists(config_path):
-            with open(config_path, 'r', encoding='utf-8') as f:
-                config = json.load(f)
-            print("✅ 로컬 firebase_config.json에서 설정 로드")
-            return config
+            if os.path.exists(config_path):
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                print("✅ 로컬 firebase_config.json에서 설정 로드 (개발 환경)")
+                return config
+            else:
+                print(f"⚠️ 로컬 설정 파일이 없습니다: {config_path}")
         else:
-            print(f"⚠️ 로컬 설정 파일도 없습니다: {config_path}")
-    except Exception as e:
-        print(f"❌ 로컬 설정 파일 로드 실패: {e}")
+            print("📦 배포 환경에서는 환경변수만 사용합니다.")
 
-    print("❌ Firebase 설정을 로드할 수 없습니다. 환경변수 또는 config/firebase_config.json을 확인하세요.")
+    except Exception as e:
+        print(f"❌ 로컬 설정 파일 로드 시도 실패: {e}")
+
+    print("❌ Firebase 설정을 로드할 수 없습니다.")
+    print("💡 배포 환경에서는 환경변수 설정이 필요합니다:")
+    print("   - FIREBASE_PROJECT_ID")
+    print("   - FIREBASE_PRIVATE_KEY")
+    print("   - FIREBASE_CLIENT_EMAIL")
     return None
 
 
