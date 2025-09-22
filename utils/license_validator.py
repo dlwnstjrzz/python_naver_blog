@@ -12,6 +12,7 @@ from typing import Optional, Dict, Any
 import logging
 import pyrebase
 from utils.device_identifier import get_device_id
+from utils.firebase_logging import append_firebase_log
 
 # 로거 설정
 logger = logging.getLogger('license_validator')
@@ -39,11 +40,13 @@ class LicenseValidator:
             from utils.secure_firebase_config import get_secure_firebase_config
 
             print("Firebase 설정 로드 시도...")
+            append_firebase_log("[runtime] LicenseValidator initializing Firebase")
             firebase_config = get_secure_firebase_config()
 
             if not firebase_config:
                 print("Firebase 설정을 로드할 수 없습니다.")
                 logger.error("Firebase 설정을 로드할 수 없습니다. 환경변수 또는 설정 파일을 확인하세요.")
+                append_firebase_log("[runtime] Firebase config unavailable during LicenseValidator init")
                 self.firebase = None
                 self.db = None
                 return
@@ -71,6 +74,7 @@ class LicenseValidator:
 
             print("Firebase 초기화 완료!")
             logger.info("Firebase 초기화 완료")
+            append_firebase_log("[runtime] Firebase initialization succeeded")
 
         except Exception as e:
             import traceback
@@ -84,6 +88,7 @@ class LicenseValidator:
             print(f"   - FIREBASE_CLIENT_EMAIL")
             logger.error(f"Firebase 초기화 실패: {e}")
             logger.error(f"상세 오류: {error_detail}")
+            append_firebase_log(f"[runtime] Firebase initialization failed: {e}")
             self.firebase = None
             self.db = None
     

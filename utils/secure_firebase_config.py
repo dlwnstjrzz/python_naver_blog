@@ -10,6 +10,7 @@ from typing import Optional, Dict, Any
 from dotenv import load_dotenv
 
 from .firebase_key import FERNET_KEY
+from .firebase_logging import append_firebase_log
 
 
 def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
@@ -17,6 +18,7 @@ def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
     try:
         # .env 파일 로드 (로컬 개발 환경용)
         load_dotenv()
+        append_firebase_log("[runtime] Loading Firebase config from environment")
 
         # 필수 환경변수 확인
         required_vars = [
@@ -32,6 +34,8 @@ def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
                 missing_vars.append(var)
 
         if missing_vars:
+            msg = f"[runtime] Missing Firebase env vars: {', '.join(missing_vars)}"
+            append_firebase_log(msg)
             print(f"다음 환경변수가 설정되지 않았습니다: {', '.join(missing_vars)}")
             return None
 
@@ -57,11 +61,13 @@ def get_firebase_config_from_env() -> Optional[Dict[str, Any]]:
             "universe_domain": os.getenv('FIREBASE_UNIVERSE_DOMAIN', 'googleapis.com')
         }
 
+        append_firebase_log("[runtime] Firebase config loaded from environment")
         print("환경변수에서 Firebase 설정 로드 성공")
         return config
 
     except Exception as e:
         print(f"❌ 환경변수에서 Firebase 설정 로드 실패: {e}")
+        append_firebase_log(f"[runtime] Failed to load Firebase config from environment: {e}")
         return None
 
 
@@ -70,8 +76,11 @@ def get_secure_firebase_config(license_key: str = None) -> Optional[Dict[str, An
     import json
 
     # 1. 환경변수에서 Firebase 설정 로드 시도
+    append_firebase_log("[runtime] get_secure_firebase_config invoked")
+
     config = get_firebase_config_from_env()
     if config:
+        append_firebase_log("[runtime] Using Firebase config from environment")
         return config
 
     # 2. 설정 파일에서 로드 시도 (개발환경 + 배포환경 모두)
@@ -84,6 +93,7 @@ def get_secure_firebase_config(license_key: str = None) -> Optional[Dict[str, An
                 config = _decrypt_firebase_config(encrypted_path)
                 if config:
                     print("암호화된 Firebase 설정 파일에서 로드 성공")
+                    append_firebase_log(f"[runtime] Loaded encrypted Firebase config: {encrypted_path}")
                     return config
 
             # 일반 파일 폴백
@@ -100,12 +110,15 @@ def get_secure_firebase_config(license_key: str = None) -> Optional[Dict[str, An
             with open(config_path, 'r', encoding='utf-8') as f:
                 config = json.load(f)
             print("Firebase 설정 파일에서 로드 성공")
+            append_firebase_log(f"[runtime] Loaded Firebase config file: {config_path}")
             return config
         else:
             print(f"Firebase 설정 파일이 없습니다: {config_path}")
+            append_firebase_log(f"[runtime] Firebase config file missing: {config_path}")
 
     except Exception as e:
         print(f"설정 파일 로드 시도 실패: {e}")
+        append_firebase_log(f"[runtime] Firebase config file load failed: {e}")
 
 
 def _decrypt_firebase_config(encrypted_path: str) -> Optional[Dict[str, Any]]:
@@ -124,14 +137,17 @@ def _decrypt_firebase_config(encrypted_path: str) -> Optional[Dict[str, Any]]:
         decrypted_data = cipher_suite.decrypt(encrypted_data)
         config = json.loads(decrypted_data.decode())
 
+        append_firebase_log(f"[runtime] Decrypted Firebase config from {encrypted_path}")
         return config
 
     except Exception as e:
         print(f"암호화된 설정 파일 복호화 실패: {e}")
+        append_firebase_log(f"[runtime] Failed to decrypt Firebase config: {e}")
         return None
 
     print("Firebase 설정을 로드할 수 없습니다.")
     print("배포 환경에서는 환경변수 또는 설정 파일이 필요합니다.")
+    append_firebase_log("[runtime] Unable to load Firebase configuration")
     return None
 
 

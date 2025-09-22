@@ -9,6 +9,7 @@ import os
 import json
 
 from utils.firebase_key import FERNET_KEY
+from utils.firebase_logging import append_firebase_log
 
 # Windows 콘솔 인코딩 설정
 if sys.platform == "win32":
@@ -21,6 +22,8 @@ def create_encrypted_firebase_config():
     try:
         from cryptography.fernet import Fernet
         import base64
+
+        append_firebase_log("[build] Firebase config encryption step started")
 
         # 환경변수에서 Firebase 설정 읽기
         firebase_config = {
@@ -36,6 +39,13 @@ def create_encrypted_firebase_config():
 
         # 필수 환경변수 확인
         if not all([firebase_config["project_id"], firebase_config["private_key"], firebase_config["client_email"]]):
+            append_firebase_log(
+                "[build] Firebase env missing - project_id:%s private_key:%s client_email:%s" % (
+                    bool(firebase_config["project_id"]),
+                    bool(firebase_config["private_key"]),
+                    bool(firebase_config["client_email"]),
+                )
+            )
             print("환경변수에서 Firebase 설정을 찾을 수 없습니다. 빌드를 계속합니다...")
             return False
 
@@ -60,10 +70,12 @@ def create_encrypted_firebase_config():
             f.write(base64.b64encode(encrypted_data))
 
         print(f"암호화된 Firebase 설정 파일 생성 완료: {config_path}")
+        append_firebase_log(f"[build] Firebase config encrypted -> {config_path}")
         return True
 
     except Exception as e:
         print(f"암호화된 Firebase 설정 파일 생성 실패: {e}")
+        append_firebase_log(f"[build] Firebase config encryption failed: {e}")
         return False
 
 def build_exe():
