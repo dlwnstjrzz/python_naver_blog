@@ -1,14 +1,11 @@
-# Firebase 보안 설정 파일들
-config/firebase_config.json
-config/device_info.json
-config/firebase_cache.json
-config/firebase_encrypted.dat
-
 # 환경변수 파일
 .env
 .env.local
 .env.production
 .env.staging
+
+# 앱 실행 중 생성 파일
+config/device_info.json
 
 # 빌드 디렉토리
 build/

@@ -49,5 +49,10 @@
     "check_update_on_startup": true,
     "backup_on_update": true,
     "auto_restart_after_update": true
+  },
+  "license_settings": {
+    "license_key": "NBL-2024-TEST001",
+    "validate_on_startup": true,
+    "last_validation": "2025-09-22 17:12:51"
   }
 }
