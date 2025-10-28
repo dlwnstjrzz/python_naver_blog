@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel,
                              QMessageBox, QHeaderView, QAbstractItemView,
                              QCheckBox, QLineEdit, QFileDialog, QGroupBox)
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtGui import QFont, QColor, QBrush
 from automation import BlogAutomation
 from utils.extracted_ids_manager import ExtractedIdsManager
 from utils.config_manager import ConfigManager
@@ -632,18 +632,16 @@ class ExtractedIdsWindow(QDialog):
         item.setText(status)
         item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
+        # 배경색은 기본 테마 유지, 글자색만 상태별로 구분
         if status == '성공':
-            item.setBackground(QColor(46, 125, 50))
-            item.setForeground(QColor(255, 255, 255))
+            item.setForeground(QBrush(QColor(102, 255, 178)))  # 밝은 초록
         elif status == '실패':
-            item.setBackground(QColor(183, 28, 28))
-            item.setForeground(QColor(255, 255, 255))
+            item.setForeground(QBrush(QColor(255, 105, 105)))  # 밝은 빨강
         elif status == '대기':
-            item.setBackground(QColor(90, 90, 90))
-            item.setForeground(QColor(240, 240, 240))
+            item.setForeground(QBrush(QColor(200, 200, 200)))
         else:
-            item.setBackground(QColor(60, 60, 60))
-            item.setForeground(QColor(255, 255, 255))
+            item.setForeground(QBrush(QColor(255, 255, 255)))
+
 
     def filter_table(self):
         """테이블 필터링"""
