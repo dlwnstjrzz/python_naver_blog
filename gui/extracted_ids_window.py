@@ -1,10 +1,141 @@
-from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
-                             QTableWidget, QTableWidgetItem, QPushButton, 
+from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel,
+                             QTableWidget, QTableWidgetItem, QPushButton,
                              QMessageBox, QHeaderView, QAbstractItemView,
                              QCheckBox, QLineEdit, QFileDialog, QGroupBox)
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QFont, QColor
+from automation import BlogAutomation
 from utils.extracted_ids_manager import ExtractedIdsManager
+from utils.config_manager import ConfigManager
+import random
+import time
+
+
+class NeighborAutomationWorker(QThread):
+    """추출된 아이디로 서이추를 진행하는 워커"""
+
+    progress_message = pyqtSignal(str)
+    status_updated = pyqtSignal(str, bool, str)
+    finished = pyqtSignal(int, int)
+    error_occurred = pyqtSignal(str)
+
+    def __init__(self, blog_ids, parent=None):
+        super().__init__(parent)
+        self.blog_ids = blog_ids
+        self.config_manager = ConfigManager()
+        self.blog_automation = None
+        self.extracted_ids_manager = ExtractedIdsManager()
+
+    def run(self):
+        success_count = 0
+        total_count = len(self.blog_ids)
+
+        try:
+            if total_count == 0:
+                self.finished.emit(0, 0)
+                return
+
+            # 최신 설정 로드
+            self.config_manager.config = self.config_manager.load_config()
+
+            naver_id = self.config_manager.get('naver_id', '').strip()
+            naver_password = self.config_manager.get('naver_password', '').strip()
+
+            if not naver_id or not naver_password:
+                self.error_occurred.emit("네이버 계정 정보가 설정되지 않았습니다.")
+                return
+
+            enable_like = self.config_manager.get('enable_like', True)
+            enable_comment = self.config_manager.get('enable_comment', True)
+
+            self.blog_automation = BlogAutomation()
+            self.progress_message.emit("네이버 로그인 중...")
+
+            if not self.blog_automation.login(naver_id, naver_password, max_retries=2):
+                self.error_occurred.emit("네이버 로그인에 실패했습니다.")
+                return
+
+            self.progress_message.emit("✅ 네이버 로그인 성공")
+
+            for index, blog_id in enumerate(self.blog_ids, 1):
+                if self.isInterruptionRequested():
+                    break
+
+                blog_id = blog_id.strip()
+                if not blog_id:
+                    continue
+
+                self.progress_message.emit(
+                    f"[{index}/{total_count}] {blog_id} 서이추 시도 중...")
+
+                try:
+                    self.blog_automation.buddy_manager.buddy_available = False
+                    addition_result = self.blog_automation.buddy_manager.add_buddy_to_blog_mobile(
+                        blog_id)
+                    success = addition_result and self.blog_automation.buddy_manager.buddy_available
+
+                    if success:
+                        success_count += 1
+
+                        if enable_like or enable_comment:
+                            moved = self.blog_automation.buddy_manager.navigate_to_latest_post_mobile(
+                                blog_id)
+                            if moved:
+                                interaction_success = self.blog_automation.post_interaction.process_current_page_interaction(
+                                    blog_id)
+                                if interaction_success:
+                                    self.progress_message.emit(
+                                        f"   └ 게시글 상호작용 완료: {blog_id}")
+                                else:
+                                    self.progress_message.emit(
+                                        f"   └ 게시글 상호작용 실패: {blog_id}")
+                            else:
+                                self.progress_message.emit(
+                                    f"   └ 최신 게시글 이동 실패: {blog_id}")
+
+                        self.extracted_ids_manager.update_status(
+                            blog_id, success=True)
+                        timestamp = self.extracted_ids_manager.extracted_ids.get(
+                            blog_id, {}).get("date", "")
+                        self.status_updated.emit(blog_id, True, timestamp)
+                        self.progress_message.emit(
+                            f"[{index}/{total_count}] {blog_id} 서이추 성공")
+                    else:
+                        self.extracted_ids_manager.update_status(
+                            blog_id, success=False)
+                        timestamp = self.extracted_ids_manager.extracted_ids.get(
+                            blog_id, {}).get("date", "")
+                        self.status_updated.emit(blog_id, False, timestamp)
+                        self.progress_message.emit(
+                            f"[{index}/{total_count}] {blog_id} 서이추 실패")
+
+                except Exception as e:
+                    try:
+                        self.extracted_ids_manager.update_status(
+                            blog_id, success=False)
+                        timestamp = self.extracted_ids_manager.extracted_ids.get(
+                            blog_id, {}).get("date", "")
+                        self.status_updated.emit(blog_id, False, timestamp)
+                    except Exception:
+                        pass
+
+                    self.progress_message.emit(
+                        f"[{index}/{total_count}] {blog_id} 처리 중 오류: {str(e)}")
+
+                if index < total_count:
+                    time.sleep(random.uniform(1, 2))
+
+            self.finished.emit(success_count, total_count)
+
+        except Exception as e:
+            self.error_occurred.emit(str(e))
+
+        finally:
+            if self.blog_automation:
+                try:
+                    self.blog_automation.cleanup_driver()
+                except Exception:
+                    pass
 
 
 class ExtractedIdsWindow(QDialog):
@@ -35,6 +166,7 @@ class ExtractedIdsWindow(QDialog):
                       int((screen.height() - size.height()) / 2))
 
         self.setModal(True)
+        self.worker = None
 
         # 다크 테마 적용
         self.setStyleSheet("""
@@ -247,7 +379,46 @@ class ExtractedIdsWindow(QDialog):
         button_layout.addWidget(self.delete_all_btn)
         
         layout.addLayout(button_layout)
-        
+
+        action_layout = QHBoxLayout()
+        action_layout.addStretch()
+
+        self.start_neighbor_btn = QPushButton("서이추 시작하기")
+        self.start_neighbor_btn.setFont(font_default)
+        self.start_neighbor_btn.setMinimumHeight(36)
+        self.start_neighbor_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #fe4847;
+                color: white;
+                border: 1px solid #fe4847;
+                border-radius: 6px;
+                padding: 8px 18px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #e63946;
+                border: 1px solid #e63946;
+            }
+            QPushButton:pressed {
+                background-color: #d62828;
+            }
+            QPushButton:disabled {
+                background-color: #555;
+                border: 1px solid #555;
+                color: #999;
+            }
+        """)
+        self.start_neighbor_btn.clicked.connect(self.start_neighbor_addition)
+        action_layout.addWidget(self.start_neighbor_btn)
+        action_layout.addStretch()
+
+        layout.addLayout(action_layout)
+
+        self.status_label = QLabel("")
+        self.status_label.setFont(font_default)
+        self.status_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.status_label)
+
         # 내보내기 및 닫기 버튼
         bottom_layout = QHBoxLayout()
         
@@ -286,9 +457,31 @@ class ExtractedIdsWindow(QDialog):
         bottom_layout.addWidget(self.close_btn)
         
         layout.addLayout(bottom_layout)
+
+    def set_controls_enabled(self, enabled: bool):
+        """서이추 실행 중 버튼 및 입력 제어"""
+        buttons = [
+            self.select_all_btn,
+            self.deselect_all_btn,
+            self.delete_selected_btn,
+            self.delete_all_btn,
+            self.export_btn,
+            self.refresh_btn,
+            self.close_btn,
+            self.start_neighbor_btn
+        ]
+
+        for button in buttons:
+            button.setEnabled(enabled)
+
+        self.table.setEnabled(enabled)
+        self.search_edit.setEnabled(enabled)
+        self.show_success_cb.setEnabled(enabled)
+        self.show_fail_cb.setEnabled(enabled)
     
     def load_extracted_ids(self):
         """추출된 아이디 목록 로드"""
+        self.extracted_ids_manager.reload()
         extracted_ids = self.extracted_ids_manager.get_all_extracted_ids()
         stats = self.extracted_ids_manager.get_statistics()
         
@@ -298,6 +491,7 @@ class ExtractedIdsWindow(QDialog):
                 f"총 {stats['total_count']:,}개 아이디 | "
                 f"성공: {stats['success_count']:,}개 | "
                 f"실패: {stats['fail_count']:,}개 | "
+                f"대기: {stats['pending_count']:,}개 | "
                 f"최초: {stats['oldest_date']} | "
                 f"최근: {stats['newest_date']}"
             )
@@ -322,17 +516,8 @@ class ExtractedIdsWindow(QDialog):
             
             # 서이추 상태
             status = data.get('status', '성공')
-            status_item = QTableWidgetItem(status)
-            status_item.setFlags(status_item.flags() & ~Qt.ItemIsEditable)
-            
-            # 상태에 따른 색상 설정 (다크 테마에 맞게 조정)
-            if status == '성공':
-                status_item.setBackground(QColor(46, 125, 50))  # 어두운 초록색
-                status_item.setForeground(QColor(255, 255, 255))  # 흰색 텍스트
-            elif status == '실패':
-                status_item.setBackground(QColor(183, 28, 28))  # 어두운 빨간색
-                status_item.setForeground(QColor(255, 255, 255))  # 흰색 텍스트
-            
+            status_item = QTableWidgetItem()
+            self._apply_status_style(status_item, status)
             self.table.setItem(row, 2, status_item)
             
             # 처리 날짜
@@ -343,7 +528,123 @@ class ExtractedIdsWindow(QDialog):
         
         # 테이블 높이 조정
         self.table.resizeRowsToContents()
-    
+        self.filter_table()
+
+    def start_neighbor_addition(self):
+        """선택된 아이디로 서이추 실행"""
+        if self.worker and self.worker.isRunning():
+            QMessageBox.warning(self, "진행 중", "서이추가 이미 진행 중입니다.")
+            return
+
+        selected_ids = self.get_selected_blog_ids()
+
+        if not selected_ids:
+            QMessageBox.information(self, "안내", "서이추할 블로그 아이디를 선택해주세요.")
+            return
+
+        reply = QMessageBox.question(
+            self,
+            "서이추 시작",
+            f"선택된 {len(selected_ids)}개 아이디에 대해 서이추를 진행하시겠습니까?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+
+        if reply != QMessageBox.Yes:
+            return
+
+        parent = self.parent()
+        if parent and hasattr(parent, "validate_license_before_start"):
+            if not parent.validate_license_before_start():
+                return
+
+        self.worker = NeighborAutomationWorker(selected_ids, self)
+        self.worker.progress_message.connect(self.on_neighbor_progress)
+        self.worker.status_updated.connect(self.on_neighbor_status_updated)
+        self.worker.finished.connect(self.on_neighbor_finished)
+        self.worker.error_occurred.connect(self.on_neighbor_error)
+
+        self.set_controls_enabled(False)
+        self.status_label.setText("서이추 준비 중...")
+        self.worker.start()
+
+    def on_neighbor_progress(self, message: str):
+        """서이추 진행 상황 업데이트"""
+        self.status_label.setText(message)
+
+    def on_neighbor_status_updated(self, blog_id: str, success: bool, timestamp: str):
+        """테이블 상태 업데이트"""
+        status_text = "성공" if success else "실패"
+
+        for row in range(self.table.rowCount()):
+            id_item = self.table.item(row, 1)
+            if id_item and id_item.text() == blog_id:
+                status_item = self.table.item(row, 2)
+                if status_item is None:
+                    status_item = QTableWidgetItem()
+                    self.table.setItem(row, 2, status_item)
+
+                self._apply_status_style(status_item, status_text)
+
+                if timestamp:
+                    date_item = self.table.item(row, 3)
+                    if date_item is None:
+                        date_item = QTableWidgetItem()
+                        self.table.setItem(row, 3, date_item)
+                    date_item.setText(timestamp)
+                    date_item.setFlags(date_item.flags() & ~Qt.ItemIsEditable)
+
+                checkbox = self.table.cellWidget(row, 0)
+                if checkbox:
+                    checkbox.setChecked(False)
+                break
+
+    def on_neighbor_finished(self, success_count: int, total_count: int):
+        """서이추 완료 처리"""
+        self.set_controls_enabled(True)
+        self.worker = None
+
+        fail_count = max(total_count - success_count, 0)
+        summary = (f"서이추 완료: 총 {total_count}개 중 {success_count}개 성공 "
+                   f"(실패 {fail_count}개)")
+        self.status_label.setText(summary)
+
+        self.load_extracted_ids()
+        self.filter_table()
+
+        QMessageBox.information(
+            self,
+            "서이추 완료",
+            f"서이추가 완료되었습니다.\n\n"
+            f"총 대상: {total_count}개\n"
+            f"성공: {success_count}개\n"
+            f"실패: {fail_count}개"
+        )
+
+    def on_neighbor_error(self, message: str):
+        """서이추 실행 중 오류 처리"""
+        self.set_controls_enabled(True)
+        self.worker = None
+        self.status_label.setText(f"❌ 오류: {message}")
+        QMessageBox.critical(self, "오류", message)
+
+    def _apply_status_style(self, item: QTableWidgetItem, status: str):
+        """상태 셀 스타일 적용"""
+        item.setText(status)
+        item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+
+        if status == '성공':
+            item.setBackground(QColor(46, 125, 50))
+            item.setForeground(QColor(255, 255, 255))
+        elif status == '실패':
+            item.setBackground(QColor(183, 28, 28))
+            item.setForeground(QColor(255, 255, 255))
+        elif status == '대기':
+            item.setBackground(QColor(90, 90, 90))
+            item.setForeground(QColor(240, 240, 240))
+        else:
+            item.setBackground(QColor(60, 60, 60))
+            item.setForeground(QColor(255, 255, 255))
+
     def filter_table(self):
         """테이블 필터링"""
         search_text = self.search_edit.text().lower()
@@ -469,3 +770,11 @@ class ExtractedIdsWindow(QDialog):
                 )
             else:
                 QMessageBox.critical(self, "오류", "내보내기 중 오류가 발생했습니다.")
+
+    def closeEvent(self, event):
+        """작업 진행 중 창 닫기 방지"""
+        if self.worker and self.worker.isRunning():
+            QMessageBox.warning(self, "진행 중", "서이추 작업이 진행 중입니다. 완료 후 창을 닫아주세요.")
+            event.ignore()
+            return
+        super().closeEvent(event)
