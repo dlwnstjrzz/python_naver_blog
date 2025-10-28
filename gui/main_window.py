@@ -29,6 +29,7 @@ class AutomationWorker(QThread):
     progress_updated = pyqtSignal(str)  # 진행 상황 업데이트
     finished = pyqtSignal(int, int)     # 완료 시 (성공 수, 전체 수)
     error_occurred = pyqtSignal(str)    # 오류 발생
+    cleanup_done = pyqtSignal()         # 드라이버 정리 완료
 
     def __init__(self, config_manager):
         super().__init__()
@@ -36,6 +37,8 @@ class AutomationWorker(QThread):
         self.blog_automation = None
 
     def run(self):
+        added_count = 0
+        total_found = 0
         try:
             # 설정 파일을 다시 로드하여 최신 설정 반영
             self.config_manager.config = self.config_manager.load_config()
@@ -88,24 +91,20 @@ class AutomationWorker(QThread):
                     self.error_occurred.emit("블로그 검색 및 수집에 실패했습니다.")
                     return
 
-                self.progress_updated.emit(
-                    f"✅ 블로그 검색 및 수집 완료: {len(collected_blogs)}개")
+                blog_ids = [blog.get('blog_name') for blog in collected_blogs if blog.get('blog_name')]
+                total_found = len(blog_ids)
 
-                # 4. 서로이웃 추가 (키워드 검색은 모바일 방식)
-                self.progress_updated.emit("모바일 서로이웃 추가 시작...")
-
-                def progress_callback(current, total, blog_name):
+                if total_found == 0:
+                    self.progress_updated.emit("⚠️ 새로운 블로그 아이디를 찾지 못했습니다.")
+                    added_count = 0
+                else:
+                    added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
+                        blog_ids, status="대기")
+                    duplicates = total_found - added_count
                     self.progress_updated.emit(
-                        f"[{current}/{total}] {blog_name} 처리 중...")
+                        f"✅ 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
 
-                success_count, total_count = self.blog_automation.process_keyword_blog_automation(
-                    collected_blogs, progress_callback)
-
-                # 자동화 완료 후 브라우저 정리
-                if self.blog_automation:
-                    self.blog_automation.cleanup_driver()
-
-                self.finished.emit(success_count, total_count)
+                self.finished.emit(added_count, total_found)
 
             elif loading_method == "neighbor_connect":
                 # 이웃커넥트 방식
@@ -149,33 +148,33 @@ class AutomationWorker(QThread):
                     self.progress_updated.emit(
                         f"📋 총 {len(blog_names)}개 블로그 수집 완료")
 
-                # 4. 서로이웃 추가 (모바일 방식)
-                self.progress_updated.emit("모바일 서로이웃 추가 시작...")
+                blog_ids = [data.get('blog_name') for data in collected_blogs if data.get('blog_name')]
+                total_found = len(blog_ids)
 
-                def progress_callback(current, total, blog_name):
+                if total_found == 0:
+                    self.progress_updated.emit("⚠️ 새로운 블로그 아이디를 찾지 못했습니다.")
+                    added_count = 0
+                else:
+                    added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
+                        blog_ids, status="대기")
+                    duplicates = total_found - added_count
                     self.progress_updated.emit(
-                        f"[{current}/{total}] {blog_name} 처리 중...")
+                        f"✅ 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
 
-                success_count, total_count = self.blog_automation.process_blog_automation(
-                    collected_blogs, progress_callback)
-
-                # 자동화 완료 후 브라우저 정리
-                if self.blog_automation:
-                    self.blog_automation.cleanup_driver()
-
-                self.finished.emit(success_count, total_count)
+                self.finished.emit(added_count, total_found)
 
             else:
                 self.error_occurred.emit("지원하지 않는 수집 방식입니다.")
 
         except Exception as e:
-            # 오류 발생 시에도 브라우저 정리
+            self.error_occurred.emit(f"오류 발생: {str(e)}")
+        finally:
             if self.blog_automation:
                 try:
                     self.blog_automation.cleanup_driver()
                 except:
                     pass
-            self.error_occurred.emit(f"오류 발생: {str(e)}")
+            self.cleanup_done.emit()
 
 
 class MainWindow(QMainWindow):
@@ -612,13 +611,6 @@ class MainWindow(QMainWindow):
         """)
         self.save_button.clicked.connect(self.save_settings)
 
-        # 추출한 계정 보기 버튼 추가
-        self.view_extracted_users_btn = QPushButton("추출한 계정 보기")
-        self.view_extracted_users_btn.setMinimumHeight(32)
-        self.view_extracted_users_btn.setFont(save_font)
-        self.view_extracted_users_btn.clicked.connect(
-            self.show_extracted_users)
-
         # 서이추 신청 자동 취소 버튼 추가
         self.auto_cancel_btn = QPushButton("서이추 신청 자동 취소")
         self.auto_cancel_btn.setMinimumHeight(32)
@@ -643,7 +635,6 @@ class MainWindow(QMainWindow):
         """)
 
         button_layout.addStretch()
-        button_layout.addWidget(self.view_extracted_users_btn)
         button_layout.addWidget(self.auto_cancel_btn)
         button_layout.addWidget(self.save_button)
 
@@ -955,7 +946,7 @@ class MainWindow(QMainWindow):
         control_layout.setContentsMargins(0, 0, 0, 0)  # 여백 제거
         control_layout.setSpacing(10)
 
-        self.start_button = QPushButton("자동화 시작")
+        self.start_button = QPushButton("아이디 추출하기")
         self.start_button.setMinimumHeight(50)
         button_font = QFont()
         button_font.setPointSize(12)  # 버튼 폰트 크기 조정
@@ -983,6 +974,31 @@ class MainWindow(QMainWindow):
         """)
         self.start_button.clicked.connect(self.toggle_automation)
         control_layout.addWidget(self.start_button)
+
+        self.view_extracted_users_btn = QPushButton("추출한 계정 보기")
+        self.view_extracted_users_btn.setMinimumHeight(40)
+        self.view_extracted_users_btn.setFont(button_font)
+        self.view_extracted_users_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #333;
+                color: white;
+                border: 2px solid #555;
+                border-radius: 8px;
+                padding: 10px 18px;
+                font-weight: bold;
+                font-size: 13px;
+            }
+            QPushButton:hover {
+                background-color: #444;
+                border: 2px solid #666;
+            }
+            QPushButton:pressed {
+                background-color: #222;
+                border: 2px solid #222;
+            }
+        """)
+        self.view_extracted_users_btn.clicked.connect(self.show_extracted_users)
+        control_layout.addWidget(self.view_extracted_users_btn)
 
         self.progress_bar = QProgressBar()
         self.progress_bar.setFont(font_default)
@@ -1448,7 +1464,7 @@ class MainWindow(QMainWindow):
         self.random_comments_edit.setVisible(show_random_comments)
 
     def toggle_automation(self):
-        """자동화 시작/중지"""
+        """아이디 추출 시작/중지"""
         if not self.is_running:
             # 자동화 시작 전에 현재 설정을 자동으로 저장
             try:
@@ -1486,11 +1502,11 @@ class MainWindow(QMainWindow):
 
             # 자동화 시작
             self.is_running = True
-            self.start_button.setText("자동화 중지")
+            self.start_button.setText("추출 중지")
             self.progress_bar.setVisible(True)
             self.progress_bar.setRange(0, 0)  # 무한 진행바
 
-            self.log_message("=== 자동화 시작 ===")
+            self.log_message("=== 아이디 추출 시작 ===")
 
             # 워커 스레드 시작
             self.automation_worker = AutomationWorker(self.config_manager)
@@ -1499,52 +1515,70 @@ class MainWindow(QMainWindow):
                 self.on_automation_finished)
             self.automation_worker.error_occurred.connect(
                 self.on_automation_error)
+            self.automation_worker.cleanup_done.connect(
+                self.on_worker_cleanup_done)
             self.automation_worker.start()
 
         else:
-            # 자동화 중지
-            self.stop_automation()
+            # 추출 중지
+            self.stop_automation(force=True)
 
-    def stop_automation(self):
-        """자동화 중지"""
+    def stop_automation(self, force: bool = False):
+        """아이디 추출 중지"""
         self.is_running = False
-        self.start_button.setText("자동화 시작")
+        self.start_button.setText("아이디 추출하기")
         self.progress_bar.setVisible(False)
 
-        if self.automation_worker and self.automation_worker.isRunning():
-            # 워커 스레드의 브라우저도 정리
-            if hasattr(self.automation_worker, 'naver_login') and self.automation_worker.naver_login:
-                try:
-                    self.automation_worker.naver_login.cleanup_driver()
-                except:
-                    pass
+        if self.automation_worker:
+            if force and self.automation_worker.isRunning():
+                self.automation_worker.requestInterruption()
+                self.log_message("🛑 아이디 추출 중지 요청 전송")
 
-            self.automation_worker.terminate()
-            self.automation_worker.wait()
+            if not self.automation_worker.isRunning():
+                self.on_worker_cleanup_done()
 
-        self.log_message("=== 자동화 중지 ===")
+        self.log_message("=== 아이디 추출 중지 ===")
 
     def on_automation_finished(self, success_count, total_count):
-        """자동화 완료 처리"""
+        """아이디 추출 완료 처리"""
         self.stop_automation()
 
-        success_rate = (success_count / total_count *
-                        100) if total_count > 0 else 0
+        duplicate_count = max(total_count - success_count, 0)
 
-        self.log_message("=== 자동화 완료 ===")
-        self.log_message(f"📊 결과: {success_count}/{total_count} 성공")
-        self.log_message(f"📈 성공률: {success_rate:.1f}%")
+        self.log_message("=== 아이디 추출 완료 ===")
+        self.log_message(
+            f"📊 추출 결과: 총 {total_count}개, 신규 {success_count}개, 기존 {duplicate_count}개")
 
-        QMessageBox.information(self, "완료",
-                                f"자동화가 완료되었습니다!\n\n"
-                                f"성공: {success_count}/{total_count}\n"
-                                f"성공률: {success_rate:.1f}%")
+        QMessageBox.information(
+            self,
+            "추출 완료",
+            f"아이디 추출이 완료되었습니다.\n\n"
+            f"총 추출: {total_count}개\n"
+            f"신규 저장: {success_count}개\n"
+            f"기존 아이디: {duplicate_count}개"
+        )
 
     def on_automation_error(self, error_msg):
-        """자동화 오류 처리"""
+        """아이디 추출 오류 처리"""
         self.stop_automation()
         self.log_message(f"❌ 오류: {error_msg}")
         QMessageBox.critical(self, "오류", error_msg)
+
+    def on_worker_cleanup_done(self):
+        """워커 스레드 종료 후 참조 정리"""
+        QTimer.singleShot(0, self._finalize_worker_cleanup)
+
+    def _finalize_worker_cleanup(self):
+        """워커 종료 이후 안전하게 참조 해제"""
+        if not self.automation_worker:
+            return
+
+        if self.automation_worker.isRunning():
+            QTimer.singleShot(50, self._finalize_worker_cleanup)
+            return
+
+        self.automation_worker.deleteLater()
+        self.automation_worker = None
 
     def log_message(self, message):
         """로그 메시지 추가"""

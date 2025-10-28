@@ -801,10 +801,10 @@ class PostInteraction:
             like_area = self.driver.find_element(
                 By.CSS_SELECTOR, "div.like_area__afpHi")
             like_icon = like_area.find_element(
-                By.CSS_SELECTOR, "span.u_likeit_icons._icons")
+                By.CSS_SELECTOR, "span.u_likeit_icon._reaction_zeroface")
 
             self.logger.info(
-                f" [{blog_name}] 공감 아이콘 발견 (span.u_likeit_icons._icons)")
+                f" [{blog_name}] 공감 아이콘 발견 (span.u_likeit_icon._reaction_zeroface)")
 
             # 공감 아이콘 클릭
             self.logger.info(f" [{blog_name}] 공감 아이콘 클릭 중...")
@@ -812,49 +812,52 @@ class PostInteraction:
             time.sleep(0.5)
 
             # ul.u_likeit_layer._faceLayer가 나타날 때까지 대기
-            self.logger.info(
-                f" [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
-            wait = WebDriverWait(self.driver, 5)
-            like_layer = wait.until(EC.presence_of_element_located(
-                (By.CSS_SELECTOR, "ul.u_likeit_layer._faceLayer")))
-            self.logger.info(f" [{blog_name}] 공감 레이어 발견")
+            # self.logger.info(
+            #     f" [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
+            # wait = WebDriverWait(self.driver, 5)
+            # like_layer = wait.until(EC.presence_of_element_located(
+            #     (By.CSS_SELECTOR, "ul.u_likeit_layer._faceLayer")))
+            # self.logger.info(f" [{blog_name}] 공감 레이어 발견")
 
             # 공감 아이콘 위치를 기준으로 상대 위치 클릭 (위로 55px, 오른쪽으로 10px)
-            self.logger.info(f" [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
-            
-            # 클릭할 위치 계산 (시각적 표시용)
-            like_icon_location = like_icon.location
-            like_icon_size = like_icon.size
-            center_x = like_icon_location['x'] + (like_icon_size['width'] // 2)
-            center_y = like_icon_location['y'] + (like_icon_size['height'] // 2)
-            target_x = center_x + 10
-            target_y = center_y - 55
-            
+            # self.logger.info(f" [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
+
+            # # 클릭할 위치 계산 (시각적 표시용)
+            # like_icon_location = like_icon.location
+            # like_icon_size = like_icon.size
+            # center_x = like_icon_location['x'] + (like_icon_size['width'] // 2)
+            # center_y = like_icon_location['y'] + \
+            #     (like_icon_size['height'] // 2)
+            # target_x = center_x + 10
+            # target_y = center_y - 55
+
             # 클릭 위치에 빨간 점 표시 (디버깅용)
-            self.driver.execute_script(f"""
-                var dot = document.createElement('div');
-                dot.style.position = 'absolute';
-                dot.style.left = '{target_x}px';
-                dot.style.top = '{target_y}px';
-                dot.style.width = '10px';
-                dot.style.height = '10px';
-                dot.style.backgroundColor = 'red';
-                dot.style.borderRadius = '50%';
-                dot.style.zIndex = '9999';
-                dot.id = 'click-indicator-mobile';
-                document.body.appendChild(dot);
-                setTimeout(function() {{
-                    var element = document.getElementById('click-indicator-mobile');
-                    if (element) element.remove();
-                }}, 3000);
-            """)
-            
-            self.logger.info(f" [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
-            
+            # self.driver.execute_script(f"""
+            #     var dot = document.createElement('div');
+            #     dot.style.position = 'absolute';
+            #     dot.style.left = '{target_x}px';
+            #     dot.style.top = '{target_y}px';
+            #     dot.style.width = '10px';
+            #     dot.style.height = '10px';
+            #     dot.style.backgroundColor = 'red';
+            #     dot.style.borderRadius = '50%';
+            #     dot.style.zIndex = '9999';
+            #     dot.id = 'click-indicator-mobile';
+            #     document.body.appendChild(dot);
+            #     setTimeout(function() {{
+            #         var element = document.getElementById('click-indicator-mobile');
+            #         if (element) element.remove();
+            #     }}, 3000);
+            # """)
+
+            # self.logger.info(
+            #     f" [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
+
             # ActionChains로 공감 아이콘에서 상대적으로 이동하여 클릭
-            actions = ActionChains(self.driver)
-            actions.move_to_element(like_icon).move_by_offset(10, -55).click().perform()
-            
+            # actions = ActionChains(self.driver)
+            # actions.move_to_element(like_icon).move_by_offset(
+            #     10, -55).click().perform()
+
             self.logger.info(f" [{blog_name}] 모바일 공감 완료")
             return True
 
@@ -884,7 +887,7 @@ class PostInteraction:
             self.logger.info(
                 f" [{blog_name}] interact_section 내부 공감 아이콘 검색 중...")
             like_icon = interact_section.find_element(
-                By.CSS_SELECTOR, "span.u_likeit_icons")
+                By.CSS_SELECTOR, "span.u_likeit_icon._reaction_zeroface")
             self.logger.info(
                 f" [{blog_name}] interact_section 내부 공감 아이콘 발견")
 
@@ -923,49 +926,52 @@ class PostInteraction:
             time.sleep(1)  # 클릭 후 반응 시간
 
             # ul.u_likeit_layer._faceLayer가 나타날 때까지 대기
-            self.logger.info(
-                f" [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
-            like_layer = wait.until(EC.presence_of_element_located(
-                (By.CSS_SELECTOR, "ul.u_likeit_layer._faceLayer")))
-            self.logger.info(f" [{blog_name}] 공감 레이어 발견")
+            # self.logger.info(
+            #     f" [{blog_name}] 공감 레이어 (ul.u_likeit_layer._faceLayer) 대기 중...")
+            # like_layer = wait.until(EC.presence_of_element_located(
+            #     (By.CSS_SELECTOR, "ul.u_likeit_layer._faceLayer")))
+            # self.logger.info(f" [{blog_name}] 공감 레이어 발견")
 
             # 공감 아이콘 위치를 기준으로 상대 위치 클릭 (위로 55px, 오른쪽으로 10px)
-            self.logger.info(f" [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
-            
+            # self.logger.info(f" [{blog_name}] 공감 아이콘 기준 상대 위치 클릭 중...")
+
             # 클릭할 위치 계산 (시각적 표시용)
-            like_icon_location = like_icon.location
-            like_icon_size = like_icon.size
-            center_x = like_icon_location['x'] + (like_icon_size['width'] // 2)
-            center_y = like_icon_location['y'] + (like_icon_size['height'] // 2)
-            target_x = center_x + 10
-            target_y = center_y - 55
-            
+            # like_icon_location = like_icon.location
+            # like_icon_size = like_icon.size
+            # center_x = like_icon_location['x'] + (like_icon_size['width'] // 2)
+            # center_y = like_icon_location['y'] + \
+            #     (like_icon_size['height'] // 2)
+            # target_x = center_x + 10
+            # target_y = center_y - 55
+
             # 클릭 위치에 빨간 점 표시 (디버깅용)
-            self.driver.execute_script(f"""
-                var dot = document.createElement('div');
-                dot.style.position = 'absolute';
-                dot.style.left = '{target_x}px';
-                dot.style.top = '{target_y}px';
-                dot.style.width = '10px';
-                dot.style.height = '10px';
-                dot.style.backgroundColor = 'red';
-                dot.style.borderRadius = '50%';
-                dot.style.zIndex = '9999';
-                dot.id = 'click-indicator-simple';
-                document.body.appendChild(dot);
-                setTimeout(function() {{
-                    var element = document.getElementById('click-indicator-simple');
-                    if (element) element.remove();
-                }}, 3000);
-            """)
-            
-            self.logger.info(f" [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
-            
+            # self.driver.execute_script(f"""
+            #     var dot = document.createElement('div');
+            #     dot.style.position = 'absolute';
+            #     dot.style.left = '{target_x}px';
+            #     dot.style.top = '{target_y}px';
+            #     dot.style.width = '10px';
+            #     dot.style.height = '10px';
+            #     dot.style.backgroundColor = 'red';
+            #     dot.style.borderRadius = '50%';
+            #     dot.style.zIndex = '9999';
+            #     dot.id = 'click-indicator-simple';
+            #     document.body.appendChild(dot);
+            #     setTimeout(function() {{
+            #         var element = document.getElementById('click-indicator-simple');
+            #         if (element) element.remove();
+            #     }}, 3000);
+            # """)
+
+            # self.logger.info(
+            #     f" [{blog_name}] 클릭 위치 표시: ({target_x}, {target_y})")
+
             # ActionChains로 공감 아이콘에서 상대적으로 이동하여 클릭
-            actions = ActionChains(self.driver)
-            actions.move_to_element(like_icon).move_by_offset(10, -55).click().perform()
-            
-            self.logger.info(f" [{blog_name}] 간단 공감 완룼")
+            # actions = ActionChains(self.driver)
+            # actions.move_to_element(like_icon).move_by_offset(
+            #     10, -55).click().perform()
+
+            self.logger.info(f" [{blog_name}] 간단 공감 완료")
             return True
 
         except Exception as e:
