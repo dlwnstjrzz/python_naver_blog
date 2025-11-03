@@ -1,4 +1,4 @@
-name: Build Executables
+﻿name: Build Executables
 
 on:
   push:
@@ -60,28 +60,28 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         cd dist
-        Compress-Archive -Path NaverBlogAutomation -DestinationPath NaverBlogAutomation-Windows.zip
+        Compress-Archive -Path 자동화폭격기블로그자동화 -DestinationPath 자동화폭격기블로그자동화-Windows.zip
       shell: powershell
 
     - name: Create release package (macOS)
       if: matrix.os == 'macos-latest'
       run: |
         cd dist
-        zip -r NaverBlogAutomation-macOS.zip NaverBlogAutomation/
+        zip -r 자동화폭격기블로그자동화-macOS.zip 자동화폭격기블로그자동화/
 
     - name: Upload artifacts (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v4
       with:
-        name: NaverBlogAutomation-Windows
-        path: dist/NaverBlogAutomation-Windows.zip
+        name: 자동화폭격기블로그자동화-Windows
+        path: dist/자동화폭격기블로그자동화-Windows.zip
 
     - name: Upload artifacts (macOS)
       if: matrix.os == 'macos-latest'
       uses: actions/upload-artifact@v4
       with:
-        name: NaverBlogAutomation-macOS
-        path: dist/NaverBlogAutomation-macOS.zip
+        name: 자동화폭격기블로그자동화-macOS
+        path: dist/자동화폭격기블로그자동화-macOS.zip
 
   release:
     needs: build
@@ -94,23 +94,25 @@ jobs:
     - name: Download Windows artifact
       uses: actions/download-artifact@v4
       with:
-        name: NaverBlogAutomation-Windows
+        name: 자동화폭격기블로그자동화-Windows
         path: ./releases/
 
     - name: Download macOS artifact
       uses: actions/download-artifact@v4
       with:
-        name: NaverBlogAutomation-macOS
+        name: 자동화폭격기블로그자동화-macOS
         path: ./releases/
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          ./releases/NaverBlogAutomation-Windows.zip
-          ./releases/NaverBlogAutomation-macOS.zip
+          ./releases/자동화폭격기블로그자동화-Windows.zip
+          ./releases/자동화폭격기블로그자동화-macOS.zip
         generate_release_notes: true
         draft: false
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
