@@ -481,7 +481,7 @@ class MainWindow(QMainWindow):
                     os.path.dirname(os.path.abspath(__file__)))
 
             # 로고 파일 경로
-            logo_path = os.path.join(base_path, "image", "logo.png")
+            logo_path = os.path.join(base_path, "image", "logo.ico")
             print(f"DEBUG: logo_path = {logo_path}")
             print(f"DEBUG: logo file exists = {os.path.exists(logo_path)}")
 
