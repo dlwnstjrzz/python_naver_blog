@@ -17,7 +17,7 @@ def build_with_pip_env():
         'python', '-m', 'PyInstaller',
         '--onefile',  # 단일 파일로 생성
         '--windowed',
-        '--name=NaverBlogAutomation', 
+        '--name=자동화폭격기블로그자동화', 
         '--add-data=config:config',
         '--add-data=data:data',
         # PyQt5 관련 명시적 임포트
@@ -54,7 +54,7 @@ def build_with_pip_env():
         print(f"실행 명령어: {' '.join(cmd)}")
         result = subprocess.run(cmd, check=True)
         print("✅ 빌드 성공!")
-        print("📁 dist/NaverBlogAutomation에서 실행 파일을 확인하세요.")
+        print("📁 dist/자동화폭격기블로그자동화에서 실행 파일을 확인하세요.")
         return True
     except subprocess.CalledProcessError as e:
         print(f"❌ 빌드 실패: {e}")

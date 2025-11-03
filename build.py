@@ -69,7 +69,7 @@ def copy_additional_files():
     """추가 필요 파일들을 dist 폴더로 복사"""
     print("📋 추가 파일들 복사 중...")
     
-    if not os.path.exists('dist/NaverBlogAutomation'):
+    if not os.path.exists('dist/자동화폭격기블로그자동화'):
         print("❌ dist 폴더가 존재하지 않습니다.")
         return False
     
@@ -77,7 +77,7 @@ def copy_additional_files():
     readme_content = """# 네이버 블로그 자동화 프로그램
 
 ## 사용법
-1. NaverBlogAutomation.exe 실행
+1. 자동화폭격기블로그자동화.exe 실행
 2. 네이버 아이디/비밀번호 입력
 3. 검색 키워드 또는 이웃커넥트 블로그 URL 설정
 4. 상세 설정 (공감/댓글 옵션 등) 조정
@@ -123,7 +123,7 @@ def main():
     
     print("=" * 50)
     print("✅ 빌드 완료!")
-    print("📁 dist 폴더에서 NaverBlogAutomation.exe를 확인하세요")
+    print("📁 dist 폴더에서 자동화폭격기블로그자동화.exe를 확인하세요")
     print("📦 배포를 위해 dist 폴더 전체를 압축하여 배포할 수 있습니다")
 
 if __name__ == "__main__":

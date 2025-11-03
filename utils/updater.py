@@ -687,6 +687,7 @@ class GitHubReleaseUpdater:
 
             # 소스 루트 디렉토리 찾기 (여러 패턴 시도)
             possible_patterns = [
+                '자동화폭격기블로그자동화',
                 'NaverBlogAutomation',
                 'python_naver_blog',
                 'naver',
@@ -927,8 +928,8 @@ class GitHubReleaseUpdater:
                     script_lines.append(preserve_backup_block.rstrip('\n'))
                     script_lines.append('')
                 script_lines.extend([
-                    'if exist "%TARGET_DIR%\\NaverBlogAutomation.exe" (',
-                    '    copy "%TARGET_DIR%\\NaverBlogAutomation.exe" "%PRESERVE_BACKUP%\\NaverBlogAutomation.exe.backup" >nul 2>&1',
+                    'if exist "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" (',
+                    '    copy "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" >nul 2>&1',
                     ')',
                     '',
                     'set "ROBOCOPY_OPTS=/MIR /R:2 /W:2 /NFL /NDL /NP /NJH /NJS"',
@@ -946,21 +947,21 @@ class GitHubReleaseUpdater:
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
                     '',
                     'cd /d "%TARGET_DIR%"',
-                    'start "" "%TARGET_DIR%\\NaverBlogAutomation.exe"',
+                    'start "" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe"',
                     'del "%~f0" >nul 2>&1',
                     'exit',
                     '',
                     ':restore_backup',
                     'echo 업데이트 중 오류가 발생했습니다. 백업을 복원합니다.',
-                    'if exist "%PRESERVE_BACKUP%\\NaverBlogAutomation.exe.backup" (',
-                    '    copy "%PRESERVE_BACKUP%\\NaverBlogAutomation.exe.backup" "%TARGET_DIR%\\NaverBlogAutomation.exe" >nul 2>&1',
+                    'if exist "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" (',
+                    '    copy "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" >nul 2>&1',
                     ')',
                 ])
                 if restore_backup_block:
                     script_lines.append(restore_backup_block.rstrip('\n'))
                 script_lines.extend([
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
-                    'start "" "%TARGET_DIR%\\NaverBlogAutomation.exe"',
+                    'start "" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe"',
                     'pause',
                     'exit',
                     '',
@@ -1029,7 +1030,7 @@ fi
 rm -rf "$PRESERVE_BACKUP"
 rm -rf "$TEMP_ROOT"
 cd "$TARGET_DIR"
-./NaverBlogAutomation &
+./자동화폭격기블로그자동화 &
 rm "$0"
 '''
 

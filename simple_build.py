@@ -14,7 +14,7 @@ def build_executable() -> bool:
         "pyinstaller",
         "--onedir",
         "--windowed",
-        "--name=NaverBlogAutomation",
+        "--name=자동화폭격기블로그자동화",
         "--add-data=config:config",
         "--add-data=data:data",
         "--add-data=image:image",
@@ -37,7 +37,7 @@ def build_executable() -> bool:
         print(f"Build failed: {exc}")
         return False
 
-    dist_path = os.path.join("dist", "NaverBlogAutomation")
+    dist_path = os.path.join("dist", "자동화폭격기블로그자동화")
     print(f"Build succeeded. Check '{dist_path}' for the output.")
     return True
 

@@ -76,7 +76,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='NaverBlogAutomation',
+    name='자동화폭격기블로그자동화',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
