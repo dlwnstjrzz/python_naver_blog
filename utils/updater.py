@@ -99,6 +99,9 @@ class GitHubReleaseUpdater:
         # 배치 스크립트 경로 (exe 업데이트용)
         self.batch_script_path = None
 
+        # 임시 파일 정리 지연 여부
+        self.defer_cleanup = False
+
         # 시작 시간 기록
         self.start_time = time.time()
 
@@ -1044,6 +1047,9 @@ rm "$0"
                 if line.strip():
                     self.log_update('debug', f"  {i:2d}: {line}")
 
+            # 배치 스크립트 실행 전까지 임시 파일 정리를 지연
+            self.defer_cleanup = True
+
             return str(batch_script)
 
         except Exception as e:
@@ -1224,12 +1230,17 @@ rm "$0"
     def cleanup_temp_files(self):
         """임시 파일 정리"""
         try:
+            if getattr(self, "defer_cleanup", False):
+                self.log_update('info', "임시 파일 정리를 배치 스크립트로 지연합니다.")
+                return
+
             if self.temp_dir.exists():
                 shutil.rmtree(self.temp_dir)
                 self.logger.debug("임시 파일 정리 완료")
         except Exception as e:
             self.logger.error(f"임시 파일 정리 실패: {str(e)}")
-    
+
+
     def run_auto_update(self, parent_widget=None) -> bool:
         """
         전체 자동 업데이트 프로세스 실행
