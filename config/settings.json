@@ -4,7 +4,7 @@
   "search_keywords": [],
   "blog_count": 10,
   "neighbor_message": "안녕하세요! {nickname}님 서로이웃 해요!",
-  "comment_option": "ai",
+  "comment_option": "random",
   "random_comments": [
     "좋은 글 잘 읽었어요! {nickname}님",
     "유익한 정보 감사해요~ {nickname}님!",
@@ -12,7 +12,7 @@
     "오늘도 좋은 하루 되세요 {nickname}님!",
     "항상 좋은 글 감사드려요 {nickname}님^^"
   ],
-  "wait_time": 6,
+  "wait_time": 3,
   "scroll_settings": {
     "scroll_count": 3,
     "scroll_delay": 2
@@ -49,5 +49,8 @@
     "check_update_on_startup": true,
     "backup_on_update": true,
     "auto_restart_after_update": true
+  },
+  "license_settings": {
+    "license_key": ""
   }
 }
