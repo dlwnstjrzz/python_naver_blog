@@ -69,7 +69,7 @@ def copy_additional_files():
     """추가 필요 파일들을 dist 폴더로 복사"""
     print("📋 추가 파일들 복사 중...")
     
-    if not os.path.exists('dist/자동화폭격기블로그자동화'):
+    if not os.path.exists('dist/NaverBlogAutomation'):
         print("❌ dist 폴더가 존재하지 않습니다.")
         return False
     
