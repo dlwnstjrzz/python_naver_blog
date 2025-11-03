@@ -58,24 +58,44 @@ class ExtractedIdsManager:
             print(f"추출된 아이디 데이터 저장 중 오류: {e}")
             return False
     
-    def add_extracted_ids(self, blog_ids: List[str], success: bool = True) -> int:
+    def add_extracted_ids(self, blog_ids: List[str], success: bool = True, status: str = None) -> int:
         """새로 추출된 블로그 아이디들을 추가"""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        status = "성공" if success else "실패"
+        status_value = status if status is not None else ("성공" if success else "실패")
         added_count = 0
         
         for blog_id in blog_ids:
             if blog_id not in self.extracted_ids:
                 self.extracted_ids[blog_id] = {
                     "date": current_time,
-                    "status": status
+                    "status": status_value
                 }
                 added_count += 1
         
         if added_count > 0:
             self._save_data()
-        
+
         return added_count
+
+    def reload(self):
+        """외부에서 변경된 데이터를 다시 로드"""
+        self._load_data()
+
+    def update_status(self, blog_id: str, success: bool = True, status: str = None) -> bool:
+        """특정 블로그 아이디의 상태를 업데이트"""
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        status_value = status if status is not None else ("성공" if success else "실패")
+
+        if blog_id not in self.extracted_ids:
+            self.extracted_ids[blog_id] = {
+                "date": current_time,
+                "status": status_value
+            }
+        else:
+            self.extracted_ids[blog_id]["date"] = current_time
+            self.extracted_ids[blog_id]["status"] = status_value
+
+        return self._save_data()
     
     def filter_new_ids(self, blog_ids: List[str]) -> List[str]:
         """이미 추출된 아이디들을 제외한 새로운 아이디들만 반환"""
@@ -128,18 +148,21 @@ class ExtractedIdsManager:
                 'total_count': 0,
                 'success_count': 0,
                 'fail_count': 0,
+                'pending_count': 0,
                 'oldest_date': None,
                 'newest_date': None
             }
-        
+
         dates = [data['date'] for data in self.extracted_ids.values()]
         success_count = sum(1 for data in self.extracted_ids.values() if data.get('status') == '성공')
-        fail_count = len(self.extracted_ids) - success_count
-        
+        fail_count = sum(1 for data in self.extracted_ids.values() if data.get('status') == '실패')
+        pending_count = len(self.extracted_ids) - success_count - fail_count
+
         return {
             'total_count': len(self.extracted_ids),
             'success_count': success_count,
             'fail_count': fail_count,
+            'pending_count': pending_count,
             'oldest_date': min(dates) if dates else None,
             'newest_date': max(dates) if dates else None
         }
@@ -154,7 +177,9 @@ class ExtractedIdsManager:
             stats = self.get_statistics()
             with open(export_path, 'w', encoding='utf-8') as f:
                 f.write(f"추출된 블로그 아이디 목록 (총 {stats['total_count']}개)\n")
-                f.write(f"성공: {stats['success_count']}개, 실패: {stats['fail_count']}개\n")
+                f.write(
+                    f"성공: {stats['success_count']}개, 실패: {stats['fail_count']}개, 대기: {stats['pending_count']}개\n"
+                )
                 f.write("=" * 60 + "\n")
                 f.write(f"내보내기 시간: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
                 

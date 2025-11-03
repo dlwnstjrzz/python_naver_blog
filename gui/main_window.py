@@ -29,6 +29,7 @@ class AutomationWorker(QThread):
     progress_updated = pyqtSignal(str)  # 진행 상황 업데이트
     finished = pyqtSignal(int, int)     # 완료 시 (성공 수, 전체 수)
     error_occurred = pyqtSignal(str)    # 오류 발생
+    cleanup_done = pyqtSignal()         # 드라이버 정리 완료
 
     def __init__(self, config_manager):
         super().__init__()
@@ -36,6 +37,8 @@ class AutomationWorker(QThread):
         self.blog_automation = None
 
     def run(self):
+        added_count = 0
+        total_found = 0
         try:
             # 설정 파일을 다시 로드하여 최신 설정 반영
             self.config_manager.config = self.config_manager.load_config()
@@ -88,24 +91,20 @@ class AutomationWorker(QThread):
                     self.error_occurred.emit("블로그 검색 및 수집에 실패했습니다.")
                     return
 
-                self.progress_updated.emit(
-                    f"✅ 블로그 검색 및 수집 완료: {len(collected_blogs)}개")
+                blog_ids = [blog.get('blog_name') for blog in collected_blogs if blog.get('blog_name')]
+                total_found = len(blog_ids)
 
-                # 4. 서로이웃 추가 (키워드 검색은 모바일 방식)
-                self.progress_updated.emit("모바일 서로이웃 추가 시작...")
-
-                def progress_callback(current, total, blog_name):
+                if total_found == 0:
+                    self.progress_updated.emit("⚠️ 새로운 블로그 아이디를 찾지 못했습니다.")
+                    added_count = 0
+                else:
+                    added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
+                        blog_ids, status="대기")
+                    duplicates = total_found - added_count
                     self.progress_updated.emit(
-                        f"[{current}/{total}] {blog_name} 처리 중...")
+                        f"✅ 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
 
-                success_count, total_count = self.blog_automation.process_keyword_blog_automation(
-                    collected_blogs, progress_callback)
-
-                # 자동화 완료 후 브라우저 정리
-                if self.blog_automation:
-                    self.blog_automation.cleanup_driver()
-
-                self.finished.emit(success_count, total_count)
+                self.finished.emit(added_count, total_found)
 
             elif loading_method == "neighbor_connect":
                 # 이웃커넥트 방식
@@ -149,33 +148,33 @@ class AutomationWorker(QThread):
                     self.progress_updated.emit(
                         f"📋 총 {len(blog_names)}개 블로그 수집 완료")
 
-                # 4. 서로이웃 추가 (모바일 방식)
-                self.progress_updated.emit("모바일 서로이웃 추가 시작...")
+                blog_ids = [data.get('blog_name') for data in collected_blogs if data.get('blog_name')]
+                total_found = len(blog_ids)
 
-                def progress_callback(current, total, blog_name):
+                if total_found == 0:
+                    self.progress_updated.emit("⚠️ 새로운 블로그 아이디를 찾지 못했습니다.")
+                    added_count = 0
+                else:
+                    added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
+                        blog_ids, status="대기")
+                    duplicates = total_found - added_count
                     self.progress_updated.emit(
-                        f"[{current}/{total}] {blog_name} 처리 중...")
+                        f"✅ 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
 
-                success_count, total_count = self.blog_automation.process_blog_automation(
-                    collected_blogs, progress_callback)
-
-                # 자동화 완료 후 브라우저 정리
-                if self.blog_automation:
-                    self.blog_automation.cleanup_driver()
-
-                self.finished.emit(success_count, total_count)
+                self.finished.emit(added_count, total_found)
 
             else:
                 self.error_occurred.emit("지원하지 않는 수집 방식입니다.")
 
         except Exception as e:
-            # 오류 발생 시에도 브라우저 정리
+            self.error_occurred.emit(f"오류 발생: {str(e)}")
+        finally:
             if self.blog_automation:
                 try:
                     self.blog_automation.cleanup_driver()
                 except:
                     pass
-            self.error_occurred.emit(f"오류 발생: {str(e)}")
+            self.cleanup_done.emit()
 
 
 class MainWindow(QMainWindow):
@@ -510,18 +509,59 @@ class MainWindow(QMainWindow):
             logo_label.setStyleSheet(
                 "color: #fe4847; font-size: 16px; font-weight: bold;")
 
-        # 타이틀 레이블
-        title_label = QLabel("자동화로 시간을 지배하라")
-        title_label.setStyleSheet("""
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            margin-left: 12px;
-        """)
+        # 슬로건 이미지 레이블
+        slogan_label = QLabel()
+
+        try:
+            from PyQt5.QtGui import QPixmap
+
+            # PyInstaller 실행 파일에서의 경로 처리
+            if getattr(sys, 'frozen', False):
+                base_path = sys._MEIPASS
+            else:
+                base_path = os.path.dirname(
+                    os.path.dirname(os.path.abspath(__file__)))
+
+            slogan_path = os.path.join(base_path, "image", "slogan.png")
+
+            if os.path.exists(slogan_path):
+                pixmap = QPixmap(slogan_path)
+                if not pixmap.isNull():
+                    # 슬로건 이미지 크기 조절
+                    scaled_pixmap = pixmap.scaled(
+                        400, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                    slogan_label.setPixmap(scaled_pixmap)
+                else:
+                    # 이미지 로드 실패시 텍스트로 대체
+                    slogan_label.setText("자동화로 시간을 지배하라")
+                    slogan_label.setStyleSheet("""
+                        color: white;
+                        font-size: 20px;
+                        font-weight: bold;
+                        margin-left: 12px;
+                    """)
+            else:
+                # 이미지 파일이 없으면 텍스트로 대체
+                slogan_label.setText("자동화로 시간을 지배하라")
+                slogan_label.setStyleSheet("""
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-left: 12px;
+                """)
+        except Exception:
+            # 오류 발생시 텍스트로 대체
+            slogan_label.setText("자동화로 시간을 지배하라")
+            slogan_label.setStyleSheet("""
+                color: white;
+                font-size: 20px;
+                font-weight: bold;
+                margin-left: 12px;
+            """)
 
         logo_layout.addStretch()  # 왼쪽 공간 채우기
         logo_layout.addWidget(logo_label)
-        logo_layout.addWidget(title_label)
+        logo_layout.addWidget(slogan_label)
         logo_layout.addStretch()  # 오른쪽 공간 채우기
 
         # 탭 위젯 생성
@@ -571,13 +611,6 @@ class MainWindow(QMainWindow):
         """)
         self.save_button.clicked.connect(self.save_settings)
 
-        # 추출한 계정 보기 버튼 추가
-        self.view_extracted_users_btn = QPushButton("추출한 계정 보기")
-        self.view_extracted_users_btn.setMinimumHeight(32)
-        self.view_extracted_users_btn.setFont(save_font)
-        self.view_extracted_users_btn.clicked.connect(
-            self.show_extracted_users)
-
         # 서이추 신청 자동 취소 버튼 추가
         self.auto_cancel_btn = QPushButton("서이추 신청 자동 취소")
         self.auto_cancel_btn.setMinimumHeight(32)
@@ -602,7 +635,6 @@ class MainWindow(QMainWindow):
         """)
 
         button_layout.addStretch()
-        button_layout.addWidget(self.view_extracted_users_btn)
         button_layout.addWidget(self.auto_cancel_btn)
         button_layout.addWidget(self.save_button)
 
@@ -914,7 +946,7 @@ class MainWindow(QMainWindow):
         control_layout.setContentsMargins(0, 0, 0, 0)  # 여백 제거
         control_layout.setSpacing(10)
 
-        self.start_button = QPushButton("자동화 시작")
+        self.start_button = QPushButton("아이디 추출하기")
         self.start_button.setMinimumHeight(50)
         button_font = QFont()
         button_font.setPointSize(12)  # 버튼 폰트 크기 조정
@@ -943,6 +975,31 @@ class MainWindow(QMainWindow):
         self.start_button.clicked.connect(self.toggle_automation)
         control_layout.addWidget(self.start_button)
 
+        self.view_extracted_users_btn = QPushButton("추출한 계정 보기")
+        self.view_extracted_users_btn.setMinimumHeight(40)
+        self.view_extracted_users_btn.setFont(button_font)
+        self.view_extracted_users_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #333;
+                color: white;
+                border: 2px solid #555;
+                border-radius: 8px;
+                padding: 10px 18px;
+                font-weight: bold;
+                font-size: 13px;
+            }
+            QPushButton:hover {
+                background-color: #444;
+                border: 2px solid #666;
+            }
+            QPushButton:pressed {
+                background-color: #222;
+                border: 2px solid #222;
+            }
+        """)
+        self.view_extracted_users_btn.clicked.connect(self.show_extracted_users)
+        control_layout.addWidget(self.view_extracted_users_btn)
+
         self.progress_bar = QProgressBar()
         self.progress_bar.setFont(font_default)
         self.progress_bar.setVisible(False)
@@ -964,7 +1021,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(log_group)
 
         # 라이선스 설정 그룹
-        license_group = QGroupBox("라이선스 설정")
+        license_group = QGroupBox("활성화 코드 설정")
         license_group.setFont(font_default)
         license_layout = QVBoxLayout(license_group)
         license_layout.setContentsMargins(15, 15, 15, 15)
@@ -973,12 +1030,12 @@ class MainWindow(QMainWindow):
         # 라이선스 정보와 상태를 가로로 배치
         license_info_layout = QHBoxLayout()
 
-        license_info_label = QLabel("라이선스 키는 주문조회 페이지에서 확인 가능합니다.")
+        license_info_label = QLabel("활성화 코드는 주문조회 페이지에서 확인 가능합니다.")
         license_info_label.setFont(font_default)
         license_info_layout.addWidget(license_info_label)
 
         # 라이선스 상태 표시 레이블
-        self.license_status_label = QLabel("라이선스 상태: 미확인")
+        self.license_status_label = QLabel("활성화 상태: 미확인")
         self.license_status_label.setFont(font_default)
         license_info_layout.addWidget(self.license_status_label)
 
@@ -991,10 +1048,10 @@ class MainWindow(QMainWindow):
         self.license_key_edit = QLineEdit()
         self.license_key_edit.setFont(font_default)
         self.license_key_edit.setMinimumHeight(30)
-        self.license_key_edit.setPlaceholderText("라이선스 키를 입력하세요...")
+        self.license_key_edit.setPlaceholderText("활성화 코드를 입력하세요...")
         license_input_layout.addWidget(self.license_key_edit)
 
-        self.validate_license_btn = QPushButton("라이선스 검증")
+        self.validate_license_btn = QPushButton("활성화 코드 검증")
         self.validate_license_btn.setFont(font_default)
         self.validate_license_btn.setMinimumHeight(30)
         self.validate_license_btn.clicked.connect(self.validate_license_key)
@@ -1407,7 +1464,7 @@ class MainWindow(QMainWindow):
         self.random_comments_edit.setVisible(show_random_comments)
 
     def toggle_automation(self):
-        """자동화 시작/중지"""
+        """아이디 추출 시작/중지"""
         if not self.is_running:
             # 자동화 시작 전에 현재 설정을 자동으로 저장
             try:
@@ -1445,11 +1502,11 @@ class MainWindow(QMainWindow):
 
             # 자동화 시작
             self.is_running = True
-            self.start_button.setText("자동화 중지")
+            self.start_button.setText("추출 중지")
             self.progress_bar.setVisible(True)
             self.progress_bar.setRange(0, 0)  # 무한 진행바
 
-            self.log_message("=== 자동화 시작 ===")
+            self.log_message("=== 아이디 추출 시작 ===")
 
             # 워커 스레드 시작
             self.automation_worker = AutomationWorker(self.config_manager)
@@ -1458,52 +1515,70 @@ class MainWindow(QMainWindow):
                 self.on_automation_finished)
             self.automation_worker.error_occurred.connect(
                 self.on_automation_error)
+            self.automation_worker.cleanup_done.connect(
+                self.on_worker_cleanup_done)
             self.automation_worker.start()
 
         else:
-            # 자동화 중지
-            self.stop_automation()
+            # 추출 중지
+            self.stop_automation(force=True)
 
-    def stop_automation(self):
-        """자동화 중지"""
+    def stop_automation(self, force: bool = False):
+        """아이디 추출 중지"""
         self.is_running = False
-        self.start_button.setText("자동화 시작")
+        self.start_button.setText("아이디 추출하기")
         self.progress_bar.setVisible(False)
 
-        if self.automation_worker and self.automation_worker.isRunning():
-            # 워커 스레드의 브라우저도 정리
-            if hasattr(self.automation_worker, 'naver_login') and self.automation_worker.naver_login:
-                try:
-                    self.automation_worker.naver_login.cleanup_driver()
-                except:
-                    pass
+        if self.automation_worker:
+            if force and self.automation_worker.isRunning():
+                self.automation_worker.requestInterruption()
+                self.log_message("🛑 아이디 추출 중지 요청 전송")
 
-            self.automation_worker.terminate()
-            self.automation_worker.wait()
+            if not self.automation_worker.isRunning():
+                self.on_worker_cleanup_done()
 
-        self.log_message("=== 자동화 중지 ===")
+        self.log_message("=== 아이디 추출 중지 ===")
 
     def on_automation_finished(self, success_count, total_count):
-        """자동화 완료 처리"""
+        """아이디 추출 완료 처리"""
         self.stop_automation()
 
-        success_rate = (success_count / total_count *
-                        100) if total_count > 0 else 0
+        duplicate_count = max(total_count - success_count, 0)
 
-        self.log_message("=== 자동화 완료 ===")
-        self.log_message(f"📊 결과: {success_count}/{total_count} 성공")
-        self.log_message(f"📈 성공률: {success_rate:.1f}%")
+        self.log_message("=== 아이디 추출 완료 ===")
+        self.log_message(
+            f"📊 추출 결과: 총 {total_count}개, 신규 {success_count}개, 기존 {duplicate_count}개")
 
-        QMessageBox.information(self, "완료",
-                                f"자동화가 완료되었습니다!\n\n"
-                                f"성공: {success_count}/{total_count}\n"
-                                f"성공률: {success_rate:.1f}%")
+        QMessageBox.information(
+            self,
+            "추출 완료",
+            f"아이디 추출이 완료되었습니다.\n\n"
+            f"총 추출: {total_count}개\n"
+            f"신규 저장: {success_count}개\n"
+            f"기존 아이디: {duplicate_count}개"
+        )
 
     def on_automation_error(self, error_msg):
-        """자동화 오류 처리"""
+        """아이디 추출 오류 처리"""
         self.stop_automation()
         self.log_message(f"❌ 오류: {error_msg}")
         QMessageBox.critical(self, "오류", error_msg)
+
+    def on_worker_cleanup_done(self):
+        """워커 스레드 종료 후 참조 정리"""
+        QTimer.singleShot(0, self._finalize_worker_cleanup)
+
+    def _finalize_worker_cleanup(self):
+        """워커 종료 이후 안전하게 참조 해제"""
+        if not self.automation_worker:
+            return
+
+        if self.automation_worker.isRunning():
+            QTimer.singleShot(50, self._finalize_worker_cleanup)
+            return
+
+        self.automation_worker.deleteLater()
+        self.automation_worker = None
 
     def log_message(self, message):
         """로그 메시지 추가"""
@@ -1521,15 +1596,15 @@ class MainWindow(QMainWindow):
         license_key = self.license_key_edit.text().strip()
 
         if not license_key:
-            QMessageBox.warning(self, "입력 오류", "라이선스 키를 먼저 입력해주세요.")
+            QMessageBox.warning(self, "입력 오류", "활성화 코드를 먼저 입력해주세요.")
             return
 
         try:
             from utils.license_validator import validate_license
 
             # 로딩 다이얼로그 표시
-            loading_dialog = QProgressDialog("라이선스 검증 중...", "취소", 0, 0, self)
-            loading_dialog.setWindowTitle("라이선스 검증")
+            loading_dialog = QProgressDialog("코드 검증 중...", "취소", 0, 0, self)
+            loading_dialog.setWindowTitle("활성화 코드 검증")
             loading_dialog.setWindowModality(Qt.WindowModal)
             loading_dialog.show()
 
@@ -1554,18 +1629,18 @@ class MainWindow(QMainWindow):
             self.update_license_status()
 
         except ImportError:
-            QMessageBox.critical(self, "오류", "라이선스 검증 모듈을 찾을 수 없습니다.")
+            QMessageBox.critical(self, "오류", "활성화 코드 검증 모듈을 찾을 수 없습니다.")
         except Exception as e:
             loading_dialog.close()
             QMessageBox.critical(
-                self, "오류", f"라이선스 검증 중 오류가 발생했습니다:\n{str(e)}")
+                self, "오류", f"활성화 코드 검증 중 오류가 발생했습니다:\n{str(e)}")
 
     def update_license_status(self):
         """라이선스 상태 업데이트"""
         license_key = self.license_key_edit.text().strip()
 
         if not license_key:
-            self.license_status_label.setText("라이선스 상태: 미입력")
+            self.license_status_label.setText("활성화 상태: 미입력")
             self.license_status_label.setStyleSheet("color: gray;")
             return
 
@@ -1577,18 +1652,18 @@ class MainWindow(QMainWindow):
                 days_remaining = result.get('days_remaining', 0)
                 if days_remaining <= 7:
                     self.license_status_label.setText(
-                        f"라이선스 상태: 곧 만료 ({days_remaining}일 남음)")
+                        f"활성화 상태: 곧 만료 ({days_remaining}일 남음)")
                     self.license_status_label.setStyleSheet("color: orange;")
                 else:
                     self.license_status_label.setText(
-                        f"라이선스 상태: 유효 ({days_remaining}일 남음)")
+                        f"활성화 상태: 유효 ({days_remaining}일 남음)")
                     self.license_status_label.setStyleSheet("color: green;")
             else:
-                self.license_status_label.setText("라이선스 상태: 무효/만료")
+                self.license_status_label.setText("활성화 상태: 무효/만료")
                 self.license_status_label.setStyleSheet("color: red;")
 
         except Exception:
-            self.license_status_label.setText("라이선스 상태: 확인 불가")
+            self.license_status_label.setText("활성화 상태: 확인 불가")
             self.license_status_label.setStyleSheet("color: gray;")
 
     def validate_license_before_start(self):
@@ -1596,8 +1671,8 @@ class MainWindow(QMainWindow):
         license_key = self.license_key_edit.text().strip()
 
         if not license_key:
-            QMessageBox.warning(self, "라이선스 필요",
-                                "라이선스 키가 필요합니다.\n상세 설정 탭에서 라이선스 키를 입력하고 검증해주세요.")
+            QMessageBox.warning(self, "코드 필요",
+                                "활성화 코드가 필요합니다.\n상세 설정 탭에서 활성화 코드를 입력하고 검증해주세요.")
             return False
 
         try:
@@ -1606,15 +1681,15 @@ class MainWindow(QMainWindow):
 
             if not result['valid']:
                 QMessageBox.warning(self, "라이선스 오류",
-                                    f"라이선스가 유효하지 않습니다.\n\n{result['message']}")
+                                    f"코드가 유효하지 않습니다.\n\n{result['message']}")
                 return False
 
             # 만료 임박 경고
             days_remaining = result.get('days_remaining', 0)
             if days_remaining <= 7:
                 reply = QMessageBox.question(
-                    self, "라이선스 만료 임박",
-                    f"라이선스가 {days_remaining}일 후 만료됩니다.\n\n계속 진행하시겠습니까?",
+                    self, "코드 만료 임박",
+                    f"활성화 코드가 {days_remaining}일 후 만료됩니다.\n\n계속 진행하시겠습니까?",
                     QMessageBox.Yes | QMessageBox.No,
                     QMessageBox.Yes
                 )
@@ -1624,8 +1699,8 @@ class MainWindow(QMainWindow):
             return True
 
         except Exception as e:
-            QMessageBox.critical(self, "라이선스 검증 오류",
-                                 f"라이선스 검증 중 오류가 발생했습니다:\n{str(e)}")
+            QMessageBox.critical(self, "코드 검증 오류",
+                                 f"활성화 코드 검증 중 오류가 발생했습니다:\n{str(e)}")
             return False
 
 
