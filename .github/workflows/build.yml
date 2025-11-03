@@ -46,6 +46,7 @@ jobs:
         FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
         FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+        PYTHONIOENCODING: utf-8
       run: python simple_build.py
 
     - name: Build executable (macOS)
@@ -54,6 +55,7 @@ jobs:
         FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
         FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+        PYTHONIOENCODING: utf-8
       run: python simple_build.py
       
     - name: Create release package (Windows)
