@@ -780,7 +780,9 @@ class GitHubReleaseUpdater:
 
     def _initialize_preserve_targets(self):
         """업데이트 시 보존할 파일/디렉토리 집합 초기화"""
-        defaults = {'config/settings.json', 'backups', 'logs', '.git'}
+        defaults = {'config/settings.json',
+                    'data/extracted_blog_ids.json',
+                    'backups', 'logs', '.git'}
         combined = set()
         combined.update(defaults)
         combined.update({str(entry)
@@ -996,6 +998,11 @@ class GitHubReleaseUpdater:
                     'if %ROBOCOPY_RESULT% GEQ 8 goto restore_backup',
                     'echo 업데이트 동기화 완료 (코드: %ROBOCOPY_RESULT%)',
                     '',
+                ])
+                if restore_backup_block:
+                    script_lines.append(restore_backup_block.rstrip('\n'))
+                    script_lines.append('')
+                script_lines.extend([
                     'if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1',
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
                     '',
@@ -1081,6 +1088,13 @@ if ! rsync "${{RSYNC_OPTS[@]}}" "$ACTUAL_SOURCE/" "$TARGET_DIR/"; then
     done
     exit 1
 fi
+
+for file in {preserve_files_bash if preserve_files_bash else '""'}; do
+    if [ -n "$file" ] && [ -f "$PRESERVE_BACKUP/$file" ]; then
+        mkdir -p "$TARGET_DIR/$(dirname "$file")"
+        cp "$PRESERVE_BACKUP/$file" "$TARGET_DIR/$file"
+    fi
+done
 
 rm -rf "$PRESERVE_BACKUP"
 rm -rf "$TEMP_ROOT"

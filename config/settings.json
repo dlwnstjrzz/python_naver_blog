@@ -1,6 +1,6 @@
 {
-  "naver_id": "namingfactory",
-  "naver_password": "manwol073016!",
+  "naver_id": "",
+  "naver_password": "",
   "search_keywords": [],
   "blog_count": 10,
   "neighbor_message": "안녕하세요! {nickname}님 서로이웃 해요!",
@@ -21,25 +21,12 @@
   "loading_method": "keyword",
   "search_keyword": "고양이 사료",
   "neighbor_collection_count": 10,
-  "collected_blogs": [
-    {
-      "blog_name": "hellenpark1",
-      "post_url": "https://blog.naver.com/hellenpark1/223912299950"
-    },
-    {
-      "blog_name": "mjh0712",
-      "post_url": "https://blog.naver.com/mjh0712/223945015478"
-    },
-    {
-      "blog_name": "eumjeongoh",
-      "post_url": "https://blog.naver.com/eumjeongoh/223971880226"
-    }
-  ],
+  "collected_blogs": [],
   "start_page": 1,
-  "base_blog_url": "https://blog.naver.com/3c_diary",
+  "base_blog_url": "",
   "neighbor_count": 10,
   "secret_comment": true,
-  "gemini_api_key": "AIzaSyCcW8fAIvjygRzpXp7_WE5oAA5mFMbkC_Q",
+  "gemini_api_key": "",
   "enable_like": true,
   "enable_comment": true,
   "comment_type": "ai",
