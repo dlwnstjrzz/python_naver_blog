@@ -6,6 +6,7 @@ pip 환경용 빌드 스크립트
 import subprocess
 import sys
 import os
+from pathlib import Path
 
 def build_with_pip_env():
     """pip 환경에서 빌드"""
@@ -55,6 +56,13 @@ def build_with_pip_env():
         result = subprocess.run(cmd, check=True)
         print("✅ 빌드 성공!")
         print("📁 dist/NaverBlogAutomation에서 실행 파일을 확인하세요.")
+
+        dist_path = Path('dist')
+        windows_exe = dist_path / 'NaverBlogAutomation.exe'
+        korean_exe = dist_path / '자동화폭격기블로그자동화.exe'
+        if windows_exe.exists():
+            windows_exe.rename(korean_exe)
+            print(f"Renamed executable to {korean_exe.name}")
         return True
     except subprocess.CalledProcessError as e:
         print(f"❌ 빌드 실패: {e}")

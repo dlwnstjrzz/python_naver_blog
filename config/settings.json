@@ -4,7 +4,7 @@
   "search_keywords": [],
   "blog_count": 10,
   "neighbor_message": "안녕하세요! {nickname}님 서로이웃 해요!",
-  "comment_option": "ai",
+  "comment_option": "random",
   "random_comments": [
     "좋은 글 잘 읽었어요! {nickname}님",
     "유익한 정보 감사해요~ {nickname}님!",

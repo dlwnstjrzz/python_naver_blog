@@ -86,6 +86,7 @@ class GitHubReleaseUpdater:
             'github_token', '')  # 선택적, private repo용
         self.check_on_startup = config.get('check_update_on_startup', True)
         self.backup_enabled = config.get('backup_on_update', True)
+        self.user_preserve_paths = set(config.get('preserve_paths', []))
 
         # GitHub API URL 구성
         self.api_base = f"https://api.github.com/repos/{self.github_repo}"
@@ -96,11 +97,16 @@ class GitHubReleaseUpdater:
         self.backup_dir = self.project_root / 'backups'
         self.temp_dir = Path(tempfile.mkdtemp(prefix='naver_blog_update_'))
 
+        self._initialize_preserve_targets()
+
         # 업데이트 전용 로그 설정
         self.setup_update_logger()
 
         # 배치 스크립트 경로 (exe 업데이트용)
         self.batch_script_path = None
+
+        # 임시 파일 정리 지연 여부
+        self.defer_cleanup = False
 
         # 시작 시간 기록
         self.start_time = time.time()
@@ -715,6 +721,7 @@ class GitHubReleaseUpdater:
 
             # 소스 루트 디렉토리 찾기 (여러 패턴 시도)
             possible_patterns = [
+                '자동화폭격기블로그자동화',
                 'NaverBlogAutomation',
                 'python_naver_blog',
                 'naver',
@@ -771,14 +778,110 @@ class GitHubReleaseUpdater:
             self.logger.error(f"업데이트 설치 실패: {str(e)}")
             return False
 
+    def _initialize_preserve_targets(self):
+        """업데이트 시 보존할 파일/디렉토리 집합 초기화"""
+        defaults = {'config/settings.json', 'backups', 'logs', '.git'}
+        combined = set()
+        combined.update(defaults)
+        combined.update({str(entry)
+                        for entry in self.user_preserve_paths if entry})
+
+        self.preserve_files = set()
+        self.preserve_dirs = set()
+
+        for raw_entry in combined:
+            raw_entry = str(raw_entry).strip().replace('\\', '\\')
+            if not raw_entry:
+                continue
+
+            entry_path = Path(raw_entry)
+
+            if entry_path.is_absolute():
+                try:
+                    entry_path = entry_path.relative_to(self.project_root)
+                except ValueError:
+                    self.log_update('warning', f'보존 경로 무시: {raw_entry}')
+                    continue
+
+            if str(entry_path).startswith('..'):
+                self.log_update('warning', f'상위 경로로 향하는 보존 경로 무시: {raw_entry}')
+                continue
+
+            if entry_path.suffix:
+                self.preserve_files.add(entry_path)
+            else:
+                self.preserve_dirs.add(entry_path)
+
+        self.preserve_dirs.add(Path('backups'))
+
+        self.log_update(
+            'info', f'보존 파일: {[str(p) for p in sorted(self.preserve_files)]}')
+        self.log_update(
+            'info', f'보존 디렉토리: {[str(p) for p in sorted(self.preserve_dirs)]}')
+
+    def _should_preserve_file(self, rel_path: Path) -> bool:
+        """상대 경로 기준으로 파일 보존 여부 판단"""
+        rel_path = rel_path if rel_path != Path('.') else Path('.')
+        if rel_path in self.preserve_files:
+            return True
+        for preserve_dir in self.preserve_dirs:
+            if rel_path.is_relative_to(preserve_dir):
+                return True
+        return False
+
+    def _should_preserve_dir(self, rel_dir: Path) -> bool:
+        """상대 경로 기준으로 디렉토리 보존 여부 판단"""
+        if rel_dir in (Path('.'), Path('')):
+            return False
+        if rel_dir in self.preserve_dirs:
+            return True
+        for preserve_file in self.preserve_files:
+            if preserve_file.is_relative_to(rel_dir):
+                return True
+        for preserve_dir in self.preserve_dirs:
+            if preserve_dir.is_relative_to(rel_dir):
+                return True
+        return False
+
+    def _clean_project_root(self):
+        """보존 대상을 제외하고 프로젝트 루트를 정리"""
+        self.log_update('info', '기존 파일 정리 시작 (보존 대상 제외)')
+        for root, dirs, files in os.walk(self.project_root, topdown=False):
+            current_dir = Path(root)
+            rel_dir = current_dir.relative_to(
+                self.project_root) if current_dir != self.project_root else Path('.')
+
+            for file_name in files:
+                rel_path = Path(file_name) if rel_dir == Path(
+                    '.') else rel_dir / file_name
+                if self._should_preserve_file(rel_path):
+                    continue
+                target_file = current_dir / file_name
+                try:
+                    target_file.unlink()
+                    self.log_update('debug', f'기존 파일 삭제: {rel_path}')
+                except Exception as cleanup_error:
+                    self.log_update(
+                        'warning', f'파일 삭제 실패 {rel_path}: {cleanup_error}')
+
+            if rel_dir in (Path('.'), Path('')):
+                continue
+            if self._should_preserve_dir(rel_dir):
+                continue
+
+            try:
+                current_dir.rmdir()
+                self.log_update('debug', f'비어 있는 디렉토리 삭제: {rel_dir}')
+            except OSError:
+                pass
+
     def _create_update_script(self, source_root: Path) -> str:
-        """exe 파일 업데이트용 배치 스크립트 생성만 수행"""
+        """exe 파일 업데이트용 스크립트 생성"""
         try:
             import platform
 
             self.log_update('info', "업데이트 배치 스크립트 생성 시작")
 
-            # 현재 exe 파일의 디렉토리
             current_exe_dir = Path(os.path.dirname(sys.executable))
             current_exe_path = Path(sys.executable)
 
@@ -786,322 +889,210 @@ class GitHubReleaseUpdater:
             self.log_update('info', f"exe 디렉토리: {current_exe_dir}")
             self.log_update('info', f"소스 루트: {source_root}")
 
-            # 현재 exe 파일 정보
             if current_exe_path.exists():
                 exe_size = current_exe_path.stat().st_size
                 exe_mtime = current_exe_path.stat().st_mtime
                 self.log_update(
                     'info', f"현재 exe 크기: {exe_size} bytes, 수정시간: {exe_mtime}")
 
-            # 소스에 새로운 exe가 있는지 확인
-            new_exe_path = source_root / "NaverBlogAutomation.exe"
-            if new_exe_path.exists():
-                new_exe_size = new_exe_path.stat().st_size
-                new_exe_mtime = new_exe_path.stat().st_mtime
-                self.log_update(
-                    'info', f"새 exe 크기: {new_exe_size} bytes, 수정시간: {new_exe_mtime}")
+            windows_preserve_files = [str(path).replace(
+                '/', '\\') for path in sorted(self.preserve_files)]
+            windows_preserve_dirs = [str(path).replace(
+                '/', '\\') for path in sorted(self.preserve_dirs)]
 
-                if exe_size != new_exe_size:
-                    self.log_update(
-                        'info', "exe 파일 크기가 다릅니다. 업데이트가 포함되어 있습니다.")
-                else:
-                    self.log_update(
-                        'warning', "exe 파일 크기가 동일합니다. 업데이트가 없을 수 있습니다.")
-            else:
-                self.log_update('warning', "소스에 새로운 exe 파일이 없습니다.")
+            robocopy_file_parts = [
+                'update_installer.bat', 'update_installer.sh']
+            for item in windows_preserve_files:
+                robocopy_file_parts.extend([item, f'%TARGET_DIR%\\{item}'])
+            robocopy_file_parts = list(dict.fromkeys(robocopy_file_parts))
+            robocopy_exclude_files = ''
+            if robocopy_file_parts:
+                robocopy_exclude_files = '/XF ' + \
+                    ' '.join(f'"{part}"' for part in robocopy_file_parts)
 
-            # 배치 스크립트 생성
+            robocopy_exclude_dirs = ''
+            if windows_preserve_dirs:
+                dir_parts = []
+                for directory in windows_preserve_dirs:
+                    dir_parts.extend([
+                        f'%TARGET_DIR%\\{directory}',
+                        f'%ACTUAL_SOURCE%\\{directory}',
+                        directory
+                    ])
+                dir_parts = list(dict.fromkeys(dir_parts))
+                if dir_parts:
+                    robocopy_exclude_dirs = '/XD ' + \
+                        ' '.join(f'"{part}"' for part in dir_parts)
+
+            preserve_backup_block = ''
+            if windows_preserve_files:
+                preserve_backup_block = 'for %%F in (' + ' '.join(
+                    f'"{item}"' for item in windows_preserve_files) + ') do (\n'
+                preserve_backup_block += '    if not "%%~F"=="" if exist "%TARGET_DIR%\\%%~F" (\n'
+                preserve_backup_block += '        if not exist "%PRESERVE_BACKUP%\\%%~dpF" mkdir "%PRESERVE_BACKUP%\\%%~dpF" >nul 2>&1\n'
+                preserve_backup_block += '        copy "%TARGET_DIR%\\%%~F" "%PRESERVE_BACKUP%\\%%~F" >nul 2>&1\n'
+                preserve_backup_block += '    )\n'
+                preserve_backup_block += ')\n'
+
+            restore_backup_block = ''
+            if windows_preserve_files:
+                restore_backup_block = 'for %%F in (' + ' '.join(
+                    f'"{item}"' for item in windows_preserve_files) + ') do (\n'
+                restore_backup_block += '    if exist "%PRESERVE_BACKUP%\\%%~F" (\n'
+                restore_backup_block += '        if not exist "%TARGET_DIR%\\%%~dpF" mkdir "%TARGET_DIR%\\%%~dpF" >nul 2>&1\n'
+                restore_backup_block += '        copy "%PRESERVE_BACKUP%\\%%~F" "%TARGET_DIR%\\%%~F" >nul 2>&1\n'
+                restore_backup_block += '    )\n'
+                restore_backup_block += ')\n'
+
+            robocopy_exclude_dirs_line = f'set "ROBOCOPY_EXCLUDE_DIRS={robocopy_exclude_dirs}"' if robocopy_exclude_dirs else 'set "ROBOCOPY_EXCLUDE_DIRS="'
+            robocopy_exclude_files_line = f'set "ROBOCOPY_EXCLUDE_FILES={robocopy_exclude_files}"' if robocopy_exclude_files else 'set "ROBOCOPY_EXCLUDE_FILES="'
+
             platform_name = platform.system().lower()
             self.log_update('info', f"플랫폼: {platform_name}")
 
-#             if platform_name == 'windows':
-#                 batch_script = current_exe_dir / 'update_installer.bat'
-#                 script_content = f'''@echo off
-# setlocal enabledelayedexpansion
-# chcp 65001 >nul
-# echo ========================================
-# echo 네이버 블로그 자동화 프로그램 업데이트
-# echo ========================================
-# echo 업데이트 설치 중...
-# timeout /t 3 /nobreak >nul
+            if platform_name == 'windows':
+                batch_script = current_exe_dir / 'update_installer.bat'
+                script_lines = [
+                    '@echo off',
+                    'setlocal enabledelayedexpansion',
+                    'chcp 65001 >nul',
+                    '',
+                    f'set "TARGET_DIR={current_exe_dir}"',
+                    f'set "ACTUAL_SOURCE={source_root}"',
+                    f'set "TEMP_ROOT={self.temp_dir}"',
+                    'set "PRESERVE_BACKUP=%TARGET_DIR%\\preserve_backup"',
+                    '',
+                    'echo ========================================',
+                    'echo 네이버 블로그 자동화 프로그램 업데이트',
+                    'echo ========================================',
+                    'echo 대상 경로: %TARGET_DIR%',
+                    'echo 소스 경로: %ACTUAL_SOURCE%',
+                    'echo.',
+                    'if not exist "%ACTUAL_SOURCE%" (',
+                    '    echo 업데이트 소스 경로를 찾을 수 없습니다.',
+                    '    goto error_exit',
+                    ')',
+                    '',
+                    'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%"',
+                    'mkdir "%PRESERVE_BACKUP%" >nul 2>&1',
+                    '',
+                ]
+                if preserve_backup_block:
+                    script_lines.append(preserve_backup_block.rstrip('\n'))
+                    script_lines.append('')
+                script_lines.extend([
+                    'if exist "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" (',
+                    '    copy "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" >nul 2>&1',
+                    ')',
+                    '',
+                    'set "ROBOCOPY_OPTS=/MIR /R:2 /W:2 /NFL /NDL /NP /NJH /NJS"',
+                    robocopy_exclude_dirs_line,
+                    robocopy_exclude_files_line,
+                    '',
+                    'echo 새 파일 동기화 중... 잠시만 기다려주세요.',
+                    'robocopy "%ACTUAL_SOURCE%" "%TARGET_DIR%" %ROBOCOPY_OPTS% %ROBOCOPY_EXCLUDE_DIRS% %ROBOCOPY_EXCLUDE_FILES%',
+                    'set "ROBOCOPY_RESULT=%ERRORLEVEL%"',
+                    '',
+                    'if %ROBOCOPY_RESULT% GEQ 8 goto restore_backup',
+                    'echo 업데이트 동기화 완료 (코드: %ROBOCOPY_RESULT%)',
+                    '',
+                    'if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1',
+                    'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
+                    '',
+                    'cd /d "%TARGET_DIR%"',
+                    'start "" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe"',
+                    'del "%~f0" >nul 2>&1',
+                    'exit',
+                    '',
+                    ':restore_backup',
+                    'echo 업데이트 중 오류가 발생했습니다. 백업을 복원합니다.',
+                    'if exist "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" (',
+                    '    copy "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" >nul 2>&1',
+                    ')',
+                ])
+                if restore_backup_block:
+                    script_lines.append(restore_backup_block.rstrip('\n'))
+                script_lines.extend([
+                    'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
+                    'start "" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe"',
+                    'pause',
+                    'exit',
+                    '',
+                    ':error_exit',
+                    'echo 업데이트 스크립트를 종료합니다.',
+                    'pause',
+                    'exit',
+                ])
+                script_content = '\n'.join(script_lines)
+            else:
+                batch_script = current_exe_dir / 'update_installer.sh'
+                preserve_files_bash = ' '.join(
+                    f'"{str(path)}"' for path in sorted(self.preserve_files))
+                preserve_dirs_bash = ' '.join(
+                    f'"{str(path)}"' for path in sorted(self.preserve_dirs))
+                script_content = f'''#!/bin/bash
+set -e
+TARGET_DIR="{current_exe_dir}"
+ACTUAL_SOURCE="{source_root}"
+TEMP_ROOT="{self.temp_dir}"
+PRESERVE_BACKUP="$TARGET_DIR/preserve_backup"
 
-# echo [1/6] 기존 파일 백업 중...
-# if exist "{current_exe_dir}\\backup_temp" rmdir /s /q "{current_exe_dir}\\backup_temp"
-# mkdir "{current_exe_dir}\\backup_temp"
+echo "========================================"
+echo "네이버 블로그 자동화 프로그램 업데이트"
+echo "========================================"
+echo "대상 경로: $TARGET_DIR"
+echo "소스 경로: $ACTUAL_SOURCE"
+echo
+if [ ! -d "$ACTUAL_SOURCE" ]; then
+    echo "업데이트 소스 경로를 찾을 수 없습니다."
+    exit 1
+fi
 
-# REM 실행 중인 exe 파일 종료까지 대기 (최대 10초)
-# echo [2/6] 프로그램 종료 대기 중...
+rm -rf "$PRESERVE_BACKUP"
+mkdir -p "$PRESERVE_BACKUP"
 
-# REM 먼저 현재 실행 중인 프로세스 확인
-# echo 현재 실행 중인 NaverBlogAutomation.exe 프로세스 확인...
-# tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I "NaverBlogAutomation.exe"
-# if %errorlevel% neq 0 (
-#     echo 실행 중인 프로세스가 없습니다. 대기 단계를 건너뜀.
-#     goto check_process_end
-# )
+for file in {preserve_files_bash if preserve_files_bash else '""'}; do
+    if [ -n "$file" ] && [ -f "$TARGET_DIR/$file" ]; then
+        mkdir -p "$PRESERVE_BACKUP/$(dirname "$file")"
+        cp "$TARGET_DIR/$file" "$PRESERVE_BACKUP/$file"
+    fi
+done
 
-# REM 간단한 대기 방법 - 10초만 대기
-# echo 프로그램 종료를 10초간 대기합니다...
-# for /L %%i in (1,1,10) do (
-#     timeout /t 1 /nobreak >nul
-#     tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I "NaverBlogAutomation.exe" >NUL
-#     if errorlevel 1 (
-#         echo %%i초 후 프로세스 종료 확인됨.
-#         goto check_process_end
-#     )
-#     echo %%i초 경과...
-# )
+RSYNC_OPTS=(--archive --delete --human-readable)
+RSYNC_OPTS+=(--exclude=update_installer.bat --exclude=update_installer.sh)
+for file in {preserve_files_bash if preserve_files_bash else '""'}; do
+    if [ -n "$file" ]; then
+        RSYNC_OPTS+=(--exclude="$file")
+    fi
+done
+for dir in {preserve_dirs_bash if preserve_dirs_bash else '""'}; do
+    if [ -n "$dir" ]; then
+        RSYNC_OPTS+=(--exclude="$dir")
+    fi
+done
 
-# REM 10초 후에도 실행 중이면 강제 종료
-# echo 10초 경과. 프로그램을 강제 종료합니다...
-# taskkill /f /im NaverBlogAutomation.exe >nul 2>&1
-# timeout /t 2 /nobreak >nul
+if ! rsync "${{RSYNC_OPTS[@]}}" "$ACTUAL_SOURCE/" "$TARGET_DIR/"; then
+    echo "rsync 실행 중 오류가 발생했습니다. 백업을 복원합니다."
+    for file in {preserve_files_bash if preserve_files_bash else '""'}; do
+        if [ -n "$file" ] && [ -f "$PRESERVE_BACKUP/$file" ]; then
+            mkdir -p "$TARGET_DIR/$(dirname "$file")"
+            cp "$PRESERVE_BACKUP/$file" "$TARGET_DIR/$file"
+        fi
+    done
+    exit 1
+fi
 
-# REM 강제 종료 후 확인
-# tasklist /FI "IMAGENAME eq NaverBlogAutomation.exe" 2>NUL | find /I "NaverBlogAutomation.exe" >NUL
-# if %errorlevel% equ 0 (
-#     echo 강제 종료 실패! 수동으로 프로그램을 종료해주세요.
-#     echo 아무 키나 누르면 계속 진행합니다...
-#     pause
-# )
+rm -rf "$PRESERVE_BACKUP"
+rm -rf "$TEMP_ROOT"
+cd "$TARGET_DIR"
+./자동화폭격기블로그자동화 &
+rm "$0"
+'''
 
-# :check_process_end
-# echo 프로그램 종료 확인 완료.
-
-# REM EXE 파일 백업 (중요!)
-# echo [3/6] EXE 파일 백업 중...
-# if exist "{current_exe_dir}\\NaverBlogAutomation.exe" (
-#     copy "{current_exe_dir}\\NaverBlogAutomation.exe" "{current_exe_dir}\\backup_temp\\NaverBlogAutomation.exe.backup" >nul 2>&1
-#     if %errorlevel% equ 0 (
-#         echo EXE 파일 백업 성공
-#     ) else (
-#         echo EXE 파일 백업 실패 (코드: %errorlevel%)
-#     )
-# )
-
-# REM 기타 파일 백업
-# for %%f in (*.dll *.py *.pyd *.pyo) do (
-#     if exist "%%f" copy "%%f" "{current_exe_dir}\\backup_temp\\" >nul 2>&1
-# )
-
-# echo [4/6] 새 파일 복사 중...
-# echo 초기 소스: {source_root}
-# echo 대상: {current_exe_dir}
-# echo.
-
-# REM 소스 디렉토리 자동 탐지
-# echo 소스 디렉토리 탐지 중...
-# set "actual_source="
-
-# REM 1. 기본 경로 확인
-# if exist "{source_root}" (
-#     echo 기본 소스 경로 존재: {source_root}
-#     set "actual_source={source_root}"
-#     goto source_found
-# )
-
-# REM 2. 상위 디렉토리에서 찾기 (update_files 확인)
-# set "parent_dir={source_root}\.."
-# for /d %%d in ("%parent_dir%\*") do (
-#     if exist "%%d\NaverBlogAutomation.exe" (
-#         echo 상위 디렉토리에서 발견: %%d
-#         set "actual_source=%%d"
-#         goto source_found
-#     )
-#     if exist "%%d\main.py" (
-#         echo 상위 디렉토리에서 Python 소스 발견: %%d
-#         set "actual_source=%%d"
-#         goto source_found
-#     )
-# )
-
-# REM 3. 임시 디렉토리 전체 검색
-# echo 임시 디렉토리 전체 검색 중...
-# for /r "{source_root}\.." %%f in (NaverBlogAutomation.exe) do (
-#     if exist "%%f" (
-#         set "actual_source=%%~dpf"
-#         set "actual_source=!actual_source:~0,-1!"
-#         echo 전체 검색에서 EXE 발견: !actual_source!
-#         goto source_found
-#     )
-# )
-
-# for /r "{source_root}\.." %%f in (main.py) do (
-#     if exist "%%f" (
-#         set "actual_source=%%~dpf"
-#         set "actual_source=!actual_source:~0,-1!"
-#         echo 전체 검색에서 Python 소스 발견: !actual_source!
-#         goto source_found
-#     )
-# )
-
-# echo 오류: 소스 디렉토리를 찾을 수 없습니다!
-# echo 검색 경로들:
-# echo - 기본: {source_root}
-# echo - 상위: {source_root}\..
-# dir "{source_root}\.." /s /b 2>nul | head -n 20
-# goto error_exit
-
-# :source_found
-# echo 최종 소스 디렉토리: %actual_source%
-# echo.
-
-# REM 소스 디렉토리 내용 확인
-# echo 소스 디렉토리 내용:
-# dir "%actual_source%" /b 2>nul | head -n 10
-# echo.
-
-# REM EXE 파일이 소스에 있는지 확인
-# set new_exe_found=0
-# if exist "%actual_source%\\NaverBlogAutomation.exe" (
-#     echo 새 EXE 파일 발견: NaverBlogAutomation.exe
-#     set new_exe_found=1
-# ) else (
-#     echo 경고: 새 EXE 파일을 찾을 수 없습니다.
-# )
-
-# REM 단계별 파일 복사
-# echo [5/6] 파일 복사 실행...
-
-# REM 1단계: EXE가 아닌 파일들 먼저 복사
-# echo 1단계: 일반 파일 복사 중...
-# for /r "%actual_source%" %%f in (*) do (
-#     if /i not "%%~nxf"=="NaverBlogAutomation.exe" (
-#         if not "%%~nxf"=="update_installer.bat" (
-#             set "rel_path=%%f"
-#             setlocal enabledelayedexpansion
-#             set "rel_path=!rel_path:%actual_source%\\=!"
-#             set "dest_file={current_exe_dir}\\!rel_path!"
-
-#             REM 대상 디렉토리 생성
-#             for %%d in ("!dest_file!") do (
-#                 if not exist "%%~dpd" mkdir "%%~dpd" 2>nul
-#             )
-
-#             copy "%%f" "!dest_file!" >nul 2>&1
-#             endlocal
-#         )
-#     )
-# )
-
-# REM 2단계: EXE 파일 복사 (가장 중요!)
-# if %new_exe_found% equ 1 (
-#     echo 2단계: EXE 파일 교체 중...
-
-#     REM 기존 EXE를 임시 이름으로 변경
-#     if exist "{current_exe_dir}\\NaverBlogAutomation.exe" (
-#         echo 기존 EXE를 임시 이름으로 변경...
-#         move "{current_exe_dir}\\NaverBlogAutomation.exe" "{current_exe_dir}\\NaverBlogAutomation_old.exe" >nul 2>&1
-#         if %errorlevel% neq 0 (
-#             echo 기존 EXE 이름 변경 실패. 강제 삭제 시도...
-#             del /f /q "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
-#         )
-#     )
-
-#     REM 새 EXE 복사
-#     echo 새 EXE 파일 복사...
-#     copy "%actual_source%\\NaverBlogAutomation.exe" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
-#     set copy_result=%errorlevel%
-
-#     if %copy_result% equ 0 (
-#         echo EXE 파일 복사 성공!
-
-#         REM 복사 검증
-#         if exist "{current_exe_dir}\\NaverBlogAutomation.exe" (
-#             echo EXE 파일 존재 확인됨.
-
-#             REM 이전 EXE 파일 삭제
-#             if exist "{current_exe_dir}\\NaverBlogAutomation_old.exe" (
-#                 del /f /q "{current_exe_dir}\\NaverBlogAutomation_old.exe" >nul 2>&1
-#             )
-#         ) else (
-#             echo 오류: 복사된 EXE 파일을 찾을 수 없습니다!
-#             goto restore_backup
-#         )
-#     ) else (
-#         echo EXE 파일 복사 실패 (코드: %copy_result%)
-#         goto restore_backup
-#     )
-# ) else (
-#     echo EXE 파일 업데이트 건너뜀 (소스에 새 EXE 없음)
-# )
-
-# echo.
-# echo [6/6] 업데이트 완료!
-# echo 복사 후 대상 디렉토리 내용:
-# dir "{current_exe_dir}" /b 2>nul | head -n 10
-# echo.
-
-# echo 프로그램을 시작합니다...
-# cd /d "{current_exe_dir}"
-# timeout /t 2 /nobreak >nul
-# start "" "{current_exe_dir}\\NaverBlogAutomation.exe"
-
-# echo 임시 파일 정리 중...
-# timeout /t 3 /nobreak >nul
-# if exist "{self.temp_dir}" rmdir /s /q "{self.temp_dir}" >nul 2>&1
-# if exist "{current_exe_dir}\\backup_temp" rmdir /s /q "{current_exe_dir}\\backup_temp" >nul 2>&1
-# del "%~f0" >nul 2>&1
-# exit
-
-# :restore_backup
-# echo.
-# echo ========================================
-# echo 오류 발생! 백업에서 복원 중...
-# echo ========================================
-# if exist "{current_exe_dir}\\backup_temp\\NaverBlogAutomation.exe.backup" (
-#     copy "{current_exe_dir}\\backup_temp\\NaverBlogAutomation.exe.backup" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
-#     echo 백업에서 EXE 파일 복원 완료
-# ) else (
-#     echo 백업 파일을 찾을 수 없습니다!
-# )
-# if exist "{current_exe_dir}\\NaverBlogAutomation_old.exe" (
-#     move "{current_exe_dir}\\NaverBlogAutomation_old.exe" "{current_exe_dir}\\NaverBlogAutomation.exe" >nul 2>&1
-#     echo 이전 EXE 파일 복원 완료
-# )
-# echo 업데이트 실패. 원래 프로그램을 시작합니다...
-# start "" "{current_exe_dir}\\NaverBlogAutomation.exe"
-# pause
-# exit
-
-# :error_exit
-# echo.
-# echo ========================================
-# echo 오류 발생! 업데이트를 중단합니다.
-# echo ========================================
-# pause
-# exit
-# '''
-#             else:  # macOS/Linux
-#                 batch_script = current_exe_dir / 'update_installer.sh'
-#                 script_content = f'''#!/bin/bash
-# echo "업데이트 설치 중..."
-# sleep 3
-
-# echo "기존 파일 백업 중..."
-# rm -rf "{current_exe_dir}/backup_temp"
-# mkdir -p "{current_exe_dir}/backup_temp"
-# cp -r "{current_exe_dir}"/* "{current_exe_dir}/backup_temp/" 2>/dev/null || true
-
-# echo "새 파일 복사 중..."
-# cp -r "{source_root}"/* "{current_exe_dir}/"
-
-# echo "업데이트 완료. 프로그램을 시작합니다..."
-# cd "{current_exe_dir}"
-# ./NaverBlogAutomation &
-
-# echo "임시 파일 정리 중..."
-# sleep 2
-# rm -rf "{self.temp_dir}"
-# rm "$0"
-# '''
-
-            # 스크립트 파일 작성
             self.log_update('info', f"배치 스크립트 작성 중: {batch_script}")
             with open(batch_script, 'w', encoding='utf-8') as f:
                 f.write(script_content)
 
-            # 실행 권한 부여 (Unix 계열)
             if platform_name != 'windows':
                 os.chmod(batch_script, 0o755)
                 self.log_update('info', "실행 권한 부여 완료")
@@ -1112,6 +1103,9 @@ class GitHubReleaseUpdater:
                 if line.strip():
                     self.log_update('debug', f"  {i:2d}: {line}")
 
+            # 배치 스크립트 실행 전까지 임시 파일 정리를 지연
+            self.defer_cleanup = True
+
             return str(batch_script)
 
         except Exception as e:
@@ -1121,114 +1115,81 @@ class GitHubReleaseUpdater:
             return None
 
     def _install_script_update(self, source_root: Path) -> bool:
-        """스크립트 버전 업데이트 (직접 파일 복사)"""
+        """스크립트 버전 업데이트 (설정 보존 + 전체 교체)"""
         try:
             self.log_update(
                 'info', f"스크립트 업데이트 시작: 소스={source_root}, 대상={self.project_root}")
 
-            # 제외할 파일/디렉토리 목록
-            exclude_patterns = {
-                '__pycache__',
-                '.git',
-                '.github',
-                '.DS_Store',
-                'logs',
-                'backups',
-                'dist',
-                'build',
-                '.claude',
-                'node_modules',
-                '.pytest_cache',
-                '.vscode',
-                '.idea'
-            }
+            preserve_backup_root = self.temp_dir / 'preserved_items'
+            preserved_files = []
 
-            # 파일 복사 (기존 파일 덮어쓰기)
+            for rel_path in sorted(self.preserve_files):
+                original_file = self.project_root / rel_path
+                if original_file.exists():
+                    backup_path = preserve_backup_root / rel_path
+                    backup_path.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(original_file, backup_path)
+                    preserved_files.append(rel_path)
+                    self.log_update('debug', f"보존 파일 백업: {rel_path}")
+
+            self._clean_project_root()
+
+            exclude_patterns = {'__pycache__', '.DS_Store', '.idea', '.vscode'}
+
             copied_files = 0
             failed_files = 0
 
             for root, dirs, files in os.walk(source_root):
-                # 제외할 디렉토리 건너뛰기
-                dirs[:] = [d for d in dirs if d not in exclude_patterns]
+                current_dir = Path(root)
+                rel_dir = current_dir.relative_to(source_root)
+                target_dir = self.project_root / \
+                    rel_dir if rel_dir != Path('.') else self.project_root
 
-                for file in files:
-                    # 제외할 파일 패턴 건너뛰기
-                    if any(pattern in file for pattern in exclude_patterns):
+                filtered_dirs = []
+                for dir_name in dirs:
+                    rel_subdir = (
+                        rel_dir / dir_name) if rel_dir != Path('.') else Path(dir_name)
+                    if self._should_preserve_dir(rel_subdir):
+                        self.log_update('debug', f"보존 디렉토리 건너뜀: {rel_subdir}")
+                        continue
+                    filtered_dirs.append(dir_name)
+                dirs[:] = filtered_dirs
+
+                target_dir.mkdir(parents=True, exist_ok=True)
+
+                for file_name in files:
+                    if file_name.endswith('.pyc'):
+                        continue
+                    if any(pattern in file_name for pattern in exclude_patterns):
                         continue
 
-                    # .pyc 파일 건너뛰기
-                    if file.endswith('.pyc'):
+                    rel_path = (
+                        rel_dir / file_name) if rel_dir != Path('.') else Path(file_name)
+
+                    if self._should_preserve_file(rel_path):
+                        self.log_update('debug', f"보존 파일 건너뜀: {rel_path}")
                         continue
 
-                    src_file = Path(root) / file
-                    rel_path = src_file.relative_to(source_root)
+                    src_file = current_dir / file_name
                     dest_file = self.project_root / rel_path
 
                     try:
-                        # 디렉토리 생성
                         dest_file.parent.mkdir(parents=True, exist_ok=True)
-
-                        # 기존 파일이 있고 사용 중인 경우 처리
-                        if dest_file.exists():
-                            # Windows에서 파일이 사용 중인 경우 백업 후 덮어쓰기 시도
-                            backup_file = dest_file.with_suffix(
-                                dest_file.suffix + '.backup')
-                            try:
-                                if backup_file.exists():
-                                    backup_file.unlink()
-                                shutil.move(str(dest_file), str(backup_file))
-                                self.log_update(
-                                    'debug', f"기존 파일 백업: {dest_file} -> {backup_file}")
-                            except Exception as e:
-                                self.log_update(
-                                    'warning', f"파일 백업 실패: {dest_file} - {e}")
-
-                        # 파일 복사 전 크기 확인
-                        src_size = src_file.stat().st_size
-                        dest_size_before = dest_file.stat().st_size if dest_file.exists() else 0
-
-                        # 파일 복사
                         shutil.copy2(src_file, dest_file)
-
-                        # 복사 후 크기 확인
-                        dest_size_after = dest_file.stat().st_size if dest_file.exists() else 0
-
                         copied_files += 1
-                        self.log_update(
-                            'debug', f"파일 복사 완료: {rel_path} (소스: {src_size}bytes, 복사전: {dest_size_before}bytes, 복사후: {dest_size_after}bytes)")
-
-                        # 크기가 다르면 경고
-                        if src_size != dest_size_after:
-                            self.log_update(
-                                'warning', f"파일 크기 불일치: {rel_path} - 소스: {src_size}, 대상: {dest_size_after}")
-
-                        # 성공하면 백업 파일 삭제
-                        backup_file = dest_file.with_suffix(
-                            dest_file.suffix + '.backup')
-                        if backup_file.exists():
-                            try:
-                                backup_file.unlink()
-                                self.log_update(
-                                    'debug', f"백업 파일 삭제: {backup_file}")
-                            except:
-                                pass
-
+                        self.log_update('debug', f"파일 복사 완료: {rel_path}")
                     except Exception as file_error:
                         failed_files += 1
                         self.log_update(
                             'error', f"파일 복사 실패: {rel_path} - {file_error}")
 
-                        # 백업 파일이 있으면 복원 시도
-                        backup_file = dest_file.with_suffix(
-                            dest_file.suffix + '.backup')
-                        if backup_file.exists():
-                            try:
-                                shutil.move(str(backup_file), str(dest_file))
-                                self.log_update(
-                                    'info', f"백업 파일 복원: {dest_file}")
-                            except Exception as restore_error:
-                                self.log_update(
-                                    'error', f"백업 복원 실패: {dest_file} - {restore_error}")
+            for rel_path in preserved_files:
+                backup_path = preserve_backup_root / rel_path
+                if backup_path.exists():
+                    dest_path = self.project_root / rel_path
+                    dest_path.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(backup_path, dest_path)
+                    self.log_update('debug', f"보존 파일 복원: {rel_path}")
 
             self.log_update(
                 'info', f"업데이트 설치 완료: {copied_files}개 파일 복사, {failed_files}개 파일 실패")
@@ -1237,7 +1198,6 @@ class GitHubReleaseUpdater:
                 self.log_update(
                     'warning', f"{failed_files}개 파일 복사에 실패했지만 업데이트를 계속 진행합니다.")
 
-            # 업데이트 검증: 주요 파일들이 실제로 변경되었는지 확인
             self.log_update('info', "업데이트 검증 중...")
             verification_files = ['main.py',
                                   'utils/updater.py', 'gui/main_window.py']
@@ -1251,7 +1211,6 @@ class GitHubReleaseUpdater:
                     self.log_update(
                         'debug', f"검증 파일 {verify_file}: 크기={file_size}, 수정시간={modify_time}")
 
-                    # 파일 내용 일부 확인 (처음 100자)
                     try:
                         with open(verify_path, 'r', encoding='utf-8') as f:
                             content_preview = f.read(100).replace('\n', '\\n')
@@ -1268,12 +1227,11 @@ class GitHubReleaseUpdater:
             self.log_update(
                 'info', f"업데이트 검증 완료: {verified_files}/{len(verification_files)}개 파일 확인")
 
-            # Python 스크립트 실행 모드 경고
             if not getattr(sys, 'frozen', False):
-                self.log_update('warning', "="*60)
+                self.log_update('warning', "=" * 60)
                 self.log_update('warning', "Python 스크립트 모드 업데이트 완료!")
                 self.log_update('warning', "")
-                self.log_update('warning', "중요: 파일은 업데이트되었지만 현재 실행 중인")
+                self.log_update('warning', "중요: 파일은 교체되었지만 현재 실행 중인")
                 self.log_update('warning', "메모리의 코드는 변경되지 않았습니다.")
                 self.log_update('warning', "")
                 self.log_update('warning', "변경사항을 적용하려면:")
@@ -1281,9 +1239,9 @@ class GitHubReleaseUpdater:
                 self.log_update('warning', "2. run_app.py를 다시 실행")
                 self.log_update('warning', "")
                 self.log_update('warning', "이는 Python의 모듈 로딩 방식 때문입니다.")
-                self.log_update('warning', "="*60)
+                self.log_update('warning', "=" * 60)
 
-            return copied_files > 0  # 최소 1개 파일이라도 복사되면 성공으로 간주
+            return copied_files > 0
 
         except Exception as e:
             self.log_update('error', f"스크립트 업데이트 실패: {str(e)}")
@@ -1341,6 +1299,10 @@ class GitHubReleaseUpdater:
     def cleanup_temp_files(self):
         """임시 파일 정리"""
         try:
+            if getattr(self, "defer_cleanup", False):
+                self.log_update('info', "임시 파일 정리를 배치 스크립트로 지연합니다.")
+                return
+
             if self.temp_dir.exists():
                 shutil.rmtree(self.temp_dir)
                 self.logger.debug("임시 파일 정리 완료")
