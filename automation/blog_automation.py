@@ -119,7 +119,7 @@ class BlogAutomation:
 
         while len(collected_blogs) < target_count and current_page < start_page + max_attempts:
             self.logger.info(
-                f"📄 페이지 {current_page}에서 수집 중... (현재 {len(collected_blogs)}/{target_count}개)")
+                f"페이지 {current_page}에서 수집 중... (현재 {len(collected_blogs)}/{target_count}개)")
 
             # 필요한 개수만큼만 수집
             remaining_needed = target_count - len(collected_blogs)
@@ -162,14 +162,14 @@ class BlogAutomation:
             # 목표 달성 확인
             if len(collected_blogs) >= target_count:
                 self.logger.info(
-                    f"🎯 목표 달성! {len(collected_blogs)}개 새로운 블로그 수집 완료")
+                    f"목표 달성! {len(collected_blogs)}개 새로운 블로그 수집 완료")
                 break
 
             current_page += 1
 
         if len(collected_blogs) < target_count:
             self.logger.warning(
-                f"⚠️ 목표 미달성: {len(collected_blogs)}/{target_count}개만 수집됨 (최대 {max_attempts}페이지 탐색)")
+                f"목표 미달성: {len(collected_blogs)}/{target_count}개만 수집됨 (최대 {max_attempts}페이지 탐색)")
 
         self.logger.info(f"최종 수집 완료: {len(collected_blogs)}개 새로운 블로그")
         return collected_blogs
@@ -187,7 +187,7 @@ class BlogAutomation:
             target_count = config_manager.get('neighbor_count')
             if target_count is None:
                 self.logger.error(
-                    "❌ 이웃 수집 개수가 설정되지 않았습니다. GUI에서 이웃 개수를 설정해주세요.")
+                    "이웃 수집 개수가 설정되지 않았습니다. GUI에서 이웃 개수를 설정해주세요.")
                 return False, "이웃 수집 개수 미설정", []
 
         self.logger.info(f"목표: 새로운 아이디 {target_count}개 수집")
@@ -211,7 +211,7 @@ class BlogAutomation:
 
         while len(collected_new_ids) < target_count and current_page <= max_pages:
             self.logger.info(
-                f"📄 이웃커넥트 페이지 {current_page} 수집 중... (현재 {len(collected_new_ids)}/{target_count}개 새로운 아이디)")
+                f"이웃커넥트 페이지 {current_page} 수집 중... (현재 {len(collected_new_ids)}/{target_count}개 새로운 아이디)")
 
             # 현재 페이지에서 URL 수집
             page_url = f"https://section.blog.naver.com/connect/ViewMoreFollowers.naver?blogId={blog_id}&currentPage={current_page}"
@@ -230,7 +230,7 @@ class BlogAutomation:
 
             if not page_urls:
                 self.logger.warning(
-                    f"❌ 페이지 {current_page}에서 아무 이웃도 찾지 못함 - 더 이상 페이지가 없는 것 같음")
+                    f"페이지 {current_page}에서 아무 이웃도 찾지 못함 - 더 이상 페이지가 없는 것 같음")
                 break
 
             # 블로그 아이디 추출
@@ -265,23 +265,23 @@ class BlogAutomation:
 
             excluded_count = len(page_blog_ids) - len(new_ids_from_page)
             self.logger.info(
-                f"✅ 페이지 {current_page}: 총 {len(page_blog_ids)}개, 이미 추출된 아이디 {excluded_count}개 제외, 새로운 아이디 {len(truly_new_ids)}개 추가")
+                f"페이지 {current_page}: 총 {len(page_blog_ids)}개, 이미 추출된 아이디 {excluded_count}개 제외, 새로운 아이디 {len(truly_new_ids)}개 추가")
             self.logger.info(
-                f"🏃 현재 수집된 새로운 아이디: {len(collected_new_ids)}/{target_count}개")
+                f"현재 수집된 새로운 아이디: {len(collected_new_ids)}/{target_count}개")
 
             # 목표 달성 확인
             if len(collected_new_ids) >= target_count:
                 self.logger.info(
-                    f"🎆 목표 달성! {len(collected_new_ids)}개 새로운 아이디 수집 완료")
+                    f"목표 달성! {len(collected_new_ids)}개 새로운 아이디 수집 완료")
                 break
 
             current_page += 1
 
         if len(collected_new_ids) < target_count:
-            message = f"⚠️ 목표 미달성: {len(collected_new_ids)}/{target_count}개만 수집됨 (최대 {max_pages}페이지 탐색)"
+            message = f"목표 미달성: {len(collected_new_ids)}/{target_count}개만 수집됨 (최대 {max_pages}페이지 탐색)"
             self.logger.warning(message)
         else:
-            message = f"🎯 목표 달성: {len(collected_new_ids)}개 새로운 아이디 수집 완료"
+            message = f"목표 달성: {len(collected_new_ids)}개 새로운 아이디 수집 완료"
             self.logger.info(message)
 
         return True, message, collected_urls
@@ -327,7 +327,7 @@ class BlogAutomation:
 
                 if not self.buddy_manager.buddy_available:
                     self.logger.warning(
-                        f"❌ {blog_name} 모바일 서로이웃 추가 불가능 - 건너뛰기")
+                        f"{blog_name} 모바일 서로이웃 추가 불가능 - 건너뛰기")
                     continue
 
                 # 설정에서 공감/댓글 옵션 확인
@@ -339,7 +339,7 @@ class BlogAutomation:
                 # 공감/댓글이 모두 비활성화된 경우 바로 다음 블로그로
                 if not enable_like and not enable_comment:
                     self.logger.info(
-                        f"🚫 [{blog_name}] 공감/댓글 모두 비활성화 - 서이추만 완료하고 다음 블로그로 이동")
+                        f"[{blog_name}] 공감/댓글 모두 비활성화 - 서이추만 완료하고 다음 블로그로 이동")
                     continue
 
                 # 공감/댓글 중 하나라도 활성화된 경우 게시글로 이동
@@ -347,7 +347,7 @@ class BlogAutomation:
                 latest_post_success = self.buddy_manager.navigate_to_latest_post_mobile(
                     blog_name)
                 if not latest_post_success:
-                    self.logger.warning(f"❌ {blog_name} 최신 게시글 이동 실패 - 건너뛰기")
+                    self.logger.warning(f"{blog_name} 최신 게시글 이동 실패 - 건너뛰기")
                     continue
 
                 # 현재 페이지에서 게시글 상호작용 처리 (모바일 방식)
@@ -402,7 +402,7 @@ class BlogAutomation:
 
                 if not self.buddy_manager.buddy_available:
                     self.logger.warning(
-                        f"❌ {blog_name} 모바일 서로이웃 추가 불가능 - 건너뛰기")
+                        f"{blog_name} 모바일 서로이웃 추가 불가능 - 건너뛰기")
                     continue
 
                 # 설정에서 공감/댓글 옵션 확인
@@ -414,7 +414,7 @@ class BlogAutomation:
                 # 공감/댓글이 모두 비활성화된 경우 바로 다음 블로그로
                 if not enable_like and not enable_comment:
                     self.logger.info(
-                        f"🚫 [{blog_name}] 공감/댓글 모두 비활성화 - 서이추만 완료하고 다음 블로그로 이동")
+                        f"[{blog_name}] 공감/댓글 모두 비활성화 - 서이추만 완료하고 다음 블로그로 이동")
                     continue
 
                 # 공감/댓글 중 하나라도 활성화된 경우 게시글로 이동
@@ -422,7 +422,7 @@ class BlogAutomation:
                 latest_post_success = self.buddy_manager.navigate_to_latest_post_mobile(
                     blog_name)
                 if not latest_post_success:
-                    self.logger.warning(f"❌ {blog_name} 최신 게시글 이동 실패 - 건너뛰기")
+                    self.logger.warning(f"{blog_name} 최신 게시글 이동 실패 - 건너뛰기")
                     continue
 
                 # 현재 페이지에서 게시글 상호작용 처리 (모바일 방식)
@@ -453,7 +453,7 @@ class BlogAutomation:
         """자동화 완료 후 브라우저 드라이버 완전 정리"""
         try:
             if self.driver:
-                self.logger.info("🔄 자동화 완료, 브라우저 정리 중...")
+                self.logger.info("자동화 완료, 브라우저 정리 중...")
 
                 try:
                     all_handles = self.driver.window_handles
@@ -468,7 +468,7 @@ class BlogAutomation:
 
                 try:
                     self.driver.quit()
-                    self.logger.info("✅ 브라우저 드라이버 정리 완료")
+                    self.logger.info("브라우저 드라이버 정리 완료")
                 except:
                     pass
 

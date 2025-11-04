@@ -55,7 +55,7 @@ class NeighborAutomationWorker(QThread):
                 self.error_occurred.emit("네이버 로그인에 실패했습니다.")
                 return
 
-            self.progress_message.emit("✅ 네이버 로그인 성공")
+            self.progress_message.emit(" 네이버 로그인 성공")
 
             for index, blog_id in enumerate(self.blog_ids, 1):
                 if self.isInterruptionRequested():
@@ -167,6 +167,8 @@ class ExtractedIdsWindow(QDialog):
 
         self.setModal(True)
         self.worker = None
+        self.worker_running = False
+        self._stop_requested = False
         self.active_security_popups = []
 
         # 다크 테마 적용
@@ -316,12 +318,28 @@ class ExtractedIdsWindow(QDialog):
         
         layout.addWidget(filter_group)
         
+        # 상단 빠른 선택 버튼
+        quick_select_layout = QHBoxLayout()
+        self.select_50_btn = QPushButton("50개 선택")
+        self.select_50_btn.setFont(font_default)
+        self.select_50_btn.clicked.connect(lambda: self.select_top_items(50))
+        quick_select_layout.addWidget(self.select_50_btn)
+
+        self.select_100_btn = QPushButton("100개 선택")
+        self.select_100_btn.setFont(font_default)
+        self.select_100_btn.clicked.connect(lambda: self.select_top_items(100))
+        quick_select_layout.addWidget(self.select_100_btn)
+
+        quick_select_layout.addStretch()
+        layout.addLayout(quick_select_layout)
+        
         # 테이블
         self.table = QTableWidget()
         self.table.setFont(font_default)
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(["선택", "블로그 아이디", "서이추 상태", "처리 날짜"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.table.setSelectionMode(QAbstractItemView.NoSelection)
         self.table.setAlternatingRowColors(True)
         
         # 테이블 헤더 설정
@@ -409,7 +427,7 @@ class ExtractedIdsWindow(QDialog):
                 color: #999;
             }
         """)
-        self.start_neighbor_btn.clicked.connect(self.start_neighbor_addition)
+        self.start_neighbor_btn.clicked.connect(self.toggle_neighbor_addition)
         action_layout.addWidget(self.start_neighbor_btn)
         action_layout.addStretch()
 
@@ -458,18 +476,19 @@ class ExtractedIdsWindow(QDialog):
         bottom_layout.addWidget(self.close_btn)
         
         layout.addLayout(bottom_layout)
+        self._set_worker_running(False)
 
     def set_controls_enabled(self, enabled: bool):
         """서이추 실행 중 버튼 및 입력 제어"""
         buttons = [
             self.select_all_btn,
             self.deselect_all_btn,
+            self.select_50_btn,
+            self.select_100_btn,
             self.delete_selected_btn,
             self.delete_all_btn,
             self.export_btn,
-            self.refresh_btn,
-            self.close_btn,
-            self.start_neighbor_btn
+            self.refresh_btn
         ]
 
         for button in buttons:
@@ -479,6 +498,82 @@ class ExtractedIdsWindow(QDialog):
         self.search_edit.setEnabled(enabled)
         self.show_success_cb.setEnabled(enabled)
         self.show_fail_cb.setEnabled(enabled)
+        self.close_btn.setEnabled(True)
+        self.start_neighbor_btn.setEnabled(True)
+    
+    def _set_worker_running(self, running: bool):
+        """서이추 진행 상태에 따른 버튼/플래그 업데이트"""
+        self.worker_running = running
+        if running:
+            self.start_neighbor_btn.setText("서이추 중단하기")
+            self.start_neighbor_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #ff914d;
+                    color: white;
+                    border: 1px solid #ff914d;
+                    border-radius: 6px;
+                    padding: 8px 18px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background-color: #ff7f32;
+                    border: 1px solid #ff7f32;
+                }
+                QPushButton:pressed {
+                    background-color: #ff6a1a;
+                }
+                QPushButton:disabled {
+                    background-color: #555;
+                    border: 1px solid #555;
+                    color: #999;
+                }
+            """)
+        else:
+            self.start_neighbor_btn.setText("서이추 시작하기")
+            self.start_neighbor_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #fe4847;
+                    color: white;
+                    border: 1px solid #fe4847;
+                    border-radius: 6px;
+                    padding: 8px 18px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background-color: #e63946;
+                    border: 1px solid #e63946;
+                }
+                QPushButton:pressed {
+                    background-color: #d62828;
+                }
+                QPushButton:disabled {
+                    background-color: #555;
+                    border: 1px solid #555;
+                    color: #999;
+                }
+            """)
+        self.start_neighbor_btn.setEnabled(True)
+    
+    def toggle_neighbor_addition(self):
+        """서이추 시작/중단 토글"""
+        if self.worker and self.worker.isRunning():
+            self.stop_neighbor_addition()
+        else:
+            self.start_neighbor_addition()
+    
+    def stop_neighbor_addition(self):
+        """서이추 중단 요청"""
+        if not (self.worker and self.worker.isRunning()):
+            return
+        
+        self._stop_requested = True
+        self.status_label.setText("서이추 중단을 요청했습니다...")
+        try:
+            self.worker.requestInterruption()
+        except Exception:
+            pass
+        self.start_neighbor_btn.setText("중단 처리 중...")
+        self.start_neighbor_btn.setEnabled(False)
     
     def load_extracted_ids(self):
         """추출된 아이디 목록 로드"""
@@ -512,7 +607,7 @@ class ExtractedIdsWindow(QDialog):
             
             # 블로그 아이디
             id_item = QTableWidgetItem(blog_id)
-            id_item.setFlags(id_item.flags() & ~Qt.ItemIsEditable)
+            id_item.setFlags(id_item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
             self.table.setItem(row, 1, id_item)
             
             # 서이추 상태
@@ -524,7 +619,7 @@ class ExtractedIdsWindow(QDialog):
             # 처리 날짜
             extraction_date = data.get('date', '알 수 없음')
             date_item = QTableWidgetItem(extraction_date)
-            date_item.setFlags(date_item.flags() & ~Qt.ItemIsEditable)
+            date_item.setFlags(date_item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
             self.table.setItem(row, 3, date_item)
         
         # 테이블 높이 조정
@@ -534,9 +629,9 @@ class ExtractedIdsWindow(QDialog):
     def start_neighbor_addition(self):
         """선택된 아이디로 서이추 실행"""
         if self.worker and self.worker.isRunning():
-            QMessageBox.warning(self, "진행 중", "서이추가 이미 진행 중입니다.")
             return
 
+        self._stop_requested = False
         selected_ids = self.get_selected_blog_ids()
 
         if not selected_ids:
@@ -564,6 +659,7 @@ class ExtractedIdsWindow(QDialog):
         self.worker.finished.connect(self.on_neighbor_finished)
         self.worker.error_occurred.connect(self.on_neighbor_error)
 
+        self._set_worker_running(True)
         self.set_controls_enabled(False)
         self.status_label.setText("서이추 준비 중...")
         self.show_security_notice()
@@ -627,37 +723,45 @@ class ExtractedIdsWindow(QDialog):
 
     def on_neighbor_finished(self, success_count: int, total_count: int):
         """서이추 완료 처리"""
+        self._set_worker_running(False)
         self.set_controls_enabled(True)
         self.worker = None
 
         fail_count = max(total_count - success_count, 0)
         summary = (f"서이추 완료: 총 {total_count}개 중 {success_count}개 성공 "
                    f"(실패 {fail_count}개)")
-        self.status_label.setText(summary)
+        if self._stop_requested:
+            self.status_label.setText("서이추가 중단되었습니다. 진행된 결과는 목록에 반영되었습니다.")
+        else:
+            self.status_label.setText(summary)
 
         self.load_extracted_ids()
         self.filter_table()
 
-        QMessageBox.information(
-            self,
-            "서이추 완료",
-            f"서이추가 완료되었습니다.\n\n"
-            f"총 대상: {total_count}개\n"
-            f"성공: {success_count}개\n"
-            f"실패: {fail_count}개"
-        )
+        if not self._stop_requested:
+            QMessageBox.information(
+                self,
+                "서이추 완료",
+                f"서이추가 완료되었습니다.\n\n"
+                f"총 대상: {total_count}개\n"
+                f"성공: {success_count}개\n"
+                f"실패: {fail_count}개"
+            )
+        self._stop_requested = False
 
     def on_neighbor_error(self, message: str):
         """서이추 실행 중 오류 처리"""
+        self._set_worker_running(False)
         self.set_controls_enabled(True)
         self.worker = None
-        self.status_label.setText(f"❌ 오류: {message}")
+        self._stop_requested = False
+        self.status_label.setText(f" 오류: {message}")
         QMessageBox.critical(self, "오류", message)
 
     def _apply_status_style(self, item: QTableWidgetItem, status: str):
         """상태 셀 스타일 적용"""
         item.setText(status)
-        item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+        item.setFlags(item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
 
         # 배경색은 기본 테마 유지, 글자색만 상태별로 구분
         if status == '성공':
@@ -719,6 +823,25 @@ class ExtractedIdsWindow(QDialog):
             checkbox = self.table.cellWidget(row, 0)
             if checkbox:
                 checkbox.setChecked(False)
+    
+    def select_top_items(self, count: int):
+        """상단 N개 항목 선택"""
+        if count <= 0:
+            return
+
+        self.deselect_all_items()
+        selected = 0
+
+        for row in range(self.table.rowCount()):
+            if self.table.isRowHidden(row):
+                continue
+
+            checkbox = self.table.cellWidget(row, 0)
+            if checkbox:
+                checkbox.setChecked(True)
+                selected += 1
+                if selected >= count:
+                    break
     
     def get_selected_blog_ids(self):
         """선택된 블로그 아이디들 반환"""
@@ -797,9 +920,16 @@ class ExtractedIdsWindow(QDialog):
                 QMessageBox.critical(self, "오류", "내보내기 중 오류가 발생했습니다.")
 
     def closeEvent(self, event):
-        """작업 진행 중 창 닫기 방지"""
+        """창 닫기 시 서이추 중단 요청"""
         if self.worker and self.worker.isRunning():
-            QMessageBox.warning(self, "진행 중", "서이추 작업이 진행 중입니다. 완료 후 창을 닫아주세요.")
-            event.ignore()
-            return
+            self.stop_neighbor_addition()
+            if not self.worker.wait(5000):
+                try:
+                    self.worker.terminate()
+                    self.worker.wait(2000)
+                except Exception:
+                    pass
+        if self.worker and not self.worker.isRunning():
+            self.worker = None
+            self._set_worker_running(False)
         super().closeEvent(event)

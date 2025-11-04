@@ -800,11 +800,16 @@ class PostInteraction:
             # div.like_area__afpHi 안에 있는 span.u_likeit_icons._icons 찾기
             like_area = self.driver.find_element(
                 By.CSS_SELECTOR, "div.like_area__afpHi")
-            like_icon = like_area.find_element(
-                By.CSS_SELECTOR, "span.u_likeit_icon._reaction_zeroface")
+            try:
+                like_icon = like_area.find_element(
+                    By.CSS_SELECTOR, "span.u_likeit_icon.__reaction__zeroface")
+            except NoSuchElementException:
+                like_icon = like_area.find_element(
+                    By.CSS_SELECTOR, "span.u_likeit_icon._reaction_zeroface")
 
+            like_class = like_icon.get_attribute("class")
             self.logger.info(
-                f" [{blog_name}] 공감 아이콘 발견 (span.u_likeit_icon._reaction_zeroface)")
+                f" [{blog_name}] 공감 아이콘 발견 (class: {like_class})")
 
             # 공감 아이콘 클릭
             self.logger.info(f" [{blog_name}] 공감 아이콘 클릭 중...")
@@ -886,10 +891,15 @@ class PostInteraction:
             # div.interact_section__y00DX 안에 있는 span.u_likeit_icons 찾기
             self.logger.info(
                 f" [{blog_name}] interact_section 내부 공감 아이콘 검색 중...")
-            like_icon = interact_section.find_element(
-                By.CSS_SELECTOR, "span.u_likeit_icon._reaction_zeroface")
+            try:
+                like_icon = interact_section.find_element(
+                    By.CSS_SELECTOR, "span.u_likeit_icon.__reaction__zeroface")
+            except NoSuchElementException:
+                like_icon = interact_section.find_element(
+                    By.CSS_SELECTOR, "span.u_likeit_icon._reaction_zeroface")
+            like_class = like_icon.get_attribute("class")
             self.logger.info(
-                f" [{blog_name}] interact_section 내부 공감 아이콘 발견")
+                f" [{blog_name}] interact_section 내부 공감 아이콘 발견 (class: {like_class})")
 
             # 여러 방법으로 공감 아이콘 클릭 시도
             self.logger.info(f" [{blog_name}] 공감 아이콘 클릭 시도 중...")

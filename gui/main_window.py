@@ -61,7 +61,7 @@ class AutomationWorker(QThread):
                 self.error_occurred.emit("네이버 로그인에 실패했습니다.")
                 return
 
-            self.progress_updated.emit("✅ 네이버 로그인 성공")
+            self.progress_updated.emit(" 네이버 로그인 성공")
 
             # 2. 블로그 검색
             loading_method = self.config_manager.get(
@@ -96,14 +96,14 @@ class AutomationWorker(QThread):
                 total_found = len(blog_ids)
 
                 if total_found == 0:
-                    self.progress_updated.emit("⚠️ 새로운 블로그 아이디를 찾지 못했습니다.")
+                    self.progress_updated.emit(" 새로운 블로그 아이디를 찾지 못했습니다.")
                     added_count = 0
                 else:
                     added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
                         blog_ids, status="대기")
                     duplicates = total_found - added_count
                     self.progress_updated.emit(
-                        f"✅ 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
+                        f" 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
 
                 self.finished.emit(added_count, total_found)
 
@@ -122,7 +122,7 @@ class AutomationWorker(QThread):
                     self.error_occurred.emit(f"이웃커넥트 수집 실패: {message}")
                     return
 
-                self.progress_updated.emit(f"✅ {message}")
+                self.progress_updated.emit(f" {message}")
 
                 # 이웃 URL들을 블로그 데이터 형태로 변환 (키워드 검색과 동일한 형태)
                 collected_blogs = []
@@ -144,24 +144,24 @@ class AutomationWorker(QThread):
 
                 # 수집된 블로그 이름들을 로그에 표시
                 self.progress_updated.emit(
-                    f"📋 수집된 이웃 블로그들: {', '.join(blog_names[:10])}{'...' if len(blog_names) > 10 else ''}")
+                    f" 수집된 이웃 블로그들: {', '.join(blog_names[:10])}{'...' if len(blog_names) > 10 else ''}")
                 if len(blog_names) > 10:
                     self.progress_updated.emit(
-                        f"📋 총 {len(blog_names)}개 블로그 수집 완료")
+                        f" 총 {len(blog_names)}개 블로그 수집 완료")
 
                 blog_ids = [data.get('blog_name')
                             for data in collected_blogs if data.get('blog_name')]
                 total_found = len(blog_ids)
 
                 if total_found == 0:
-                    self.progress_updated.emit("⚠️ 새로운 블로그 아이디를 찾지 못했습니다.")
+                    self.progress_updated.emit(" 새로운 블로그 아이디를 찾지 못했습니다.")
                     added_count = 0
                 else:
                     added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
                         blog_ids, status="대기")
                     duplicates = total_found - added_count
                     self.progress_updated.emit(
-                        f"✅ 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
+                        f" 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
 
                 self.finished.emit(added_count, total_found)
 
@@ -1172,6 +1172,11 @@ class MainWindow(QMainWindow):
             self.config_manager.set(
                 'neighbor_message', self.neighbor_message_edit.toPlainText().strip())
 
+            # 공감/댓글 체크박스 설정
+            self.config_manager.set('enable_like', self.like_checkbox.isChecked())
+            self.config_manager.set(
+                'enable_comment', self.comment_checkbox.isChecked())
+
             if self.ai_radio.isChecked():
                 comment_option = 'ai'
             elif self.random_radio.isChecked():
@@ -1324,13 +1329,13 @@ class MainWindow(QMainWindow):
             naver_id = self.config_manager.get('naver_id', '').strip()
             if not naver_id:
                 QMessageBox.warning(
-                    self, "⚠️ 경고", "🔑 네이버 아이디가 설정되지 않았습니다.\n\n계정 설정을 먼저 해주세요.")
+                    self, " 경고", " 네이버 아이디가 설정되지 않았습니다.\n\n계정 설정을 먼저 해주세요.")
                 return
 
             # 페이지 선택 다이얼로그 표시
             input_dialog = QInputDialog(self)
-            input_dialog.setWindowTitle("📄 페이지 선택")
-            input_dialog.setLabelText("🔙 뒤에서부터 몇 페이지를 취소할까요?")
+            input_dialog.setWindowTitle(" 페이지 선택")
+            input_dialog.setLabelText(" 뒤에서부터 몇 페이지를 취소할까요?")
             input_dialog.setIntValue(1)
             input_dialog.setIntMinimum(1)
             input_dialog.setIntMaximum(50)
@@ -1349,9 +1354,9 @@ class MainWindow(QMainWindow):
 
             # 확인 다이얼로그
             msg_box = QMessageBox(self)
-            msg_box.setWindowTitle("❓ 중요 확인")
+            msg_box.setWindowTitle(" 중요 확인")
             msg_box.setText(
-                f"🚨 뒤에서부터 {pages}페이지의 서이추 신청을 모두 취소하시겠습니까?\n\n⚠️ 이 작업은 취소할 수 없습니다.")
+                f" 뒤에서부터 {pages}페이지의 서이추 신청을 모두 취소하시겠습니까?\n\n 이 작업은 취소할 수 없습니다.")
             msg_box.setIcon(QMessageBox.Question)
 
             # 커스텀 버튼 추가
@@ -1365,15 +1370,15 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             QMessageBox.critical(
-                self, "❌ 오류", f"😱 자동 취소 시작 중 오류가 발생했습니다:\n\n{str(e)}")
+                self, " 오류", f" 자동 취소 시작 중 오류가 발생했습니다:\n\n{str(e)}")
 
     def execute_auto_cancel(self, naver_id, pages):
         """서이추 신청 자동 취소 실행"""
         try:
             # 프로그레스 다이얼로그 생성
             progress = QProgressDialog(
-                f"🚫 {pages}페이지 서이추 신청 취소 중...", "중단하기", 0, pages, self)
-            progress.setWindowTitle("🔄 서이추 신청 자동 취소")
+                f" {pages}페이지 서이추 신청 취소 중...", "중단하기", 0, pages, self)
+            progress.setWindowTitle(" 서이추 신청 자동 취소")
             progress.setWindowModality(Qt.WindowModal)
             progress.setMinimumWidth(400)
             progress.setMinimumHeight(120)
@@ -1411,7 +1416,7 @@ class MainWindow(QMainWindow):
                     break
 
                 progress.setValue(page_num)
-                progress.setLabelText(f"🔄 페이지 {page_num + 1}/{pages} 처리 중...")
+                progress.setLabelText(f" 페이지 {page_num + 1}/{pages} 처리 중...")
 
                 if cancel_manager.cancel_buddy_requests_page(naver_id):
                     success_count += 1
@@ -1421,11 +1426,11 @@ class MainWindow(QMainWindow):
 
             # 결과 메시지
             if success_count == pages:
-                QMessageBox.information(self, "✅ 완료",
-                                        f"🎉 서이추 신청 취소 완료!\n\n📊 결과: {success_count}/{pages}페이지 성공")
+                QMessageBox.information(self, " 완료",
+                                        f" 서이추 신청 취소 완료!\n\n 결과: {success_count}/{pages}페이지 성공")
             else:
-                QMessageBox.information(self, "⚠️ 부분 완료",
-                                        f"📊 서이추 신청 취소 결과\n\n성공: {success_count}/{pages}페이지\n일부 페이지에서 문제가 발생했을 수 있습니다.")
+                QMessageBox.information(self, " 부분 완료",
+                                        f" 서이추 신청 취소 결과\n\n성공: {success_count}/{pages}페이지\n일부 페이지에서 문제가 발생했을 수 있습니다.")
 
         except Exception as e:
             QMessageBox.critical(
@@ -1473,7 +1478,7 @@ class MainWindow(QMainWindow):
             # 자동화 시작 전에 현재 설정을 자동으로 저장
             try:
                 self.save_current_settings()
-                self.log_message("✅ 설정 자동 저장 완료")
+                self.log_message(" 설정 자동 저장 완료")
             except Exception as e:
                 QMessageBox.critical(
                     self, "오류", f"설정 저장 중 오류가 발생했습니다: {str(e)}")
@@ -1537,7 +1542,7 @@ class MainWindow(QMainWindow):
         if self.automation_worker:
             if force and self.automation_worker.isRunning():
                 self.automation_worker.requestInterruption()
-                self.log_message("🛑 아이디 추출 중지 요청 전송")
+                self.log_message(" 아이디 추출 중지 요청 전송")
 
             if not self.automation_worker.isRunning():
                 self.on_worker_cleanup_done()
@@ -1552,7 +1557,7 @@ class MainWindow(QMainWindow):
 
         self.log_message("=== 아이디 추출 완료 ===")
         self.log_message(
-            f"📊 추출 결과: 총 {total_count}개, 신규 {success_count}개, 기존 {duplicate_count}개")
+            f" 추출 결과: 총 {total_count}개, 신규 {success_count}개, 기존 {duplicate_count}개")
 
         QMessageBox.information(
             self,
@@ -1566,7 +1571,7 @@ class MainWindow(QMainWindow):
     def on_automation_error(self, error_msg):
         """아이디 추출 오류 처리"""
         self.stop_automation()
-        self.log_message(f"❌ 오류: {error_msg}")
+        self.log_message(f" 오류: {error_msg}")
         QMessageBox.critical(self, "오류", error_msg)
 
     def show_security_notice(self):
@@ -1644,7 +1649,7 @@ class MainWindow(QMainWindow):
 
             if result['valid']:
                 QMessageBox.information(
-                    self, "검증 완료", f"✅ {result['message']}")
+                    self, "검증 완료", f" {result['message']}")
                 # 검증 성공 시 설정 저장
                 license_settings = self.config_manager.get(
                     'license_settings', {})
@@ -1654,7 +1659,7 @@ class MainWindow(QMainWindow):
                 self.config_manager.set('license_settings', license_settings)
                 self.config_manager.save_config()
             else:
-                QMessageBox.warning(self, "검증 실패", f"❌ {result['message']}")
+                QMessageBox.warning(self, "검증 실패", f" {result['message']}")
 
             self.update_license_status()
 

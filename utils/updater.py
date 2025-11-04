@@ -1462,7 +1462,7 @@ rm "$0"
                 restart_message = f"업데이트가 완료되었습니다! ({total_time:.1f}초 소요)\n\n변경사항을 적용하려면 프로그램을 재시작해야 합니다.\n\n지금 재시작하시겠습니까?"
             else:
                 # Python 스크립트 모드
-                restart_message = f"업데이트가 완료되었습니다! ({total_time:.1f}초 소요)\n\n⚠️ Python 스크립트 모드 안내:\n파일은 업데이트되었지만 현재 메모리의 코드는 변경되지 않습니다.\n\n변경사항을 확인하려면:\n1. 이 프로그램을 완전히 종료\n2. run_app.py를 다시 실행\n\n지금 프로그램을 종료하시겠습니까?"
+                restart_message = f"업데이트가 완료되었습니다! ({total_time:.1f}초 소요)\n\n Python 스크립트 모드 안내:\n파일은 업데이트되었지만 현재 메모리의 코드는 변경되지 않습니다.\n\n변경사항을 확인하려면:\n1. 이 프로그램을 완전히 종료\n2. run_app.py를 다시 실행\n\n지금 프로그램을 종료하시겠습니까?"
 
             reply = QMessageBox.question(
                 parent_widget,
