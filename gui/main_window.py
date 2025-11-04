@@ -91,7 +91,8 @@ class AutomationWorker(QThread):
                     self.error_occurred.emit("블로그 검색 및 수집에 실패했습니다.")
                     return
 
-                blog_ids = [blog.get('blog_name') for blog in collected_blogs if blog.get('blog_name')]
+                blog_ids = [blog.get('blog_name')
+                            for blog in collected_blogs if blog.get('blog_name')]
                 total_found = len(blog_ids)
 
                 if total_found == 0:
@@ -148,7 +149,8 @@ class AutomationWorker(QThread):
                     self.progress_updated.emit(
                         f"📋 총 {len(blog_names)}개 블로그 수집 완료")
 
-                blog_ids = [data.get('blog_name') for data in collected_blogs if data.get('blog_name')]
+                blog_ids = [data.get('blog_name')
+                            for data in collected_blogs if data.get('blog_name')]
                 total_found = len(blog_ids)
 
                 if total_found == 0:
@@ -219,7 +221,7 @@ class MainWindow(QMainWindow):
                     os.path.dirname(os.path.abspath(__file__)))
 
             # ICO 파일을 우선 시도, 없으면 PNG 사용
-            ico_path = os.path.join(base_path, "image", "logo.ico")
+            ico_path = os.path.join(base_path, "image", "logo.png")
             if os.path.exists(ico_path):
                 self.setWindowIcon(QIcon(ico_path))
         except:
@@ -481,7 +483,7 @@ class MainWindow(QMainWindow):
                     os.path.dirname(os.path.abspath(__file__)))
 
             # 로고 파일 경로
-            logo_path = os.path.join(base_path, "image", "logo.ico")
+            logo_path = os.path.join(base_path, "image", "logo.png")
             print(f"DEBUG: logo_path = {logo_path}")
             print(f"DEBUG: logo file exists = {os.path.exists(logo_path)}")
 
@@ -574,7 +576,7 @@ class MainWindow(QMainWindow):
         tab2 = self.create_settings_tab()
         tab3 = self.create_automation_tab()
 
-        tab_widget.addTab(tab1, "1. 진짜 되냐?")
+        tab_widget.addTab(tab1, "1. 기본 설정")
         tab_widget.addTab(tab2, "2. 상세 설정")
         tab_widget.addTab(tab3, "3. 자동화 실행")
 
@@ -998,7 +1000,8 @@ class MainWindow(QMainWindow):
                 border: 2px solid #222;
             }
         """)
-        self.view_extracted_users_btn.clicked.connect(self.show_extracted_users)
+        self.view_extracted_users_btn.clicked.connect(
+            self.show_extracted_users)
         control_layout.addWidget(self.view_extracted_users_btn)
 
         self.progress_bar = QProgressBar()
