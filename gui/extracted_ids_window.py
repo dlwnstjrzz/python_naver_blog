@@ -167,6 +167,7 @@ class ExtractedIdsWindow(QDialog):
 
         self.setModal(True)
         self.worker = None
+        self.active_security_popups = []
 
         # 다크 테마 적용
         self.setStyleSheet("""
@@ -565,7 +566,33 @@ class ExtractedIdsWindow(QDialog):
 
         self.set_controls_enabled(False)
         self.status_label.setText("서이추 준비 중...")
+        self.show_security_notice()
         self.worker.start()
+
+    def show_security_notice(self):
+        """보안문자 안내 팝업을 5초간 표시"""
+        notice_text = ("자동입력 방지 문자 페이지가 나타날 경우\n"
+                       "비밀번호 재입력과 보안문자 해제를 직접 입력해주세요.")
+
+        popup = QMessageBox(self)
+        popup.setWindowTitle("보안문자 안내")
+        popup.setText(notice_text)
+        popup.setIcon(QMessageBox.Information)
+        popup.setStandardButtons(QMessageBox.Ok)
+        popup.setModal(False)
+
+        popup_font = QFont(popup.font())
+        popup_font.setPointSize(popup_font.pointSize() + 2)
+        popup.setFont(popup_font)
+        popup.show()
+
+        self.active_security_popups.append(popup)
+
+        def remove_popup():
+            if popup in self.active_security_popups:
+                self.active_security_popups.remove(popup)
+
+        popup.finished.connect(lambda _: remove_popup())
 
     def on_neighbor_progress(self, message: str):
         """서이추 진행 상황 업데이트"""

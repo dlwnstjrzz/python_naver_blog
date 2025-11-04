@@ -12,7 +12,7 @@
     "오늘도 좋은 하루 되세요 {nickname}님!",
     "항상 좋은 글 감사드려요 {nickname}님^^"
   ],
-  "wait_time": 6,
+  "wait_time": 5,
   "scroll_settings": {
     "scroll_count": 3,
     "scroll_delay": 2
@@ -40,8 +40,8 @@
   "neighbor_count": 10,
   "secret_comment": true,
   "gemini_api_key": "AIzaSyCcW8fAIvjygRzpXp7_WE5oAA5mFMbkC_Q",
-  "enable_like": false,
-  "enable_comment": false,
+  "enable_like": true,
+  "enable_comment": true,
   "comment_type": "ai",
   "update_settings": {
     "github_repo": "dlwnstjrzz/python_naver_blog",
@@ -51,8 +51,8 @@
     "auto_restart_after_update": true
   },
   "license_settings": {
-    "license_key": "NBL-2024-TEST001",
+    "license_key": "SVV32FR5XH9M",
     "validate_on_startup": true,
-    "last_validation": "2025-09-22 17:12:51"
+    "last_validation": "2025-10-27 20:32:45"
   }
 }

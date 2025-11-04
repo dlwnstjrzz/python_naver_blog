@@ -34,7 +34,7 @@ class AICommentGenerator:
             if self.logger:
                 self.logger.info("genai.configure() 완료")
 
-            self.model = genai.GenerativeModel('gemini-2.5-flash')
+            self.model = genai.GenerativeModel('gemini-2.5-flash-lite')
             if self.logger:
                 self.logger.info(" Gemini API 초기화 완료 - GenerativeModel 생성 성공")
         except Exception as e:

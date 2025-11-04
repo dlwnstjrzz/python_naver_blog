@@ -185,6 +185,7 @@ class MainWindow(QMainWindow):
         self.config_manager = ConfigManager()
         self.automation_worker = None
         self.is_running = False
+        self.active_security_popups = []
 
         self.init_ui()
         # load_settings는 UI 초기화 후에 호출
@@ -1507,6 +1508,7 @@ class MainWindow(QMainWindow):
             self.progress_bar.setRange(0, 0)  # 무한 진행바
 
             self.log_message("=== 아이디 추출 시작 ===")
+            self.show_security_notice()
 
             # 워커 스레드 시작
             self.automation_worker = AutomationWorker(self.config_manager)
@@ -1563,6 +1565,31 @@ class MainWindow(QMainWindow):
         self.stop_automation()
         self.log_message(f"❌ 오류: {error_msg}")
         QMessageBox.critical(self, "오류", error_msg)
+
+    def show_security_notice(self):
+        """보안문자 안내 팝업을 5초간 표시"""
+        notice_text = ("자동입력 방지 문자 페이지가 나타날 경우\n"
+                       "비밀번호 재입력과 보안문자 해제를 직접 입력해주세요.")
+
+        popup = QMessageBox(self)
+        popup.setWindowTitle("보안문자 안내")
+        popup.setText(notice_text)
+        popup.setIcon(QMessageBox.Information)
+        popup.setStandardButtons(QMessageBox.Ok)
+        popup.setModal(False)
+
+        popup_font = QFont(popup.font())
+        popup_font.setPointSize(popup_font.pointSize() + 2)
+        popup.setFont(popup_font)
+        popup.show()
+
+        self.active_security_popups.append(popup)
+
+        def remove_popup():
+            if popup in self.active_security_popups:
+                self.active_security_popups.remove(popup)
+
+        popup.finished.connect(lambda _: remove_popup())
 
     def on_worker_cleanup_done(self):
         """워커 스레드 종료 후 참조 정리"""
