@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import math
 from datetime import datetime, timezone
 from typing import Any, Dict
 
@@ -38,13 +39,15 @@ def _calculate_days_remaining(activation: Dict[str, Any]) -> int:
         if expires_at.tzinfo is None:
             expires_at = expires_at.replace(tzinfo=timezone.utc)
         delta = expires_at - now
-        return max(0, delta.days)
+        remaining_days = math.ceil(delta.total_seconds() / (24 * 60 * 60))
+        return max(0, remaining_days)
 
     remaining_ms = activation.get("remainingTimeMs")
     if isinstance(remaining_ms, (int, float)):
         # 이전 Firebase 로직과 유사하게 일(day) 단위로 내림 처리
         millis_per_day = 24 * 60 * 60 * 1000
-        return max(0, int(remaining_ms // millis_per_day))
+        remaining_days = math.ceil(remaining_ms / millis_per_day)
+        return max(0, int(remaining_days))
 
     return 0
 
@@ -56,9 +59,6 @@ def _success_message(activation: Dict[str, Any], days_remaining: int) -> str:
 
     if days_remaining > 0:
         return f"라이선스가 유효합니다. (남은 일수: {days_remaining}일)"
-
-    if activation.get("expiresAt"):
-        return "라이선스 만료 임박입니다."
 
     return "라이선스가 유효합니다."
 
