@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 자동 업데이트 모듈
 서버에서 업데이트를 확인하고 다운로드하여 설치하는 기능 제공
@@ -741,7 +741,7 @@ class GitHubReleaseUpdater:
 
     def _initialize_preserve_targets(self):
         """업데이트 시 보존할 파일/디렉토리 집합 초기화"""
-        defaults = {'config/settings.json', 'backups', 'logs', '.git'}
+        defaults = {'config/settings.json', 'settings.json', 'data/extracted_blog_ids.json', 'backups', 'logs', '.git'}
         combined = set()
         combined.update(defaults)
         combined.update({str(entry) for entry in self.user_preserve_paths if entry})
