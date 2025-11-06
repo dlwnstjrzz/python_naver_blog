@@ -1,69 +1,69 @@
-import json
-import os
+﻿import os
 from datetime import datetime
-from typing import Set, List, Dict
+from typing import Dict, List
+
+from utils.config_manager import ConfigManager
 
 
 class ExtractedIdsManager:
-    """추출된 블로그 아이디들을 관리하는 클래스"""
-    
-    def __init__(self, file_path: str = "data/extracted_blog_ids.json"):
-        self.file_path = file_path
-        self.data_dir = os.path.dirname(file_path)
-        self.extracted_ids: Dict[str, str] = {}  # {blog_id: extraction_date}
-        
-        # 데이터 디렉토리 생성
-        if not os.path.exists(self.data_dir):
-            os.makedirs(self.data_dir)
-        
-        # 기존 데이터 로드
+    """추출된 블로그 아이디 목록을 settings.json으로 관리한다."""
+
+    def __init__(self, config_manager: ConfigManager = None, config_key: str = "extracted_blog_ids"):
+        self.config_manager = config_manager or ConfigManager()
+        self.config_key = config_key
+        self.extracted_ids: Dict[str, Dict[str, str]] = {}
+
         self._load_data()
-    
+
     def _load_data(self):
-        """파일에서 추출된 아이디 데이터 로드"""
+        """설정 파일에서 추출된 아이디 정보를 불러온다."""
         try:
-            if os.path.exists(self.file_path):
-                with open(self.file_path, 'r', encoding='utf-8') as f:
-                    loaded_data = json.load(f)
-                    
-                    # 기존 데이터 형식과의 호환성 처리
-                    self.extracted_ids = {}
-                    for blog_id, data in loaded_data.items():
-                        if isinstance(data, str):
-                            # 기존 형식 (날짜 문자열)
-                            self.extracted_ids[blog_id] = {
-                                "date": data,
-                                "status": "성공"  # 기존 데이터는 모두 성공으로 간주
-                            }
-                        elif isinstance(data, dict):
-                            # 새 형식 (딕셔너리)
-                            self.extracted_ids[blog_id] = data
-                        else:
-                            # 예외 상황
-                            self.extracted_ids[blog_id] = {
-                                "date": "알 수 없음",
-                                "status": "성공"
-                            }
+            raw_data = self.config_manager.get(self.config_key, {})
+
+            if not isinstance(raw_data, dict):
+                raw_data = {}
+
+            normalized: Dict[str, Dict[str, str]] = {}
+            for blog_id, data in raw_data.items():
+                if isinstance(data, dict):
+                    normalized[blog_id] = {
+                        "date": data.get("date", "날짜 없음"),
+                        "status": data.get("status", "성공")
+                    }
+                elif isinstance(data, str):
+                    normalized[blog_id] = {
+                        "date": data,
+                        "status": "성공"
+                    }
+                else:
+                    normalized[blog_id] = {
+                        "date": "날짜 없음",
+                        "status": "성공"
+                    }
+
+            self.extracted_ids = normalized
+
+            if normalized != raw_data:
+                self._save_data()
         except Exception as e:
-            print(f"추출된 아이디 데이터 로드 중 오류: {e}")
+            print(f"추출된 블로그 아이디 로드 중 오류: {e}")
             self.extracted_ids = {}
-    
+
     def _save_data(self):
-        """추출된 아이디 데이터를 파일에 저장"""
+        """현재 추출된 아이디 정보를 settings.json에 저장한다."""
         try:
-            with open(self.file_path, 'w', encoding='utf-8') as f:
-                json.dump(self.extracted_ids, f, ensure_ascii=False, indent=2)
-            return True
+            self.config_manager.set(self.config_key, self.extracted_ids)
+            return self.config_manager.save_config()
         except Exception as e:
-            print(f"추출된 아이디 데이터 저장 중 오류: {e}")
+            print(f"추출된 블로그 아이디 저장 중 오류: {e}")
             return False
-    
+
     def add_extracted_ids(self, blog_ids: List[str], success: bool = True, status: str = None) -> int:
-        """새로 추출된 블로그 아이디들을 추가"""
+        """새로 수집한 블로그 아이디를 추가한다."""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         status_value = status if status is not None else ("성공" if success else "실패")
         added_count = 0
-        
+
         for blog_id in blog_ids:
             if blog_id not in self.extracted_ids:
                 self.extracted_ids[blog_id] = {
@@ -71,18 +71,19 @@ class ExtractedIdsManager:
                     "status": status_value
                 }
                 added_count += 1
-        
+
         if added_count > 0:
             self._save_data()
 
         return added_count
 
     def reload(self):
-        """외부에서 변경된 데이터를 다시 로드"""
+        """외부에서 설정 파일이 수정된 경우 다시 불러온다."""
+        self.config_manager.config = self.config_manager.load_config()
         self._load_data()
 
     def update_status(self, blog_id: str, success: bool = True, status: str = None) -> bool:
-        """특정 블로그 아이디의 상태를 업데이트"""
+        """특정 블로그 아이디의 상태를 갱신한다."""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         status_value = status if status is not None else ("성공" if success else "실패")
 
@@ -96,53 +97,52 @@ class ExtractedIdsManager:
             self.extracted_ids[blog_id]["status"] = status_value
 
         return self._save_data()
-    
+
     def filter_new_ids(self, blog_ids: List[str]) -> List[str]:
-        """이미 추출된 아이디들을 제외한 새로운 아이디들만 반환"""
-        new_ids = [blog_id for blog_id in blog_ids if blog_id not in self.extracted_ids]
-        return new_ids
-    
+        """이미 추출된 아이디를 제외한 새 아이디만 반환한다."""
+        return [blog_id for blog_id in blog_ids if blog_id not in self.extracted_ids]
+
     def is_extracted(self, blog_id: str) -> bool:
-        """특정 블로그 아이디가 이미 추출되었는지 확인"""
+        """아이디가 이미 추출되었는지 여부를 반환한다."""
         return blog_id in self.extracted_ids
-    
-    def get_all_extracted_ids(self) -> Dict[str, str]:
-        """모든 추출된 아이디와 추출 날짜 반환"""
+
+    def get_all_extracted_ids(self) -> Dict[str, Dict[str, str]]:
+        """전체 추출 목록을 복사본으로 돌려준다."""
         return self.extracted_ids.copy()
-    
+
     def get_extracted_count(self) -> int:
-        """추출된 아이디 총 개수"""
+        """총 추출된 아이디 수를 반환한다."""
         return len(self.extracted_ids)
-    
+
     def remove_extracted_id(self, blog_id: str) -> bool:
-        """특정 블로그 아이디를 추출 목록에서 제거"""
+        """특정 아이디를 목록에서 제거한다."""
         if blog_id in self.extracted_ids:
             del self.extracted_ids[blog_id]
             self._save_data()
             return True
         return False
-    
+
     def remove_multiple_ids(self, blog_ids: List[str]) -> int:
-        """여러 블로그 아이디들을 추출 목록에서 제거"""
+        """여러 아이디를 한꺼번에 제거한다."""
         removed_count = 0
-        
+
         for blog_id in blog_ids:
             if blog_id in self.extracted_ids:
                 del self.extracted_ids[blog_id]
                 removed_count += 1
-        
+
         if removed_count > 0:
             self._save_data()
-        
+
         return removed_count
-    
+
     def clear_all_extracted_ids(self) -> bool:
-        """모든 추출된 아이디 목록 초기화"""
+        """전체 목록을 초기화한다."""
         self.extracted_ids = {}
         return self._save_data()
-    
+
     def get_statistics(self) -> Dict:
-        """추출된 아이디 통계 정보"""
+        """추출된 아이디 통계를 반환한다."""
         if not self.extracted_ids:
             return {
                 'total_count': 0,
@@ -166,29 +166,32 @@ class ExtractedIdsManager:
             'oldest_date': min(dates) if dates else None,
             'newest_date': max(dates) if dates else None
         }
-    
+
     def export_to_text(self, export_path: str = None) -> str:
-        """추출된 아이디 목록을 텍스트 파일로 내보내기"""
+        """추출된 아이디 목록을 텍스트 파일로 저장한다."""
         if export_path is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             export_path = f"data/extracted_ids_export_{timestamp}.txt"
-        
+
         try:
+            export_dir = os.path.dirname(export_path)
+            if export_dir:
+                os.makedirs(export_dir, exist_ok=True)
+
             stats = self.get_statistics()
             with open(export_path, 'w', encoding='utf-8') as f:
-                f.write(f"추출된 블로그 아이디 목록 (총 {stats['total_count']}개)\n")
+                f.write(f"추출된 블로그 아이디 목록 (총 {stats['total_count']}건)\n")
                 f.write(
-                    f"성공: {stats['success_count']}개, 실패: {stats['fail_count']}개, 대기: {stats['pending_count']}개\n"
+                    f"성공: {stats['success_count']}건, 실패: {stats['fail_count']}건, 보류: {stats['pending_count']}건\n"
                 )
                 f.write("=" * 60 + "\n")
-                f.write(f"내보내기 시간: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-                
-                # 날짜순으로 정렬하여 출력
+                f.write(f"생성 시각: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+
                 sorted_items = sorted(self.extracted_ids.items(), key=lambda x: x[1]['date'])
                 for blog_id, data in sorted_items:
                     f.write(f"{blog_id}\t{data['date']}\t{data['status']}\n")
-            
+
             return export_path
         except Exception as e:
-            print(f"텍스트 내보내기 중 오류: {e}")
+            print(f"텍스트 내보내기 실패: {e}")
             return None

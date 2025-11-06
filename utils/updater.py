@@ -780,10 +780,13 @@ class GitHubReleaseUpdater:
 
     def _initialize_preserve_targets(self):
         """업데이트 시 보존할 파일/디렉토리 집합 초기화"""
-        defaults = {'config/settings.json',
-                    'settings.json',
-                    'data/extracted_blog_ids.json',
-                    'backups', 'logs', '.git'}
+        defaults = {
+            'config/settings.json',
+            'settings.json',
+            'backups',
+            'logs',
+            '.git'
+        }
         combined = set()
         combined.update(defaults)
         combined.update({str(entry)
@@ -1576,5 +1579,6 @@ rm "$0"
 
 # 호환성을 위한 별칭
 AutoUpdater = GitHubReleaseUpdater
+
 
 

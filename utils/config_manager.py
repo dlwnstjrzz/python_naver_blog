@@ -67,5 +67,6 @@ class ConfigManager:
             "scroll_settings": {
                 "scroll_count": 3,
                 "scroll_delay": 2
-            }
+            },
+            "extracted_blog_ids": {}
         }
