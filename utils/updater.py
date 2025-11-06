@@ -902,6 +902,9 @@ class GitHubReleaseUpdater:
             windows_preserve_dirs = [str(path).replace(
                 '/', '\\') for path in sorted(self.preserve_dirs)]
 
+            self.log_update('info', f"Windows preserve files: {windows_preserve_files}")
+            self.log_update('info', f"Windows preserve dirs: {windows_preserve_dirs}")
+
             robocopy_file_parts = [
                 'update_installer.bat', 'update_installer.sh']
             for item in windows_preserve_files:
@@ -932,6 +935,7 @@ class GitHubReleaseUpdater:
                     f'"{item}"' for item in windows_preserve_files) + ') do (\n'
                 preserve_backup_block += '    if not "%%~F"=="" if exist "%TARGET_DIR%\\%%~F" (\n'
                 preserve_backup_block += '        if not exist "%PRESERVE_BACKUP%\\%%~dpF" mkdir "%PRESERVE_BACKUP%\\%%~dpF" >nul 2>&1\n'
+                preserve_backup_block += '        echo [BACKUP] Preserving %TARGET_DIR%\\%%~F -> %PRESERVE_BACKUP%\\%%~F\n'
                 preserve_backup_block += '        copy "%TARGET_DIR%\\%%~F" "%PRESERVE_BACKUP%\\%%~F" >nul 2>&1\n'
                 preserve_backup_block += '    )\n'
                 preserve_backup_block += ')\n'
@@ -942,6 +946,7 @@ class GitHubReleaseUpdater:
                     f'"{item}"' for item in windows_preserve_files) + ') do (\n'
                 restore_backup_block += '    if exist "%PRESERVE_BACKUP%\\%%~F" (\n'
                 restore_backup_block += '        if not exist "%TARGET_DIR%\\%%~dpF" mkdir "%TARGET_DIR%\\%%~dpF" >nul 2>&1\n'
+                restore_backup_block += '        echo [RESTORE] Restoring %PRESERVE_BACKUP%\\%%~F -> %TARGET_DIR%\\%%~F\n'
                 restore_backup_block += '        copy "%PRESERVE_BACKUP%\\%%~F" "%TARGET_DIR%\\%%~F" >nul 2>&1\n'
                 restore_backup_block += '    )\n'
                 restore_backup_block += ')\n'
@@ -963,6 +968,10 @@ class GitHubReleaseUpdater:
                     f'set "ACTUAL_SOURCE={source_root}"',
                     f'set "TEMP_ROOT={self.temp_dir}"',
                     'set "PRESERVE_BACKUP=%TARGET_DIR%\\preserve_backup"',
+                    'echo [INFO] TARGET_DIR=%TARGET_DIR%',
+                    'echo [INFO] ACTUAL_SOURCE=%ACTUAL_SOURCE%',
+                    'echo [INFO] TEMP_ROOT=%TEMP_ROOT%',
+                    'echo [INFO] PRESERVE_BACKUP=%PRESERVE_BACKUP%',
                     '',
                     'echo ========================================',
                     'echo 네이버 블로그 자동화 프로그램 업데이트',
@@ -976,7 +985,9 @@ class GitHubReleaseUpdater:
                     ')',
                     '',
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%"',
+                    'echo [INFO] Preparing preserve backup directory',
                     'mkdir "%PRESERVE_BACKUP%" >nul 2>&1',
+                    'if exist "%PRESERVE_BACKUP%" echo [INFO] Preserve backup ready: %PRESERVE_BACKUP%',
                     '',
                 ]
                 if preserve_backup_block:
@@ -990,6 +1001,7 @@ class GitHubReleaseUpdater:
                     'set "ROBOCOPY_OPTS=/MIR /R:2 /W:2 /NFL /NDL /NP /NJH /NJS"',
                     robocopy_exclude_dirs_line,
                     robocopy_exclude_files_line,
+                    'echo [INFO] Robocopy options: %ROBOCOPY_OPTS% %ROBOCOPY_EXCLUDE_DIRS% %ROBOCOPY_EXCLUDE_FILES%',
                     '',
                     'echo 새 파일 동기화 중... 잠시만 기다려주세요.',
                     'robocopy "%ACTUAL_SOURCE%" "%TARGET_DIR%" %ROBOCOPY_OPTS% %ROBOCOPY_EXCLUDE_DIRS% %ROBOCOPY_EXCLUDE_FILES%',
@@ -1003,6 +1015,7 @@ class GitHubReleaseUpdater:
                     script_lines.append(restore_backup_block.rstrip('\n'))
                     script_lines.append('')
                 script_lines.extend([
+                    'echo [INFO] Robocopy completed with code %ROBOCOPY_RESULT%',
                     'if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1',
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
                     '',
@@ -1013,6 +1026,7 @@ class GitHubReleaseUpdater:
                     '',
                     ':restore_backup',
                     'echo 업데이트 중 오류가 발생했습니다. 백업을 복원합니다.',
+                    'echo [INFO] Attempting to restore preserved files...',
                     'if exist "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" (',
                     '    copy "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" >nul 2>&1',
                     ')',
