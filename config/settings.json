@@ -1,6 +1,6 @@
 {
-  "naver_id": "",
-  "naver_password": "",
+  "naver_id": "asdfasdf",
+  "naver_password": "dfdfd",
   "search_keywords": [],
   "blog_count": 10,
   "neighbor_message": "안녕하세요! {nickname}님 서로이웃 해요!",
@@ -19,7 +19,7 @@
   },
   "test_key": "test_value",
   "loading_method": "keyword",
-  "search_keyword": "고양이 사료",
+  "search_keyword": "gdgd",
   "neighbor_collection_count": 10,
   "collected_blogs": [],
   "start_page": 1,
