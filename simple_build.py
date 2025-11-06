@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """PyInstaller helper script without Firebase packaging."""
 
 import os
@@ -19,6 +19,7 @@ def build_executable() -> bool:
         "--add-data=config:config",
         "--add-data=data:data",
         "--add-data=image:image",
+        "--icon=image/logo.ico",
         "--hidden-import=selenium",
         "--hidden-import=webdriver_manager",
         "--hidden-import=PyQt5",
@@ -55,3 +56,4 @@ if __name__ == "__main__":
     success = build_executable()
     if not success:
         sys.exit(1)
+
