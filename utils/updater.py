@@ -781,6 +781,7 @@ class GitHubReleaseUpdater:
     def _initialize_preserve_targets(self):
         """업데이트 시 보존할 파일/디렉토리 집합 초기화"""
         defaults = {'config/settings.json',
+                    'settings.json',
                     'data/extracted_blog_ids.json',
                     'backups', 'logs', '.git'}
         combined = set()
@@ -886,6 +887,7 @@ class GitHubReleaseUpdater:
 
             current_exe_dir = Path(os.path.dirname(sys.executable))
             current_exe_path = Path(sys.executable)
+            exe_filename = current_exe_path.name
 
             self.log_update('info', f"현재 실행 중인 exe: {current_exe_path}")
             self.log_update('info', f"exe 디렉토리: {current_exe_dir}")
@@ -967,6 +969,7 @@ class GitHubReleaseUpdater:
                     f'set "TARGET_DIR={current_exe_dir}"',
                     f'set "ACTUAL_SOURCE={source_root}"',
                     f'set "TEMP_ROOT={self.temp_dir}"',
+                    f'set "EXECUTABLE_NAME={exe_filename}"',
                     'set "PRESERVE_BACKUP=%TARGET_DIR%\\preserve_backup"',
                     'echo [INFO] TARGET_DIR=%TARGET_DIR%',
                     'echo [INFO] ACTUAL_SOURCE=%ACTUAL_SOURCE%',
@@ -994,8 +997,8 @@ class GitHubReleaseUpdater:
                     script_lines.append(preserve_backup_block.rstrip('\n'))
                     script_lines.append('')
                 script_lines.extend([
-                    'if exist "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" (',
-                    '    copy "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" >nul 2>&1',
+                    'if exist "%TARGET_DIR%\\%EXECUTABLE_NAME%" (',
+                    '    copy "%TARGET_DIR%\\%EXECUTABLE_NAME%" "%PRESERVE_BACKUP%\\%EXECUTABLE_NAME%.backup" >nul 2>&1',
                     ')',
                     '',
                     'set "ROBOCOPY_OPTS=/MIR /R:2 /W:2 /NFL /NDL /NP /NJH /NJS"',
@@ -1004,6 +1007,18 @@ class GitHubReleaseUpdater:
                     'echo [INFO] Robocopy options: %ROBOCOPY_OPTS% %ROBOCOPY_EXCLUDE_DIRS% %ROBOCOPY_EXCLUDE_FILES%',
                     '',
                     'echo 새 파일 동기화 중... 잠시만 기다려주세요.',
+                    'echo [INFO] Checking for running instance of %EXECUTABLE_NAME%...',
+                    'tasklist | findstr /I /C:"%EXECUTABLE_NAME%" >nul 2>&1',
+                    'if %ERRORLEVEL% EQU 0 (',
+                    '    echo [INFO] Running instance detected. Attempting to terminate...',
+                    '    taskkill /IM "%EXECUTABLE_NAME%" /T /F >nul 2>&1',
+                    '    timeout /t 2 /nobreak >nul',
+                    '    tasklist | findstr /I /C:"%EXECUTABLE_NAME%" >nul 2>&1',
+                    '    if %ERRORLEVEL% EQU 0 (',
+                    '        echo [WARNING] Process still running. Please close the application manually and press any key to continue.',
+                    '        pause',
+                    '    )',
+                    ')',
                     'robocopy "%ACTUAL_SOURCE%" "%TARGET_DIR%" %ROBOCOPY_OPTS% %ROBOCOPY_EXCLUDE_DIRS% %ROBOCOPY_EXCLUDE_FILES%',
                     'set "ROBOCOPY_RESULT=%ERRORLEVEL%"',
                     '',
@@ -1017,25 +1032,26 @@ class GitHubReleaseUpdater:
                 script_lines.extend([
                     'echo [INFO] Robocopy completed with code %ROBOCOPY_RESULT%',
                     'if exist "%TEMP_ROOT%" rmdir /s /q "%TEMP_ROOT%" >nul 2>&1',
+                    'pause',
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
                     '',
                     'cd /d "%TARGET_DIR%"',
-                    'start "" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe"',
+                    'start "" "%TARGET_DIR%\\%EXECUTABLE_NAME%"',
                     'del "%~f0" >nul 2>&1',
                     'exit',
                     '',
                     ':restore_backup',
                     'echo 업데이트 중 오류가 발생했습니다. 백업을 복원합니다.',
                     'echo [INFO] Attempting to restore preserved files...',
-                    'if exist "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" (',
-                    '    copy "%PRESERVE_BACKUP%\\자동화폭격기블로그자동화.exe.backup" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe" >nul 2>&1',
+                    'if exist "%PRESERVE_BACKUP%\\%EXECUTABLE_NAME%.backup" (',
+                    '    copy "%PRESERVE_BACKUP%\\%EXECUTABLE_NAME%.backup" "%TARGET_DIR%\\%EXECUTABLE_NAME%" >nul 2>&1',
                     ')',
                 ])
                 if restore_backup_block:
                     script_lines.append(restore_backup_block.rstrip('\n'))
                 script_lines.extend([
                     'if exist "%PRESERVE_BACKUP%" rmdir /s /q "%PRESERVE_BACKUP%" >nul 2>&1',
-                    'start "" "%TARGET_DIR%\\자동화폭격기블로그자동화.exe"',
+                    'start "" "%TARGET_DIR%\\%EXECUTABLE_NAME%"',
                     'pause',
                     'exit',
                     '',
@@ -1538,3 +1554,4 @@ rm "$0"
 
 # 호환성을 위한 별칭
 AutoUpdater = GitHubReleaseUpdater
+
