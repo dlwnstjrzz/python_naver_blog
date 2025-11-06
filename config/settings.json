@@ -1,6 +1,6 @@
 {
-  "naver_id": "test1234",
-  "naver_password": "dfdfd",
+  "naver_id": "qny123",
+  "naver_password": "ghkdwltn37",
   "search_keywords": [],
   "blog_count": 10,
   "neighbor_message": "안녕하세요! {nickname}님 서로이웃 해요!",
@@ -19,7 +19,7 @@
   },
   "test_key": "test_value",
   "loading_method": "keyword",
-  "search_keyword": "gdgd",
+  "search_keyword": "고양이",
   "neighbor_collection_count": 10,
   "collected_blogs": [],
   "start_page": 1,
@@ -27,8 +27,8 @@
   "neighbor_count": 10,
   "secret_comment": true,
   "gemini_api_key": "",
-  "enable_like": true,
-  "enable_comment": true,
+  "enable_like": false,
+  "enable_comment": false,
   "comment_type": "ai",
   "update_settings": {
     "github_repo": "dlwnstjrzz/python_naver_blog",
@@ -38,8 +38,8 @@
     "auto_restart_after_update": true
   },
   "license_settings": {
-    "license_key": "SVV32FR5XH9M",
+    "license_key": "7ULGAVZYYFHW",
     "validate_on_startup": true,
-    "last_validation": "2025-10-27 20:32:45"
+    "last_validation": "2025-11-06 14:02:29"
   }
 }
