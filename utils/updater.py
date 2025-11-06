@@ -1016,7 +1016,7 @@ class GitHubReleaseUpdater:
                     'if defined PROCESS_RUNNING (',
                     '    set /A PROCESS_CHECK_ATTEMPTS+=1',
                     '    echo [INFO] %EXECUTABLE_NAME% is still running. Attempting to terminate...',
-                    '    taskkill /IM "%EXECUTABLE_NAME%" /T /F >nul 2>&1',
+                    '    taskkill /IM "%EXECUTABLE_NAME%" /F >nul 2>&1',
                     '    timeout /t 1 /nobreak >nul',
                     '    if !PROCESS_CHECK_ATTEMPTS! GEQ 10 goto MANUAL_CLOSE_PROMPT',
                     '    goto WAIT_FOR_PROCESS_EXIT',
@@ -1028,7 +1028,7 @@ class GitHubReleaseUpdater:
                     'if defined PROCESS_RUNNING_ALT (',
                     '    set /A PROCESS_CHECK_ATTEMPTS+=1',
                     '    echo [INFO] NaverBlogAutomation.exe is still running. Attempting to terminate...',
-                    '    taskkill /IM "NaverBlogAutomation.exe" /T /F >nul 2>&1',
+                    '    taskkill /IM "NaverBlogAutomation.exe" /F >nul 2>&1',
                     '    timeout /t 1 /nobreak >nul',
                     '    if !PROCESS_CHECK_ATTEMPTS! GEQ 10 goto MANUAL_CLOSE_PROMPT',
                     '    goto WAIT_FOR_PROCESS_EXIT',
@@ -1576,4 +1576,5 @@ rm "$0"
 
 # 호환성을 위한 별칭
 AutoUpdater = GitHubReleaseUpdater
+
 
