@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 class NaverAuth:
     """네이버 로그인/인증 전용 클래스"""
-    
+
     def __init__(self, driver, logger):
         self.driver = driver
         self.logger = logger
@@ -143,7 +143,7 @@ class NaverAuth:
             self.logger.error(f"직접 타이핑 로그인 실패: {e}")
             return False
 
-    def check_login_success(self, timeout=30):
+    def check_login_success(self, timeout=200):
         """로그인 성공 여부 확인"""
         try:
             self.logger.info("로그인 결과를 확인하는 중...")

@@ -8,11 +8,11 @@ from selenium.common.exceptions import NoSuchElementException
 
 class BlogSearcher:
     """네이버 블로그 검색 관련 기능을 처리하는 클래스"""
-    
+
     def __init__(self, driver, logger):
         self.driver = driver
         self.logger = logger
-    
+
     def navigate_to_blog_search(self, keyword):
         """네이버 블로그 검색 페이지로 이동하여 키워드 검색"""
         try:
@@ -207,7 +207,7 @@ class BlogSearcher:
         try:
             collected_blogs = []
             current_page = start_page  # 시작 페이지 설정
-            max_pages = start_page + 9  # 시작 페이지부터 10페이지까지
+            max_pages = 1000  # 시작 페이지부터 10페이지까지
             collected_blog_names = set()  # 중복 방지용
 
             self.logger.info(

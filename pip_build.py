@@ -11,7 +11,7 @@ from pathlib import Path
 def build_with_pip_env():
     """pip 환경에서 빌드"""
     
-    print("🚀 pip 환경으로 exe 파일 빌드 시작...")
+    print(" pip 환경으로 exe 파일 빌드 시작...")
     
     # PyInstaller 명령 (더 보수적인 설정)
     cmd = [
@@ -54,8 +54,8 @@ def build_with_pip_env():
     try:
         print(f"실행 명령어: {' '.join(cmd)}")
         result = subprocess.run(cmd, check=True)
-        print("✅ 빌드 성공!")
-        print("📁 dist/NaverBlogAutomation에서 실행 파일을 확인하세요.")
+        print(" 빌드 성공!")
+        print(" dist/NaverBlogAutomation에서 실행 파일을 확인하세요.")
 
         dist_path = Path('dist')
         windows_exe = dist_path / 'NaverBlogAutomation.exe'
@@ -65,7 +65,7 @@ def build_with_pip_env():
             print(f"Renamed executable to {korean_exe.name}")
         return True
     except subprocess.CalledProcessError as e:
-        print(f"❌ 빌드 실패: {e}")
+        print(f" 빌드 실패: {e}")
         return False
 
 if __name__ == "__main__":

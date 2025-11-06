@@ -79,14 +79,14 @@ class NeighborConnectCollector:
             if target_count is None:
                 target_count = config_manager.get('neighbor_count', 20)
             
-            self.logger.info(f"🎯 목표: {target_count}개 이웃 수집")
+            self.logger.info(f" 목표: {target_count}개 이웃 수집")
             
             blog_urls = []
             current_page = 1
             max_pages = 10  # 최대 10페이지까지 탐색
             
             while len(blog_urls) < target_count and current_page <= max_pages:
-                self.logger.info(f"📄 페이지 {current_page} 수집 중... (현재 {len(blog_urls)}/{target_count}개)")
+                self.logger.info(f" 페이지 {current_page} 수집 중... (현재 {len(blog_urls)}/{target_count}개)")
                 
                 # 현재 페이지 URL 생성
                 page_url = f"https://section.blog.naver.com/connect/ViewMoreFollowers.naver?blogId={blog_id}&currentPage={current_page}"
@@ -105,7 +105,7 @@ class NeighborConnectCollector:
                 page_urls = self._collect_urls_from_current_page()
                 
                 if not page_urls:
-                    self.logger.warning(f"❌ 페이지 {current_page}에서 아무 이웃도 찾지 못함 - 더 이상 페이지가 없는 것 같음")
+                    self.logger.warning(f" 페이지 {current_page}에서 아무 이웃도 찾지 못함 - 더 이상 페이지가 없는 것 같음")
                     break
                 
                 # 중복 제거하며 추가
@@ -115,17 +115,17 @@ class NeighborConnectCollector:
                         blog_urls.append(url)
                 
                 new_count = len(blog_urls) - initial_count
-                self.logger.info(f"✅ 페이지 {current_page}에서 {new_count}개 새로운 블로그 추가 (총 {len(blog_urls)}/{target_count}개)")
+                self.logger.info(f" 페이지 {current_page}에서 {new_count}개 새로운 블로그 추가 (총 {len(blog_urls)}/{target_count}개)")
                 
                 # 목표 달성 확인
                 if len(blog_urls) >= target_count:
-                    self.logger.info(f"🎆 목표 달성! {len(blog_urls)}개 수집 완료")
+                    self.logger.info(f" 목표 달성! {len(blog_urls)}개 수집 완료")
                     break
                     
                 current_page += 1
             
             if len(blog_urls) < target_count:
-                self.logger.warning(f"⚠️ 목표 미달성: {len(blog_urls)}/{target_count}개만 수집됨 (최대 {max_pages}페이지 탐색)")
+                self.logger.warning(f" 목표 미달성: {len(blog_urls)}/{target_count}개만 수집됨 (최대 {max_pages}페이지 탐색)")
             
             self.logger.info(f"총 {len(blog_urls)}개의 블로그 URL을 수집했습니다.")
             return blog_urls
