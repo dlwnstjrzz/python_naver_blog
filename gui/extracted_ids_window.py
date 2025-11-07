@@ -336,8 +336,9 @@ class ExtractedIdsWindow(QDialog):
         # 테이블
         self.table = QTableWidget()
         self.table.setFont(font_default)
-        self.table.setColumnCount(4)
-        self.table.setHorizontalHeaderLabels(["선택", "블로그 아이디", "서이추 상태", "처리 날짜"])
+        self.table.setColumnCount(5)
+        self.table.setHorizontalHeaderLabels(
+            ["선택", "블로그 아이디", "수집 정보", "서이추 상태", "처리 날짜"])
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QAbstractItemView.NoSelection)
         self.table.setAlternatingRowColors(True)
@@ -347,10 +348,11 @@ class ExtractedIdsWindow(QDialog):
         header.setFont(font_default)
         header.setSectionResizeMode(0, QHeaderView.Fixed)
         header.setSectionResizeMode(1, QHeaderView.Stretch)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.Stretch)
         header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
         self.table.setColumnWidth(0, 60)
-        self.table.setColumnWidth(2, 100)
+        self.table.setColumnWidth(3, 100)
         
         layout.addWidget(self.table)
         
@@ -609,18 +611,25 @@ class ExtractedIdsWindow(QDialog):
             id_item = QTableWidgetItem(blog_id)
             id_item.setFlags(id_item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
             self.table.setItem(row, 1, id_item)
+
+            # 수집 정보
+            method_text = self._format_collection_info(
+                data.get('method', ''), data.get('detail', ''))
+            method_item = QTableWidgetItem(method_text)
+            method_item.setFlags(method_item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
+            self.table.setItem(row, 2, method_item)
             
             # 서이추 상태
             status = data.get('status', '성공')
             status_item = QTableWidgetItem()
             self._apply_status_style(status_item, status)
-            self.table.setItem(row, 2, status_item)
+            self.table.setItem(row, 3, status_item)
             
             # 처리 날짜
             extraction_date = data.get('date', '알 수 없음')
             date_item = QTableWidgetItem(extraction_date)
             date_item.setFlags(date_item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
-            self.table.setItem(row, 3, date_item)
+            self.table.setItem(row, 4, date_item)
         
         # 테이블 높이 조정
         self.table.resizeRowsToContents()
@@ -701,18 +710,18 @@ class ExtractedIdsWindow(QDialog):
         for row in range(self.table.rowCount()):
             id_item = self.table.item(row, 1)
             if id_item and id_item.text() == blog_id:
-                status_item = self.table.item(row, 2)
+                status_item = self.table.item(row, 3)
                 if status_item is None:
                     status_item = QTableWidgetItem()
-                    self.table.setItem(row, 2, status_item)
+                    self.table.setItem(row, 3, status_item)
 
                 self._apply_status_style(status_item, status_text)
 
                 if timestamp:
-                    date_item = self.table.item(row, 3)
+                    date_item = self.table.item(row, 4)
                     if date_item is None:
                         date_item = QTableWidgetItem()
-                        self.table.setItem(row, 3, date_item)
+                        self.table.setItem(row, 4, date_item)
                     date_item.setText(timestamp)
                     date_item.setFlags(date_item.flags() & ~Qt.ItemIsEditable)
 
@@ -758,6 +767,21 @@ class ExtractedIdsWindow(QDialog):
         self.status_label.setText(f" 오류: {message}")
         QMessageBox.critical(self, "오류", message)
 
+    def _format_collection_info(self, method: str, detail: str) -> str:
+        """수집 방식 정보 문자열 생성"""
+        method = (method or "").strip()
+        detail = (detail or "").strip()
+
+        if method == "keyword":
+            base = "키워드 검색"
+            return f"{base} | 키워드: {detail}" if detail else base
+        if method == "neighbor_connect":
+            base = "이웃 커넥트"
+            return f"{base} | 기준 블로그: {detail}" if detail else base
+        if detail:
+            return detail
+        return "정보 없음"
+
     def _apply_status_style(self, item: QTableWidgetItem, status: str):
         """상태 셀 스타일 적용"""
         item.setText(status)
@@ -782,14 +806,17 @@ class ExtractedIdsWindow(QDialog):
         
         for row in range(self.table.rowCount()):
             blog_id_item = self.table.item(row, 1)
-            status_item = self.table.item(row, 2)
+            method_item = self.table.item(row, 2)
+            status_item = self.table.item(row, 3)
             
             should_show = True
             
             if blog_id_item:
                 blog_id = blog_id_item.text().lower()
+                method_text = method_item.text().lower() if method_item else ""
+                combined_text = f"{blog_id} {method_text}".strip()
                 # 검색어 필터
-                if search_text and search_text not in blog_id:
+                if search_text and search_text not in combined_text:
                     should_show = False
             
             if status_item and should_show:

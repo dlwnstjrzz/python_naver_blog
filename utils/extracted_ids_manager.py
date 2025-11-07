@@ -1,6 +1,6 @@
 ﻿import os
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from utils.config_manager import ConfigManager
 
@@ -28,17 +28,23 @@ class ExtractedIdsManager:
                 if isinstance(data, dict):
                     normalized[blog_id] = {
                         "date": data.get("date", "날짜 없음"),
-                        "status": data.get("status", "성공")
+                        "status": data.get("status", "성공"),
+                        "method": data.get("method", ""),
+                        "detail": data.get("detail", "")
                     }
                 elif isinstance(data, str):
                     normalized[blog_id] = {
                         "date": data,
-                        "status": "성공"
+                        "status": "성공",
+                        "method": "",
+                        "detail": ""
                     }
                 else:
                     normalized[blog_id] = {
                         "date": "날짜 없음",
-                        "status": "성공"
+                        "status": "성공",
+                        "method": "",
+                        "detail": ""
                     }
 
             self.extracted_ids = normalized
@@ -58,7 +64,14 @@ class ExtractedIdsManager:
             print(f"추출된 블로그 아이디 저장 중 오류: {e}")
             return False
 
-    def add_extracted_ids(self, blog_ids: List[str], success: bool = True, status: str = None) -> int:
+    def add_extracted_ids(
+        self,
+        blog_ids: List[str],
+        success: bool = True,
+        status: Optional[str] = None,
+        method: Optional[str] = None,
+        detail: Optional[str] = None
+    ) -> int:
         """새로 수집한 블로그 아이디를 추가한다."""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         status_value = status if status is not None else ("성공" if success else "실패")
@@ -68,7 +81,9 @@ class ExtractedIdsManager:
             if blog_id not in self.extracted_ids:
                 self.extracted_ids[blog_id] = {
                     "date": current_time,
-                    "status": status_value
+                    "status": status_value,
+                    "method": method or "",
+                    "detail": detail or ""
                 }
                 added_count += 1
 
@@ -90,7 +105,9 @@ class ExtractedIdsManager:
         if blog_id not in self.extracted_ids:
             self.extracted_ids[blog_id] = {
                 "date": current_time,
-                "status": status_value
+                "status": status_value,
+                "method": "",
+                "detail": ""
             }
         else:
             self.extracted_ids[blog_id]["date"] = current_time

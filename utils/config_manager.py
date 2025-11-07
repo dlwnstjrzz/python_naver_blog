@@ -43,6 +43,11 @@ class ConfigManager:
     def set(self, key: str, value: Any):
         """설정값 설정"""
         self.config[key] = value
+
+    def reload(self) -> Dict[str, Any]:
+        """외부에서 설정 파일이 수정된 경우 다시 불러온다."""
+        self.config = self.load_config()
+        return self.config
     
     def _get_default_config(self) -> Dict[str, Any]:
         """기본 설정값 반환"""

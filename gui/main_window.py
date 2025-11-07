@@ -100,7 +100,7 @@ class AutomationWorker(QThread):
                     added_count = 0
                 else:
                     added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
-                        blog_ids, status="대기")
+                        blog_ids, status="대기", method="keyword", detail=keyword)
                     duplicates = total_found - added_count
                     self.progress_updated.emit(
                         f" 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
@@ -158,7 +158,7 @@ class AutomationWorker(QThread):
                     added_count = 0
                 else:
                     added_count = self.blog_automation.extracted_ids_manager.add_extracted_ids(
-                        blog_ids, status="대기")
+                        blog_ids, status="대기", method="neighbor_connect", detail=blog_url)
                     duplicates = total_found - added_count
                     self.progress_updated.emit(
                         f" 아이디 추출 완료: 총 {total_found}개 (신규 {added_count}개, 기존 {duplicates}개)")
@@ -1147,6 +1147,9 @@ class MainWindow(QMainWindow):
     def save_settings(self):
         """설정 저장"""
         try:
+            # 외부 모듈에서 갱신된 설정값(예: 추출된 아이디)을 덮어쓰지 않도록 최신 상태로 동기화
+            self.config_manager.reload()
+
             # 계정 정보
             self.config_manager.set('naver_id', self.id_edit.text().strip())
             self.config_manager.set(
@@ -1219,6 +1222,9 @@ class MainWindow(QMainWindow):
 
     def save_current_settings(self):
         """현재 UI의 설정을 저장 (자동화 시작 시 호출)"""
+        # settings.json이 다른 컴포넌트에서 갱신되었을 수 있으므로 항상 최신 상태로 갱신
+        self.config_manager.reload()
+
         # 계정 정보
         self.config_manager.set('naver_id', self.id_edit.text().strip())
         self.config_manager.set(
