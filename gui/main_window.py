@@ -491,9 +491,9 @@ class MainWindow(QMainWindow):
                 pixmap = QPixmap(logo_path)
                 print(f"DEBUG: pixmap.isNull() = {pixmap.isNull()}")
                 if not pixmap.isNull():
-                    # 로고 크기 조절 (50x50)
+                    # 로고 크기 조절 (80x80)
                     scaled_pixmap = pixmap.scaled(
-                        50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                        80, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                     logo_label.setPixmap(scaled_pixmap)
                     print("DEBUG: 로고 이미지 로드 성공")
                 else:
