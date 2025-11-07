@@ -74,7 +74,8 @@ class ExtractedIdsManager:
     ) -> int:
         """새로 수집한 블로그 아이디를 추가한다."""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        status_value = status if status is not None else ("성공" if success else "실패")
+        status_value = status if status is not None else (
+            "성공" if success else "실패")
         added_count = 0
 
         for blog_id in blog_ids:
@@ -100,7 +101,8 @@ class ExtractedIdsManager:
     def update_status(self, blog_id: str, success: bool = True, status: str = None) -> bool:
         """특정 블로그 아이디의 상태를 갱신한다."""
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        status_value = status if status is not None else ("성공" if success else "실패")
+        status_value = status if status is not None else (
+            "성공" if success else "실패")
 
         if blog_id not in self.extracted_ids:
             self.extracted_ids[blog_id] = {
@@ -171,8 +173,10 @@ class ExtractedIdsManager:
             }
 
         dates = [data['date'] for data in self.extracted_ids.values()]
-        success_count = sum(1 for data in self.extracted_ids.values() if data.get('status') == '성공')
-        fail_count = sum(1 for data in self.extracted_ids.values() if data.get('status') == '실패')
+        success_count = sum(
+            1 for data in self.extracted_ids.values() if data.get('status') == '성공')
+        fail_count = sum(1 for data in self.extracted_ids.values()
+                         if data.get('status') == '실패')
         pending_count = len(self.extracted_ids) - success_count - fail_count
 
         return {
@@ -195,20 +199,38 @@ class ExtractedIdsManager:
             if export_dir:
                 os.makedirs(export_dir, exist_ok=True)
 
-            stats = self.get_statistics()
             with open(export_path, 'w', encoding='utf-8') as f:
-                f.write(f"추출된 블로그 아이디 목록 (총 {stats['total_count']}건)\n")
+                f.write("추출된 블로그 아이디 목록\n")
                 f.write(
-                    f"성공: {stats['success_count']}건, 실패: {stats['fail_count']}건, 보류: {stats['pending_count']}건\n"
-                )
-                f.write("=" * 60 + "\n")
-                f.write(f"생성 시각: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+                    f"생성 시각: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write("=" * 60 + "\n\n")
 
-                sorted_items = sorted(self.extracted_ids.items(), key=lambda x: x[1]['date'])
-                for blog_id, data in sorted_items:
-                    f.write(f"{blog_id}\t{data['date']}\t{data['status']}\n")
+                grouped_ids = {}
+                for blog_id, data in self.extracted_ids.items():
+                    label = self._format_collection_label(
+                        data.get('method', ''), data.get('detail', ''))
+                    grouped_ids.setdefault(label, []).append(blog_id)
+
+                for label in sorted(grouped_ids.keys()):
+                    f.write(f"[{label}]\n")
+                    for blog_id in sorted(grouped_ids[label]):
+                        f.write(f"{blog_id}\n")
+                    f.write("\n")
 
             return export_path
         except Exception as e:
             print(f"텍스트 내보내기 실패: {e}")
             return None
+
+    def _format_collection_label(self, method: str, detail: str) -> str:
+        """수출용 수집 방식 라벨"""
+        method = (method or "").strip()
+        detail = (detail or "").strip()
+
+        if method == "keyword":
+            return f"키워드 검색 - {detail}" if detail else "키워드 검색"
+        if method == "neighbor_connect":
+            return f"이웃 커넥트 - {detail}" if detail else "이웃 커넥트"
+        if detail:
+            return detail
+        return "기타 방식"
