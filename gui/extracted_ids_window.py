@@ -315,6 +315,11 @@ class ExtractedIdsWindow(QDialog):
         self.show_fail_cb.setFont(font_default)
         self.show_fail_cb.stateChanged.connect(self.filter_table)
         filter_layout.addWidget(self.show_fail_cb)
+
+        self.show_pending_cb = QCheckBox("대기만 표시")
+        self.show_pending_cb.setFont(font_default)
+        self.show_pending_cb.stateChanged.connect(self.filter_table)
+        filter_layout.addWidget(self.show_pending_cb)
         
         layout.addWidget(filter_group)
         
@@ -803,6 +808,15 @@ class ExtractedIdsWindow(QDialog):
         search_text = self.search_edit.text().lower()
         show_success_only = self.show_success_cb.isChecked()
         show_fail_only = self.show_fail_cb.isChecked()
+        show_pending_only = self.show_pending_cb.isChecked()
+        selected_statuses = set()
+
+        if show_success_only:
+            selected_statuses.add('성공')
+        if show_fail_only:
+            selected_statuses.add('실패')
+        if show_pending_only:
+            selected_statuses.add('대기')
         
         for row in range(self.table.rowCount()):
             blog_id_item = self.table.item(row, 1)
@@ -819,20 +833,10 @@ class ExtractedIdsWindow(QDialog):
                 if search_text and search_text not in combined_text:
                     should_show = False
             
-            if status_item and should_show:
+            if status_item and should_show and selected_statuses:
                 status = status_item.text()
-                # 상태 필터
-                if show_success_only and show_fail_only:
-                    # 둘 다 체크된 경우 모두 표시
-                    pass
-                elif show_success_only:
-                    # 성공만 표시
-                    if status != '성공':
-                        should_show = False
-                elif show_fail_only:
-                    # 실패만 표시  
-                    if status != '실패':
-                        should_show = False
+                if status not in selected_statuses:
+                    should_show = False
             
             self.table.setRowHidden(row, not should_show)
     
