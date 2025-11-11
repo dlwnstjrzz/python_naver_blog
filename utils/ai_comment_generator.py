@@ -34,7 +34,7 @@ class AICommentGenerator:
             if self.logger:
                 self.logger.info("genai.configure() 완료")
 
-            self.model = genai.GenerativeModel('gemini-2.5-flash-lite')
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
             if self.logger:
                 self.logger.info(" Gemini API 초기화 완료 - GenerativeModel 생성 성공")
         except Exception as e:
@@ -151,7 +151,7 @@ class AICommentGenerator:
 3.  구체적 언급 (핵심): 댓글은 단순히 칭찬하는 것을 넘어, 본문의 특정 내용(가장 인상 깊었던 핵심 문장/단락)을 반드시 1회 이상 구체적으로 언급하며 공감하세요.
 4.  감정 표현: 글을 읽고 느낀 놀라움, 재미, 또는 깨달음 등등 하나의 감정을 담아 표현하세요.
 5.  길이: 댓글은 최소 1문장, 최대 2문장을 넘지 않도록 간결하게 작성하세요.
-6.  생동감: 댓글의 분위기에 맞는 이모티콘 1~2개를 자연스럽게 섞어 사용하세요.
+6.  이모티콘은 절대로 사용하지 마세요.
 7.  출력 형식: 오직 댓글 내용만 출력하세요.
 
 요청
